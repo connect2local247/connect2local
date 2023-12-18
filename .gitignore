@@ -1,6 +1,10 @@
 /vendor
-
+/.ssh
 # composer file
 
 composer.json
 composer.lock
+
+#hide accesstunnel 
+
+accesstunnel.txt
