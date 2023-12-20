@@ -8,6 +8,13 @@
     <?php
         include "./asset/link/cdn-link.html";
     ?>
+<!-- 
+    <style>
+        li.icon  a.link-icon:hover{
+    color:rebeccapurple !important;
+    transition: all .7s ease-in;
+}
+    </style> -->
 </head>
 <body>
     <?php include "./component/navbar.php";?>  
@@ -211,10 +218,7 @@
         </section>
     </div>
 
-    <footer>
-        
-    
-    </footer>
+    <?php include "./component/footer.php";?>
 </body>
 </html>
 

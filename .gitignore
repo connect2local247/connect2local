@@ -8,3 +8,7 @@ composer.lock
 #hide accesstunnel 
 
 accesstunnel.txt
+
+#structure file
+
+directory.txt

@@ -55,3 +55,13 @@ li.nav-item a.nav-link:hover{
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
+
+/* Footer Style  */
+/* .link-icon{
+    color:white !important;
+} */
+
+li.icon > a > i.link-icon:hover{
+    color:yellow !important;
+}
+
