@@ -57,11 +57,15 @@ li.nav-item a.nav-link:hover{
 }
 
 /* Footer Style  */
-/* .link-icon{
-    color:white !important;
-} */
+
 
 li.icon > a > i.link-icon:hover{
     color:yellow !important;
 }
 
+/* Choice Page */
+
+.user-image{
+    height:200px;
+    width:100%;
+}
