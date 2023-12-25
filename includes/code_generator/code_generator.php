@@ -25,6 +25,19 @@
             return $securityKey;
         }
 
+        function generateVerificationLink($userId) {
+            // Generate a unique token (you can use a library like bin2hex(random_bytes($length)) for a longer token)
+            $token = uniqid();
+        
+            // Encrypt the user ID and token
+            $encryptedData = base64_encode(encryptData("$userId|$token"));
+        
+            // Construct the verification link
+            $verificationLink = "https://example.com/verify?data=$encryptedData";
+        
+            return $verificationLink;
+        }
+        
         function createUniqueFilename() {
             $timestamp = time(); // Get current timestamp
             $randomString = bin2hex(random_bytes(2)); // Generate a shorter random string (adjust length as needed)

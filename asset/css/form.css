@@ -1,0 +1,28 @@
+#error-message {
+    opacity: 1;
+    height: auto;
+    transition: opacity 0.5s ease, height 0.5s ease;
+}
+
+#error-message.hidden {
+    opacity: 0;
+    height: 0;
+}
+
+#message {
+    animation: fade 1.5s linear !important;
+}
+
+@keyframes fade {
+    0% {
+        opacity: 0;
+        background-color: #ff0000 !important; /* Change to your desired starting color */
+    }
+    100% {
+        opacity: 1;
+        background-color: #00ff00 !important; /* Change to your desired ending color */
+    }
+}
+
+
+

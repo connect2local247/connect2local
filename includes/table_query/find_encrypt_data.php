@@ -1,14 +1,17 @@
 <?php
 
-        require "db_connection.php";
-        require "../security_function/security_function.php";
+        include "db_connection.php";
+        require "/connect2local/includes/security_function/secure_function.php";
+
 
 
         function find_encrypted_data($data, $table_name1, $table_name2, $col_name_id, $col_name_data, $col_name_key, $common_column) {
-            $query = "SELECT $col_name_id, $col_name_key, $col_name_data 
-                      FROM $table_name1
-                      INNER JOIN $table_name2 ON $table_name1.$common_column = $table_name2.$common_column
-                      WHERE 1";
+            $query = "SELECT $table_name1.$col_name_id, $table_name2.C_KEY, $table_name1.$col_name_data 
+          FROM $table_name1
+          INNER JOIN $table_name2 ON $table_name1.$common_column = $table_name2.$common_column
+          WHERE 1";
+
+
             
             $result = mysqli_query($GLOBALS['connect'], $query);
         
@@ -19,6 +22,7 @@
                     $decryptData = decryptData($encryptData, $key);
         
                     if ($data == $decryptData) {
+                        $_SESSION['data'] = $decryptData;
                         return true;
                     }
                 }
@@ -29,7 +33,4 @@
             return false;
         }
         
-
-
-
 ?>

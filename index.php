@@ -46,7 +46,7 @@
                     <div class="col-lg-4 col-6 g-4">
                         <div class="card" style="width:80%">
                             <div class="card-content border border-dark rounded-1 shadow body-teriatory">
-                                <div class="card-body d-flex justify-content-center align-items-center" style="height:250px;">
+                                <div class="card-body d-flex justify-content-center align-items-center" style="height:250px">
                                     <img src="/asset/image/category/advertising.png" alt="Advertising image" class="category-img ">
                                 </div>
                                 <div class="card-footer text-center border-top border-dark">
