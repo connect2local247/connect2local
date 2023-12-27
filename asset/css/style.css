@@ -32,6 +32,19 @@ li.nav-item a.nav-link:hover{
     z-index: 1000; /* Ensure the navbar appears on top of other elements */
 }
 
+#nav-animation{
+    animation: slide-left 1s 1 ;
+    transition: all 1s ease-in;
+}
+#sign-up-btn:hover{
+    box-shadow: inset 200px 0 0 0 rgba(0, 149, 255, 0.737) !important;
+    transition: all 1.5s ease-in-out;
+}
+
+#login-btn:hover{
+    box-shadow: inset 200px 0 0 0 rgba(255, 42, 0, 0.486) !important;
+    transition: all 1.5s ease-in-out;
+}
 /* Business Category & Services */
 
 
@@ -68,5 +81,29 @@ li.icon > a > i.link-icon:hover{
 
 .user-image{
     height:200px;
-    width:100%;
+    width:250px;
 }
+
+
+
+/* Animation */
+
+@keyframes slide-left {
+    0%{
+        margin-left:-200px;
+        opacity: 0;
+    } 
+    100%{
+        margin-left:0px;
+        opacity: 1;
+    }
+}
+
+/* Media Query */
+
+@media only screen and (min-width:1024px) and (max-width:1300px) {
+    #nav-animation{
+        width:35% !important;
+        overflow-y: scroll !important;
+    }
+} 
