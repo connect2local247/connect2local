@@ -1,7 +1,7 @@
 
 <!-- Navigation bar HTML code -->
 
-<nav class="navbar">
+<nav class="navbar position-fixed">
             <div class="container d-flex align-items-center ">
                 <div class="brand-logo">    
                     <a href="index.php" class="nav-link"><img src="/asset/image/logo.png" alt="This is logo" height="90" width="100"></a>        
@@ -25,3 +25,4 @@
                 </div>
             </div>
 </nav>
+

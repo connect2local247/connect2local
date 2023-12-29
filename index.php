@@ -8,13 +8,8 @@
     <?php
         include "./asset/link/cdn-link.html";
     ?>
-<!-- 
-    <style>
-        li.icon  a.link-icon:hover{
-    color:rebeccapurple !important;
-    transition: all .7s ease-in;
-}
-    </style> -->
+
+
 </head>
 <body>
     <?php include "./component/navbar.php";?>  
@@ -40,11 +35,11 @@
     </header>
 
     <div class="container"> 
-        <section class="our-services p-5 my-5 mx-2 ">
+        <section class="our-services p-3 my-5 mx-2 ">
                 <h1 class="fs-2 fw-bold text-center">Our Service</h1>
                 <div class="row">
-                    <div class="col-lg-4 col-6 g-4">
-                        <div class="card" style="width:80%">
+                    <div class="col-lg-4 col-md-4 col-12 g-4">
+                        <div class="card col-lg-11 col-md-12 col-12">
                             <div class="card-content border border-dark rounded-1 shadow body-teriatory">
                                 <div class="card-body d-flex justify-content-center align-items-center" style="height:250px">
                                     <img src="/asset/image/category/advertising.png" alt="Advertising image" class="category-img ">
@@ -56,8 +51,8 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-4 col-6 g-4">
-                        <div class="card" style="width:80%">
+                    <div class="col-lg-4 col-md-4 col-12 g-4">
+                        <div class="card col-lg-11 col-md-12 col-12">
                             <div class="card-content border border-dark rounded-1 shadow body-teriatory">
                                 <div class="card-body d-flex justify-content-center align-items-center" style="height:250px;">
                                     <img src="/asset/image/category/advertising.png" alt="Advertising image" class="category-img ">
@@ -69,8 +64,8 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-4 col-6 g-4">
-                        <div class="card" style="width:80%">
+                    <div class="col-lg-4 col-md-4 col-12 g-4">
+                        <div class="card col-lg-11 col-md-12 col-12">
                             <div class="card-content border border-dark rounded-1 shadow body-teriatory">
                                 <div class="card-body d-flex justify-content-center align-items-center" style="height:250px;">
                                     <img src="/asset/image/category/advertising.png" alt="Advertising image" class="category-img ">
@@ -82,8 +77,8 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-4 col-6 g-4">
-                        <div class="card" style="width:80%">
+                    <div class="col-lg-4 col-md-4 col-12 g-4">
+                        <div class="card col-lg-11 col-md-12 col-12">
                             <div class="card-content border border-dark rounded-1 shadow body-teriatory">
                                 <div class="card-body d-flex justify-content-center align-items-center" style="height:250px;">
                                     <img src="/asset/image/category/advertising.png" alt="Advertising image" class="category-img ">
@@ -95,8 +90,8 @@
                         </div>
                     </div>
                     
-                    <div class="col-lg-4 col-6 g-4">
-                        <div class="card" style="width:80%">
+                    <div class="col-lg-4 col-md-4 col-12 g-4">
+                        <div class="card col-lg-11 col-md-12 col-12">
                             <div class="card-content border border-dark rounded-1 shadow body-teriatory">
                                 <div class="card-body d-flex justify-content-center align-items-center" style="height:250px;">
                                     <img src="/asset/image/category/advertising.png" alt="Advertising image" class="category-img ">
@@ -108,8 +103,8 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-4 col-6 g-4">
-                        <div class="card" style="width:80%">
+                    <div class="col-lg-4 col-md-4 col-12 g-4">
+                        <div class="card col-lg-11 col-md-12 col-12">
                             <div class="card-content border border-dark rounded-1 shadow body-teriatory">
                                 <div class="card-body d-flex justify-content-center align-items-center" style="height:250px;">
                                     <img src="/asset/image/category/advertising.png" alt="Advertising image" class="category-img ">
@@ -121,8 +116,8 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-4 col-6 g-4">
-                        <div class="card" style="width:80%">
+                    <div class="col-lg-4 col-md-4 col-12 g-4">
+                        <div class="card col-lg-11 col-md-12 col-12">
                             <div class="card-content border border-dark rounded-1 shadow body-teriatory">
                                 <div class="card-body d-flex justify-content-center align-items-center" style="height:250px;">
                                     <img src="/asset/image/category/advertising.png" alt="Advertising image" class="category-img ">
@@ -134,8 +129,8 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-4 col-6 g-4">
-                        <div class="card" style="width:80%">
+                    <div class="col-lg-4 col-md-4 col-12 g-4">
+                        <div class="card col-lg-11 col-md-12 col-12">
                             <div class="card-content border border-dark rounded-1 shadow body-teriatory">
                                 <div class="card-body d-flex justify-content-center align-items-center" style="height:250px;">
                                     <img src="/asset/image/category/advertising.png" alt="Advertising image" class="category-img ">
@@ -147,8 +142,8 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-4 col-6 g-4">
-                        <div class="card" style="width:80%">
+                    <div class="col-lg-4 col-md-4 col-12 g-4">
+                        <div class="card col-lg-11 col-md-12 col-12">
                             <div class="card-content border border-dark rounded-1 shadow body-teriatory">
                                 <div class="card-body d-flex justify-content-center align-items-center" style="height:250px;">
                                     <img src="/asset/image/category/advertising.png" alt="Advertising image" class="category-img ">
@@ -162,10 +157,10 @@
                 </div>
         </section>
 
-        <section class="blog-overview">
+        <section class="blog-overview p-3">
                 <h1 class="fs-2 fw-bold text-center">Our Blog</h1>
                 <div class="row">
-                <div class="col-lg-4 col-6 g-4"> 
+                <div class="col-lg-4 col-md-6 col-12 g-4"> 
                     <div class="card mb-4 blog-post">
                         <div class="card-body">
                             <img src="https://placehold.it/200x150" class="card-img-top" alt="Blog Post Image">
@@ -181,7 +176,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-4 col-6 g-4"> 
+                <div class="col-lg-4 col-md-6 col-12 g-4"> 
                     <div class="card mb-4 blog-post">
                         <div class="card-body">
                             <img src="https://placehold.it/200x150" class="card-img-top" alt="Blog Post Image">
@@ -197,7 +192,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-4 col-6 g-4"> 
+                <div class="col-lg-4 col-md-6 col-12  g-4"> 
                     <div class="card mb-4 blog-post">
                         <div class="card-body">
                             <img src="https://placehold.it/200x150" class="card-img-top" alt="Blog Post Image">
