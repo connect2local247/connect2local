@@ -67,5 +67,4 @@
         
             return $last_id;
         }
-        
 ?>
