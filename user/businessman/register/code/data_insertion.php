@@ -13,6 +13,8 @@
             $birth_date = $_SESSION['birth-date'];
             $age = $_SESSION['age'];
             $gender = $_SESSION['gender'];
+            $address = $_SESSION['address'];
+            $category = $_SESSION['category'];
             $contact = $_SESSION['contact'];
             $email = $_SESSION['email'];
             $password = $_SESSION['password'];
@@ -26,15 +28,15 @@
 
             
 
-            $customer_generated_id = generateUniqueID("C2L");
+            $business_generated_id = generateUniqueID("C2LB");
 
-            $customer_id = $customer_generated_id;
+            $business_id = $business_generated_id;
 
-            $register_insert_query = "INSERT INTO customer_register (C_ID, C_FNAME, C_LNAME, C_BIRTH_DATE, C_AGE, C_GENDER, C_CONTACT, C_EMAIL, C_PASSWORD, C_TERM_AGREE, JOIN_DATE) 
-                         VALUES ('$customer_id', '$fname', '$lname', '$birth_date', '$age', '$gender', '$encryptedContact', '$encryptedEmail', '$encryptedPassword', '$term_condition', NOW())";
+            $register_insert_query = "INSERT INTO business_register (B_ID, B_FNAME, B_LNAME, B_BIRTH_DATE, B_AGE, B_GENDER,B_ADDRESS,B_CATEGORY, B_CONTACT, B_EMAIL, B_PASSWORD, B_TERM_AGREE, JOIN_DATE) 
+                         VALUES ('$business_id', '$fname', '$lname', '$birth_date', '$age', '$gender','$address','$category', '$encryptedContact', '$encryptedEmail', '$encryptedPassword', '$term_condition', NOW())";
 
 
-            $verification_insert_query = "INSERT INTO customer_verification (C_KEY,C_ID) VALUES ('$encryption_key','$customer_id')";
+            $verification_insert_query = "INSERT INTO business_verification (B_KEY,B_ID) VALUES ('$encryption_key','$business_id')";
 
             $register_query_result = mysqli_query($GLOBALS['connect'],$register_insert_query);
             $verification_query_result = mysqli_query($GLOBALS['connect'],$verification_insert_query);
@@ -62,7 +64,7 @@
             send_code($email);
 
             $_SESSION['message'] = "Verification Code Sent Successfully.";
-            header("location:/user/customer/register/form/email_verification.php");
+            header("location:/user/businessman/register/form/email_verification.php");
             exit;
         }
         function send_code($email){

@@ -96,7 +96,7 @@
 
 <!-- BUSINESS REGISTER FORM -->
 
-        <form action="/user/customer/register/code/data-validation.php" method="post" class="p-2 col-lg-9 col-md-10 col-12 d-flex align-items-center" style="width:100%;height:100vh;">
+        <form action="/user/businessman/register/code/data-validation.php" method="post" class="p-2 col-lg-9 col-md-10 col-12 d-flex align-items-center" style="width:100%;height:100vh;">
            
         <fieldset class="border p-3 border-dark bg-gradient rounded-2 col-lg-6 col-md-10 col-12 text-bg-dark bg-gradient" style="margin:auto;">
                     <legend class="text-center mb-5 mt-2 fs-2 fw-bold">Register Form</legend>
@@ -137,7 +137,7 @@
                                 </div>
 <!-- BUSINESS CATEGORY DIV -->
                                 <div class="col-6">
-                                        <select name="category" class="form-select">
+                                        <select name="category" class="form-select" required>
                                         <option value="" disabled selected>Select Category</option>
                                 <?php
                                 $categories = array(
@@ -157,7 +157,7 @@
                                     'Mobile And Computer',
                                     'Restaurants',
                                     'Delivery Services',
-                                    'Hospital And MedicalStore',
+                                    'Hospital And Medical Store',
                                     'Others'
                                 );
 
