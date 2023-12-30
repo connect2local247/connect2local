@@ -104,6 +104,25 @@
                     </ul>
                 </div>
     </div> --> 
+<?php
+
+$address_pattern = '/^([A-Za-z0-9\s-]+),\s*([A-Za-z0-9\s-]+)$/';
+
+$example_address = "Soni solution, A-24 Dhaval Plaza";
+
+if (preg_match($address_pattern, $example_address, $matches)) {
+    $shopName = $matches[1];
+    $blockAndStreet = $matches[2];
+
+    // Now you can use these variables as needed
+    echo "Shop Name: $shopName\n";
+    echo "Block and Street: $blockAndStreet\n";
+} else {
+    echo "Address does not match the expected format.";
+}
+?>
+
+
 
 </body>
 </html>

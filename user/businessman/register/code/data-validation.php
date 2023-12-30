@@ -9,11 +9,13 @@
             unset($_SESSION['error']);
         }
 
-        function validate_input($fname,$lname,$birth_date,$contact,$email,$password,$confirm_password){
+        function validate_input($fname,$lname,$birth_date,$address,$contact,$email,$password,$confirm_password){
             $name_pattern = "/^[A-Z][a-z]{0,14}$/";
             $contact_pattern = '/^\d{10}$/';
             $email_pattern = '/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/';
             $password_pattern = "/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#_$])[\w@#_$]{8,16}$/";
+            $address_pattern = '/^[A-Za-z ]{8,50}+$/';
+
             
             $age = get_age($birth_date);
 
@@ -24,6 +26,7 @@
 
             if(preg_match($name_pattern,$fname)){
                     if(preg_match($name_pattern,$lname)){
+                        if(preg_match($address_pattern,$address)){
                              if(preg_match($contact_pattern,$contact)){
                                  if(preg_match($email_pattern,$email)){
                                      if(preg_match($password_pattern,$password)){
@@ -56,7 +59,9 @@
                                 } else{
                                     $_SESSION['error'] = "Please Enter Valid Phone Number.";
                                 }
-                         
+                            }else{
+                                $_SESSION['error']= "Address does not match the expected format.";
+                            } 
                     } else{
                         $_SESSION['error'] = "Please Enter Surname in Valid Format.";
                     }
@@ -144,7 +149,7 @@
             $_SESSION['term-condition'] = $term_agree;
             store_data($fname,$lname,$birth_date,$age,$gender,$address,$category,$contact,$email,$password,$confirm_password);
 
-            if(validate_input($fname,$lname,$birth_date,$contact,$email,$password,$confirm_password)){
+            if(validate_input($fname,$lname,$birth_date,$address,$contact,$email,$password,$confirm_password)){
                         if($_SESSION['term-condition'] == "Yes"){
                             unset($_SESSION['error']);
                             unset($_SESSION["conf-password"]);

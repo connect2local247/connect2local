@@ -13,7 +13,7 @@
             $birth_date = $_SESSION['birth-date'];
             $age = $_SESSION['age'];
             $gender = $_SESSION['gender'];
-            $address = $_SESSION['address'];
+            $address = $_SESSION['address'].",Kadi-382715,Gujarat";
             $category = $_SESSION['category'];
             $contact = $_SESSION['contact'];
             $email = $_SESSION['email'];
