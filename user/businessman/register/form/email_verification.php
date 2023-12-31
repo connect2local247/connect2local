@@ -149,7 +149,7 @@
                     <input type="text" name="user-code" class="form-control py-2 border border-dark" placeholder="Enter Verification Code" id="otp" value="<?php if(isset($_SESSION['user-code'])) echo $_SESSION['user-code'];?>" required>
                 </div>
                 <div class="mt-2 d-flex justify-content-end px-2">
-                    <a href="/user/customer/register/code/resend-code.php?resend_code=1" class="nav-link text-white">Resend Code</a>
+                    <a href="/user/businessman/register/code/resend-code.php?resend_code=1" class="nav-link text-white">Resend Code</a>
                 </div>
                 <div class="mt-3 d-flex justify-content-center">
                     <input type="submit" name="submit" value="Submit" id="submit-btn" class="btn text-bg-primary bg-gradient py-2 px-5 rounded-pill" >

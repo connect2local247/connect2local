@@ -14,11 +14,13 @@ function get_encrypted_data($data, $table_name1, $table_name2, $col_name_id, $co
         while ($row = mysqli_fetch_assoc($result)) {
             $encryptData = $row[$col_name_data];
             $key = $row[$col_name_key];
+            $id = $row[$col_name_id];
             $decryptData = decryptData($encryptData, $key);
 
             if ($data == $decryptData) {
                 $_SESSION['data'] = $decryptData;
                 $encryptedDataArray = [
+                    "id" => $id,
                     "key" => $key,
                     "encryptData" => $encryptData,
                 ];
@@ -30,6 +32,43 @@ function get_encrypted_data($data, $table_name1, $table_name2, $col_name_id, $co
     }
     
     return false;
+}
+
+
+function get_email_from_token($verification_token,$table_name,$register_table,$col_name_token,$key_col_name,$col_name_id){
+    $get_data_query = "SELECT $key_col_name,$col_name_id FROM $table_name WHERE $col_name_token = '$verification_token'";
+
+    $result = mysqli_query($GLOBALS['connect'],$get_data_query);
+    
+
+    if($result){
+        $row = mysqli_fetch_assoc($result);
+
+        $key = $row[$key_col_name];
+        $id = $row[$col_name_id];
+
+        $encryptedEmail = retrieveEncryptedEmail($id,$register_table);
+
+        $decryptEmail = decryptData($encryptedEmail,$key);
+
+    }
+
+    return $decryptEmail;
+}
+
+function retrieveEncryptedEmail($primaryKey, $table) {
+    // Determine the table and column names based on the provided table
+    $emailColumn = ($table === 'customer_register') ? 'C_EMAIL' : 'B_EMAIL';
+    $idColumn = ($table === 'customer_register') ? 'C_ID':'B_ID';
+    // Retrieve the encrypted email based on the primary key
+    $query = "SELECT $emailColumn FROM $table WHERE {$idColumn} = '$primaryKey'";
+    $result = mysqli_query($GLOBALS['connect'], $query);
+
+    if ($result && $row = mysqli_fetch_assoc($result)) {
+        return $row[$emailColumn];
+    } else {
+        return null; // Primary key not found or query error
+    }
 }
 
 ?>

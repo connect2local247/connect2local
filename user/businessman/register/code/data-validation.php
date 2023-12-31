@@ -14,7 +14,7 @@
             $contact_pattern = '/^\d{10}$/';
             $email_pattern = '/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/';
             $password_pattern = "/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#_$])[\w@#_$]{8,16}$/";
-            $address_pattern = '/^[A-Za-z ]{8,50}+$/';
+            $address_pattern = '/^(?=.*[A-Za-z0-9])[A-Za-z0-9\s,-]{10,50}(?:(?:\s?-\s?\d{1,2})|(?:\s?[A-Za-z\s]+))?(?![A-Za-z0-9])$/';
 
             
             $age = get_age($birth_date);

@@ -76,47 +76,19 @@
 
             const intervalId = setInterval(decreaseWidth, 35);
         </script>
+<?php
 
-                </div>
-                <?php
-        } else if (isset($_SESSION['greet-message'])) {
+        }
+
         ?>
-            <?php
-                            
-                                echo "
-                                <script>
-                                    document.addEventListener('DOMContentLoaded', function () {
-                                        var successModal = new bootstrap.Modal(document.getElementById('exampleModalToggle'));
-                                        var animation = document.getElementById('animation container');
-                                        var greetMessage = document.querySelector('#greet-message');
-                                        let modalBody = document.querySelector('.modal-body');
-                                        successModal.show();
-                                        
-                                        setTimeout(function () {
-                                            // spinner.style.display = 'none';
-                                            modalBody.removeChild(animation);
-                                            greetMessage.classList.remove('d-none');
-                                        }, 2500); // Close the modal after 3 seconds (3000 milliseconds)
-                                        
-                                        setTimeout(function(){
-                                            window.location.href='/user/customer/login/form/login.php';
-                                        },3000);
-                                    });
-                                    </script>";
-                                    
-                                    unset($_SESSION['greet-message']);
-                                    unset($_SESSION['error']);
-                                } 
-                                 
-                                    
-                    ?>
+                </div>
 
 
 
 
                 </div>
         </div>
-        <form action="/user/customer/register/code/email_verification_check.php" method="POST" class="d-flex flex-column justify-content-center align-items-center p-2" style="height:90vh;width:100%;">
+        <form action="/user/customer/login/code/email_verification_check.php" method="POST" class="d-flex flex-column justify-content-center align-items-center p-2" style="height:90vh;width:100%;">
             <div class="mb-1">
                 <?php
                         if(isset($_SESSION['message'])){
