@@ -8,6 +8,9 @@
             unset($_SESSION['error']);
         }
 
+        if(isset($_SESSION['greet-message'])){
+            unset($_SESSION['greet-message']);
+        }
         function validate_login_data($email,$password){
             if(find_encrypted_data($email,"business_register","business_verification","B_ID","B_EMAIL","B_KEY","B_ID") && find_encrypted_data($password,"business_register","business_verification","B_ID","B_PASSWORD","B_KEY","B_ID")){
                 

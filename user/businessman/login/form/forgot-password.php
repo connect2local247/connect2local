@@ -131,19 +131,19 @@
         if(isset($_GET['verification_token'])){
             if($_GET['verification_token'] != "" ){
                $verification_token = $_GET['verification_token'];
-               $query = "SELECT C_VERIFY_TOKEN FROM customer_verification WHERE C_VERIFY_TOKEN = '$verification_token' ";
+               $query = "SELECT B_VERIFICATION_TOKEN FROM business_verification WHERE B_VERIFICATION_TOKEN = '$verification_token' ";
                
                $result = mysqli_query($GLOBALS['connect'],$query);
                
                $_SESSION['verification-token'] = $verification_token;
-               $email = get_email_from_token($verification_token,"customer_verification","customer_register","C_VERIFY_TOKEN","C_KEY","C_ID");
+               $email = get_email_from_token($verification_token,"business_verification","business_register","B_VERIFICATION_TOKEN","B_KEY","B_ID");
                
                
                if(mysqli_num_rows($result) > 0){
                    
 ?>
 
-<form action="/user/customer/login/code/reset-password-logic.php" method="POST" class="d-flex flex-column align-items-center justify-content-center" style="height:100vh;width: 100%;">
+<form action="/user/businessman/login/code/reset-password-logic.php" method="POST" class="d-flex flex-column align-items-center justify-content-center" style="height:100vh;width: 100%;">
            
             <fieldset class="p-4 border rounded position-relative col-lg-4 col-md-7 col-11 bg-dark border-dark" id="form-fieldset">
                 <legend class="my-4 fw-bold fs-4 text-center text-white">Reset Password</legend>
@@ -194,7 +194,7 @@
     <div class="card shadow-lg">
         <div class="card-body text-center">
             <h1 class="text-danger mb-4">Verification Error</h1>
-            <p class="lead">Oops! Something went wrong while verifying your email address.</p>
+            <p class="lead">Oops! Something went wrong while Verifying your email address.</p>
             <p>Please try again. If the issue persists, contact us for assistance.</p>
 
             <div class="mt-4 d-flex justify-content-center" style="gap:7px">

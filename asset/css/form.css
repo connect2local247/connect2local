@@ -1,3 +1,17 @@
+#form-body{
+    background: url('/asset/image/background/register_bg.jpg') no-repeat;
+    background: linear-gradient(rgba(0, 0, 0, 0.66), rgba(29, 29, 18, 0.694)), url('/asset/image/background/register_bg.jpg') no-repeat;    
+        background-size: 100% 100%;
+        height:fit-content;
+}
+
+#register-form{
+    background:linear-gradient(rgba(0, 0, 0, 0.51), rgba(29, 29, 18, 0.694)) !important;
+}
+
+#register-btn{
+    background: linear-gradient(rgba(255, 0, 0, 0.273),rgba(255, 0, 60, 0.495)) !important;
+}
 #error-message {
     opacity: 1;
     height: auto;

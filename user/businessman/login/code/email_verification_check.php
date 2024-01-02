@@ -54,7 +54,7 @@
         }
 
         function check_email_exists($email){
-            if(find_encrypted_data($email,"customer_register","customer_verification","C_ID","C_EMAIL","C_KEY","C_ID")){
+            if(find_encrypted_data($email,"business_register","business_verification","B_ID","B_EMAIL","B_KEY","B_ID")){
                 return true;
             } else{
                 $_SESSION['error'] = "Email Doesn't Exists";
@@ -63,16 +63,16 @@
             return false;
         }
 
-        function get_name($customer_id){
-            $query = "SELECT C_FNAME,C_LNAME FROM customer_register WHERE C_ID = '$customer_id'";
+        function get_name($business_id){
+            $query = "SELECT B_FNAME,B_LNAME FROM business_register WHERE B_ID = '$business_id'";
 
             $result = mysqli_query($GLOBALS['connect'],$query);
 
             if(mysqli_num_rows($result) > 0){
                 $row = mysqli_fetch_assoc($result);
 
-                $fname = $row['C_FNAME'];
-                $lname = $row['C_LNAME'];
+                $fname = $row['B_FNAME'];
+                $lname = $row['B_LNAME'];
 
                 return $fname."".$lname;
             } 
@@ -81,11 +81,11 @@
         }
 
         function update_data($email,$verification_token){
-            $customer_id = get_primary_key($email,"customer_register","customer_verification","C_ID","C_EMAIL","C_KEY","C_ID");
+            $business_id = get_primary_key($email,"business_register","business_verification","B_ID","B_EMAIL","B_KEY","B_ID");
 
-            $_SESSION['fullname'] = get_name($customer_id);
+            $_SESSION['fullname'] = get_name($business_id);
 
-            $find_key_query = "SELECT C_KEY FROM customer_verification WHERE C_ID = '$customer_id'";
+            $find_key_query = "SELECT B_KEY FROM business_verification WHERE B_ID = '$business_id'";
 
             $result = mysqli_query($GLOBALS['connect'],$find_key_query);
 
@@ -93,11 +93,11 @@
             if($result){
                 $row = mysqli_fetch_assoc($result);
                 
-                $key = $row['C_KEY'];
+                $key = $row['B_KEY'];
                 echo $key;
             }
 
-            $update_query = "UPDATE customer_verification SET C_VERIFY_TOKEN = '$verification_token' WHERE C_KEY = $key";
+            $update_query = "UPDATE business_verification SET B_VERIFICATION_TOKEN = '$verification_token' WHERE B_KEY = $key";
             $result = mysqli_query($GLOBALS['connect'],$update_query);
 
             // die($result);
@@ -114,9 +114,9 @@
         if(isset($_POST['submit'])){
             $email = $_POST['email'];
 
-            $col_name = "C_VERIFY_TOKEN";
+                $col_name = "B_VERIFICATION_TOKEN";
                 $verification_token = generateVerificationToken($col_name);
-                $verification_link = "http://connect2local/user/customer/login/form/forgot-password.php?verification_token=$verification_token";
+                $verification_link = "http://connect2local/user/businessman/login/form/forgot-password.php?verification_token=$verification_token";
 
             if(check_email_exists($email)){
                 $_SESSION['verification-email'] = $email;
@@ -125,7 +125,7 @@
                     send_verification_link($email,$verification_link);
 
                     unset($_SESSION['error']);
-                    header("location:/user/customer/login/form/verification-email.php");
+                    header("location:/user/businessman/login/form/verification-email.php");
                     exit;
                 }
             } else{
@@ -135,7 +135,7 @@
             if(isset($_SESSION['message'])){
                 $_SESSION['message'] = "";
             }
-            header("location:/user/customer/login/form/verification-email.php");
+            header("location:/user/businessman/login/form/verification-email.php");
 
         }
 ?>

@@ -18,7 +18,7 @@
             $verification_token = $_SESSION['verification-token'];
             if($password == $confirm_password){
 
-                $data = get_encrypted_data($email,"customer_register","customer_verification","C_ID","C_EMAIL","C_KEY","C_ID");
+                $data = get_encrypted_data($email,"business_register","business_verification","B_ID","B_EMAIL","B_KEY","B_ID");
 
                 $id = $data['id'];
                 $key = $data['key'];
@@ -27,13 +27,13 @@
                 $encryptedPassword = encryptData($password,$key);
 
 
-                $update_password_query = "UPDATE customer_register SET C_PASSWORD = '$encryptedPassword' WHERE C_ID = '$id' ";
+                $update_password_query = "UPDATE business_register SET B_PASSWORD = '$encryptedPassword' WHERE B_ID = '$id' ";
 
                 $result = mysqli_query($GLOBALS['connect'],$update_password_query);
                 
                 if($result){
                     $_SESSION['greet-message'] = "Password Updated Successfully.";
-                    header("Location:/user/customer/login/form/forgot-password.php?verification_token={$_SESSION['verification-token']}");
+                    header("Location:/user/businessman/login/form/forgot-password.php?verification_token={$_SESSION['verification-token']}");
                     exit;
                 } else{
                     echo "Error in the query: " . mysqli_error($GLOBALS['connect']);
@@ -43,7 +43,7 @@
                 $_SESSION['error'] = "Password Not Matched.";
             }
 
-            header("location:/user/customer/login/form/forgot-password.php?verification_token={$_SESSION['verification-token']}");
+            header("location:/user/businessman/login/form/forgot-password.php?verification_token={$_SESSION['verification-token']}");
             exit;
         }
 

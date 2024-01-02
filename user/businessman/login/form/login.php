@@ -126,9 +126,27 @@
 
                 <div class="mt-3">
                     <label for="password" class="form-label ps-1">Password</label>
-                    <input type="password" name="password" id="password" class="form-control border border-dark py-2" placeholder="Password" value="<?php if(isset($_SESSION['password'])) echo $_SESSION['password'] ?>" required>
-                </div>
+                    <div class="mt-1 position-relative">
+                        <input type="password" name="password" id="password" class="form-control p-2 border-dark" placeholder="Password" required>
+        <i id="togglePassword" class="fas fa-eye text-secondary position-absolute top-0 end-0 py-2 fs-5 mt-1 me-4"></i>
+                    </div>
 
+                    <script>
+                    $(document).ready(function() {
+                        // Toggle password visibility
+                        $("#togglePassword").click(function() {
+                            var passwordField = $("#password");
+                            var fieldType = passwordField.attr("type");
+
+                            // Toggle between 'text' and 'password' types
+                            passwordField.attr("type", fieldType === "password" ? "text" : "password");
+
+                            // Toggle eye icon based on password visibility
+                            $(this).toggleClass("fa-eye fa-eye-slash");
+                        });
+                    });
+                </script>
+            </div>
                 <div class="mt-3 d-flex align-items-center justify-content-between px-2">
                     <a href="#" class="nav-link text-warning" style="font-size:15px">Create an Account</a>
                     <a href="/user/businessman/login/form/verification-email.php" class="nav-link text-warning" style="font-size:15px">Forgot Password</a>
