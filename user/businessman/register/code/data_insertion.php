@@ -63,8 +63,9 @@
             $email = $_SESSION['email'];
             send_code($email);
 
+            $_SESSION['greet-message'] = "Congratulations !!! You are registered Successfully.";
             $_SESSION['message'] = "Verification Code Sent Successfully.";
-            header("location:/user/businessman/register/form/email_verification.php");
+            header("location:/user/businessman/register/form/business_register.php");
             exit;
         }
         function send_code($email){
