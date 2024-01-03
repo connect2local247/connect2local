@@ -10,93 +10,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <?php include "../../../../asset/link/cdn-link.html";?>
+    <link rel="stylesheet" href="/asset/css/style.css">
     <link rel="stylesheet" href="/asset/css/form.css">
 </head>
 <body>
-<!-- ERROR MSG DIV -->
-        <div class="my-4">
-                    <?php
-            if (isset($_SESSION['error'])) {
-                $error = $_SESSION['error'];
-                ?>
-                <div class="errorMessage col-lg-3 border rounded fs-5 position-absolute end-0 top-0 m-2 text-center d-flex flex-column align-items-center text-white" id="error-message" style="height:180px;background-color:rgb(96, 92, 92)">
-                    <div class="w-100 h-100 text-center position-relative" style="background:linear-gradient(#2F2462,#001520);">
-                        <div class="text-bg-dark bg-gradient p-2 rounded" id="submit-btn">
-                        <i class="fa-solid fa-xmark position-absolute end-0 mt-2 me-3" id="close-mark"></i>
-                        <span>Error Message</span>
-                        </div>
-                        <div style="height:70%;display:flex;align-items:center;justify-content:center">
-                            <p> <i class="fa-solid fa-xmark text-bg-danger p-2 rounded-circle"></i> <?php echo "$error"; ?></p>
-                        </div>
-                        <div class="position-absolute bottom-0 rounded" id="loading" style="background:linear-gradient(skyblue,royalblue,skyblue); width:100%; height:10px"></div>
-                    </div>
-
-<!-- ERROR MSG LOADING SCRIPT -->
-
-                    <script>
-            const loading = document.getElementById('loading');
-            const errorMessage = document.getElementById('error-message');
-            const closeErrorPrompt = document.getElementById('close-mark');
-            
-            closeErrorPrompt.addEventListener('click',function(){
-                errorMessage.classList.add('hidden');             
-            })
-            const decreaseWidth = () => {
-                loading.style.width = (parseFloat(loading.style.width) - 1) + "%";
-                
-                if (parseFloat(loading.style.width) <= 0) {
-                    clearInterval(intervalId);
-
-                    
-                    // Unset the session variable directly in the same file
-                    <?php unset($_SESSION['error']); ?>
-
-                    // Apply smooth transition to hide the error message
-                    errorMessage.classList.add('hidden');
-                }
-            };
-
-            const intervalId = setInterval(decreaseWidth, 35);
-        </script>
-                </div>
-                
-                <?php
-        } else if (isset($_SESSION['greet-message'])) {
-        ?>
-            <?php
-                            
-                                echo "
-                                <script>
-                                    document.addEventListener('DOMContentLoaded', function () {
-                                        var successModal = new bootstrap.Modal(document.getElementById('exampleModalToggle'));
-                                        var animation = document.getElementById('animation container');
-                                        var greetMessage = document.querySelector('#greet-message');
-                                        let modalBody = document.querySelector('.modal-body');
-                                        successModal.show();
-                                        
-                                        setTimeout(function () {
-                                            // spinner.style.display = 'none';
-                                            modalBody.removeChild(animation);
-                                            greetMessage.classList.remove('d-none');
-                                        }, 2500); // Close the modal after 3 seconds (3000 milliseconds)
-                                        
-                                        setTimeout(function(){
-                                            window.location.href='/connect2local/user/customer/activities/register/form/contact-info.php';
-                                        },3000);
-                                    });
-                                    </script>";
-                                    
-                                    unset($_SESSION['greet-message']);
-                                    unset($_SESSION['error']);
-                                }
-                                    
-                    ?>
-                </div>
-            </div>     
-
+        
 <!-- BUSINESS REGISTER FORM -->
+        <script>
+            path = "/user/businessman/register/form/email_verification.php";
+        </script>
+        <?php 
 
-        <form action="/user/customer/register/code/data-validation.php" method="post" class="p-2 col-lg-9 col-md-10 col-12 d-flex align-items-center" style="width:100%;height:100vh;">
+                include "../../../../component/form-alert.php";
+                unset($_SESSION['error']);
+        ?>
+        <form action="/user/businessman/register/code/data-validation.php" method="post" class="p-2 col-lg-9 col-md-10 col-12 d-flex align-items-center" style="width:100%;height:100vh;">
            
         <fieldset class="border p-3 border-dark bg-gradient rounded-2 col-lg-6 col-md-10 col-12 text-bg-dark bg-gradient" style="margin:auto;">
                     <legend class="text-center mb-5 mt-2 fs-2 fw-bold">Register Form</legend>
@@ -137,7 +65,7 @@
                                 </div>
 <!-- BUSINESS CATEGORY DIV -->
                                 <div class="col-6">
-                                        <select name="category" class="form-select">
+                                        <select name="category" class="form-select" required>
                                         <option value="" disabled selected>Select Category</option>
                                 <?php
                                 $categories = array(
@@ -157,7 +85,7 @@
                                     'Mobile And Computer',
                                     'Restaurants',
                                     'Delivery Services',
-                                    'Hospital And MedicalStore',
+                                    'Hospital And Medical Store',
                                     'Others'
                                 );
 

@@ -13,7 +13,7 @@
             <div class="row justify-content-center rounded">
                       <div class="col-lg-6 col-md-6 col-8 g-3">
                         <div class="card col-12">
-                            <div class="card-content border border-dark border-bottom-0 rounded" onclick="location.href='/user/customer/register/form/customer_register.php'">
+                            <div class="card-content border border-dark border-bottom-0 rounded" onclick="location.href='/user/customer/login/form/login.php'">
                                 <div class="card-body">
                                         <img src="/asset/image/user/customer.png" style="height:200px;width:100%" alt="">
                                 </div>
@@ -26,7 +26,7 @@
 
                       <div class="col-lg-6 col-md-6 col-8 g-3">
                         <div class="card col-12">
-                            <div class="card-content border border-dark border-bottom-0 rounded" onclick="location.href='/user/businessman/register/form/business_register.php'">
+                            <div class="card-content border border-dark border-bottom-0 rounded" onclick="location.href='/user/businessman/login/form/login.php'">
                                 <div class="card-body">
                                         <img src="/asset/image/user/businessman.png" style="height:200px;width:100%" alt="">
                                 </div>

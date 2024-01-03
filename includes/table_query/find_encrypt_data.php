@@ -6,7 +6,7 @@
 
 
         function find_encrypted_data($data, $table_name1, $table_name2, $col_name_id, $col_name_data, $col_name_key, $common_column) {
-            $query = "SELECT $table_name1.$col_name_id, $table_name2.C_KEY, $table_name1.$col_name_data 
+            $query = "SELECT $table_name1.$col_name_id, $table_name2.$col_name_key, $table_name1.$col_name_data 
           FROM $table_name1
           INNER JOIN $table_name2 ON $table_name1.$common_column = $table_name2.$common_column
           WHERE 1";

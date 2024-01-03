@@ -25,18 +25,24 @@
             return $securityKey;
         }
 
-        function generateVerificationLink($userId) {
-            // Generate a unique token (you can use a library like bin2hex(random_bytes($length)) for a longer token)
-            $token = uniqid();
+        function generateVerificationToken($col_name) {
+            do {
+                // Generate a new token
+                $dataToHash = time();
+                $hash = password_hash($dataToHash, PASSWORD_DEFAULT);
+                $truncatedHash = substr($hash, 0, 100);
         
-            // Encrypt the user ID and token
-            $encryptedData = base64_encode(encryptData("$userId|$token"));
+                // Check if the token already exists in the database
+                $query = "SELECT $col_name FROM customer_verification WHERE $col_name = '$truncatedHash'";
+                $result = mysqli_query($GLOBALS['connect'], $query);
         
-            // Construct the verification link
-            $verificationLink = "https://example.com/verify?data=$encryptedData";
+                // If the token already exists, generate a new one
+            } while (mysqli_num_rows($result) > 0);
         
-            return $verificationLink;
+            return $truncatedHash;
         }
+        
+        
         
         function createUniqueFilename() {
             $timestamp = time(); // Get current timestamp

@@ -67,7 +67,7 @@
 
                 </div>
         </div>
-        <form action="/user/customer/login/code/email_verification_check.php" method="POST" class="d-flex flex-column justify-content-center align-items-center p-2" style="height:90vh;width:100%;">
+        <form action="/user/businessman/login/code/email_verification_check.php" method="POST" class="d-flex flex-column justify-content-center align-items-center p-2" style="height:90vh;width:100%;">
             <div class="mb-1">
                 <?php
                         if(isset($_SESSION['message'])){
@@ -104,7 +104,7 @@
                                 if(isset($_SESSION['verification-email']) && $_SESSION['verification-email'] != ""){
                                     $email = $_SESSION['verification-email'];
                                     ?>
-                    <a href="/user/customer/login/code/resend-link.php?resend_link=1&email=<?php echo $email; ?>" class="nav-link text-white">Resend Link</a>
+                    <a href="/user/businessman/login/code/resend-link.php?resend_link=1&email=<?php echo $email; ?>" class="nav-link text-white">Resend Link</a>
                     
                     <?php
                                 }
@@ -115,11 +115,6 @@
                 </div>
             </fieldset>
         </form>
-    
-    
-   
-   
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

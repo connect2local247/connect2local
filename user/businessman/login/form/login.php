@@ -81,6 +81,8 @@
                         </div>
                         <?php
                 } else if (isset($_SESSION['greet-message'])) {
+                ?>
+                    <?php
                                     
                                         echo "
                                         <script>
@@ -98,7 +100,7 @@
                                                 }, 2500); // Close the modal after 3 seconds (3000 milliseconds)
                                                 
                                                 setTimeout(function(){
-                                                    window.location.href='/user/customer/dashboard/dashboard.php';
+                                                    window.location.href='/user/businessman/dashboard/dashboard.php';
                                                 },3000);
                                             });
                                             </script>";
@@ -114,7 +116,7 @@
 
                         </div>
                     </div>
-        <form action="/user/customer/login/code/login-validation.php" method="post" class="d-flex flex-column align-items-center justify-content-center p-2" style="height:90vh;width: 100%;">
+        <form action="/user/businessman/login/code/login-validation.php" method="post" class="d-flex flex-column align-items-center justify-content-center p-2" style="height:90vh;width: 100%;">
             <fieldset class="p-3 border rounded col-lg-7 col-md-10 col-12 border-dark text-bg-dark bg-gradient">
                 <legend class="my-4 fw-bold fs-2 text-center text-uppercase">Login</legend>
                 <div class="mt-3">
@@ -129,7 +131,7 @@
         <i id="togglePassword" class="fas fa-eye text-secondary position-absolute top-0 end-0 py-2 fs-5 mt-1 me-4"></i>
                     </div>
 
-                <script>
+                    <script>
                     $(document).ready(function() {
                         // Toggle password visibility
                         $("#togglePassword").click(function() {
@@ -144,11 +146,10 @@
                         });
                     });
                 </script>
-                </div>
-
+            </div>
                 <div class="mt-3 d-flex align-items-center justify-content-between px-2">
                     <a href="#" class="nav-link text-warning" style="font-size:15px">Create an Account</a>
-                    <a href="/user/customer/login/form/verification-email.php" class="nav-link text-warning" style="font-size:15px">Forgot Password</a>
+                    <a href="/user/businessman/login/form/verification-email.php" class="nav-link text-warning" style="font-size:15px">Forgot Password</a>
                  </div>
 
                  <div class="mt-5 d-flex justify-content-center">

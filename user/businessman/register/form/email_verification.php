@@ -6,12 +6,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connect2Local - User Verification</title>
+    <title>Connect2Local - Email Verification</title>
     <link rel="stylesheet" href="/asset/css/form.css">
     <?php include "/connect2local/asset/link/cdn-link.html"; ?>
 </head>
 <body id="form-body" style="height:100vh;width:100%">
-    
+    <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content" style="background:linear-gradient(#040014,#0B1419)">
+                <div class="modal-body rounded" >
+                <div id="animation container" class="m-auto" style="height:50px;width:50px">
+                    <script>
+                        var animation = bodymovin.loadAnimation({
+                            container : document.getElementById('animation container'),
+                            loop:false,
+                            autoplay:true,
+                            rendor:'svg',
+                            path:"/asset/animation/success.json",
+                            name:"demo animation",
+                            background:"transparent"
+                        })
+                    </script>
+                </div>
+                <div id="greet-message" class="d-none text-center text-white"><?php if(isset($_SESSION['greet-message'])) echo $_SESSION['greet-message'];?></div>
+                </div>
+                </div>
+            </div>
+        </div>
 
         
         <div class="my-4">
@@ -55,19 +76,47 @@
 
             const intervalId = setInterval(decreaseWidth, 35);
         </script>
-<?php
 
-        }
-
-        ?>
                 </div>
+                <?php
+        } else if (isset($_SESSION['greet-message'])) {
+        ?>
+            <?php
+                            
+                                echo "
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                        var successModal = new bootstrap.Modal(document.getElementById('exampleModalToggle'));
+                                        var animation = document.getElementById('animation container');
+                                        var greetMessage = document.querySelector('#greet-message');
+                                        let modalBody = document.querySelector('.modal-body');
+                                        successModal.show();
+                                        
+                                        setTimeout(function () {
+                                            // spinner.style.display = 'none';
+                                            modalBody.removeChild(animation);
+                                            greetMessage.classList.remove('d-none');
+                                        }, 2500); // Close the modal after 3 seconds (3000 milliseconds)
+                                        
+                                        setTimeout(function(){
+                                            window.location.href='/user/businessman/login/form/login.php';
+                                        },3000);
+                                    });
+                                    </script>";
+                                    
+                                    unset($_SESSION['greet-message']);
+                                    unset($_SESSION['error']);
+                                } 
+                                 
+                                    
+                    ?>
 
 
 
 
                 </div>
         </div>
-        <form action="/user/customer/login/code/email_verification_check.php" method="POST" class="d-flex flex-column justify-content-center align-items-center p-2" style="height:90vh;width:100%;">
+        <form action="/user/businessman/register/code/email_verification_check.php" method="POST" class="d-flex flex-column justify-content-center align-items-center p-2" style="height:90vh;width:100%;">
             <div class="mb-1">
                 <?php
                         if(isset($_SESSION['message'])){
@@ -95,31 +144,17 @@
     
             </div>
             <fieldset class="border border-dark p-4 rounded-2 bg-dark bg-gradient col-lg-5 col-md-9 col-12">
-                <legend class="text-center fs-3 fw-bold my-4 text-white">User Verification</legend>
+                <legend class="text-center fs-3 fw-bold my-4 text-white">Email Verification</legend>
                 <div class="mt-2">
-                    <input type="email" name="email" class="form-control py-2 border border-dark" placeholder="Enter Email Address" id="email" required>
+                    <input type="text" name="user-code" class="form-control py-2 border border-dark" placeholder="Enter Verification Code" id="otp" value="<?php if(isset($_SESSION['user-code'])) echo $_SESSION['user-code'];?>" required>
                 </div>
                 <div class="mt-2 d-flex justify-content-end px-2">
-                    <?php
-                                if(isset($_SESSION['verification-email']) && $_SESSION['verification-email'] != ""){
-                                    $email = $_SESSION['verification-email'];
-                                    ?>
-                    <a href="/user/customer/login/code/resend-link.php?resend_link=1&email=<?php echo $email; ?>" class="nav-link text-white">Resend Link</a>
-                    
-                    <?php
-                                }
-                    ?>
+                    <a href="/user/businessman/register/code/resend-code.php?resend_code=1" class="nav-link text-white">Resend Code</a>
                 </div>
-                <div class="mt-4 d-flex justify-content-center">
+                <div class="mt-3 d-flex justify-content-center">
                     <input type="submit" name="submit" value="Submit" id="submit-btn" class="btn text-bg-primary bg-gradient py-2 px-5 rounded-pill" >
                 </div>
             </fieldset>
         </form>
-    
-    
-   
-   
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

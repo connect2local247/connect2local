@@ -12,7 +12,7 @@
     <?php include "../../../../asset/link/cdn-link.html";?>
     <link rel="stylesheet" href="/asset/css/form.css">
 </head>
-<body>
+<body id="form-body">
         <div class="my-4">
                     <?php
             if (isset($_SESSION['error'])) {
@@ -96,7 +96,7 @@
                 
         <form action="/user/customer/register/code/data-validation.php" method="post" class="p-2 col-lg-9 col-md-10 col-12 d-flex align-items-center" style="width:100%;height:100vh;">
            
-        <fieldset class="border p-3 border-dark bg-gradient rounded-2 col-lg-6 col-md-10 col-12 text-bg-dark bg-gradient" style="margin:auto;">
+        <fieldset class="border p-3 text-white rounded-2 col-lg-6 col-md-10 col-12" id="register-form" style="margin:auto;">
                     <legend class="text-center mb-5 mt-2 fs-2 fw-bold">Register Form</legend>
 
                     <div class="mt-5">
@@ -149,7 +149,6 @@
     <input type="password" name="password" id="password" class="form-control p-2 border-dark" placeholder="Password" value="<?php if(isset($_SESSION['password'])) echo $_SESSION['password'];?>" required>
     <i id="togglePassword" class="fas fa-eye text-secondary position-absolute top-0 end-0 py-2 fs-5 mt-1 me-4"></i>
 
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
         $(document).ready(function() {
             // Toggle password visibility
@@ -183,11 +182,11 @@
                     </div>
 
                     <div class="mt-3 d-flex justify-content-center">
-                            <input type="submit" value="Register" name="submit" class="btn border text-white bg-primary bg-gradient py-3 px-5 fs-5 rounded-pill">
+                            <input type="submit" value="Register" name="submit" class="btn border text-white bg-primary bg-gradient py-3 px-5 fs-5 rounded-pill" id="register-btn">
                     </div>
                 </fieldset>
         </form>
 
-        
+        <?php include "/connect2local/component/form-footer.php"; ?>
 </body>
 </html>
