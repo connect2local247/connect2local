@@ -25,10 +25,6 @@
                     </div>
                 </div>
 
-                <div class="col-lg-6 col-md-6 col-12 d-flex justify-content-end">
-                    <img src="/asset/image/logo.png" alt="">
-                </div>
-
             </div>
         </div>
         </section>

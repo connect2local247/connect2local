@@ -18,7 +18,7 @@
             if (isset($_SESSION['error'])) {
                 $error = $_SESSION['error'];
                 ?>
-                <div class="errorMessage col-lg-3 border rounded fs-5 position-absolute end-0 top-0 m-2 text-center d-flex flex-column align-items-center text-white" id="error-message" style="height:180px;background-color:rgb(96, 92, 92)">
+                <div class="errorMessage col-lg-3 col-md-5 col-10 border rounded fs-5 position-absolute end-0 top-0 m-2 text-center d-flex flex-column align-items-center text-white" id="error-message">
                     <div class="w-100 h-100 text-center position-relative" style="background:linear-gradient(#2F2462,#001520);">
                         <div class="text-bg-dark bg-gradient p-2 rounded" id="submit-btn">
                         <i class="fa-solid fa-xmark position-absolute end-0 mt-2 me-3" id="close-mark"></i>
@@ -96,17 +96,17 @@
                 
         <form action="/user/customer/register/code/data-validation.php" method="post" class="p-2 col-lg-9 col-md-10 col-12 d-flex align-items-center" style="width:100%;height:100vh;">
            
-        <fieldset class="border p-3 text-white rounded-2 col-lg-6 col-md-10 col-12" id="register-form" style="margin:auto;">
+        <fieldset class="border p-3 text-white rounded-2 col-lg-6 col-md-10 col-12 border-light" id="register-form" style="margin:auto;">
                     <legend class="text-center mb-5 mt-2 fs-2 fw-bold">Register Form</legend>
 
                     <div class="mt-5">
                             <div class="row">
                                 <div class="col-6">
-                                    <input type="text" name="fname" id="fname" class="form-control p-2 border-dark" placeholder="First Name" value="<?php if(isset($_SESSION['fname'])) echo $_SESSION['fname'];?>"  required>
+                                    <input type="text" name="fname" id="fname" class="form-control p-2 border-dark border-2" placeholder="First Name" value="<?php if(isset($_SESSION['fname'])) echo $_SESSION['fname'];?>"  required>
                                 </div>
 
                                 <div class="col-6">
-                                    <input type="text" name="lname" id="lname" class="form-control p-2 border-dark" placeholder="Last Name" value="<?php if(isset($_SESSION['lname'])) echo $_SESSION['lname'];?>" required>
+                                    <input type="text" name="lname" id="lname" class="form-control p-2 border-dark border-2" placeholder="Last Name" value="<?php if(isset($_SESSION['lname'])) echo $_SESSION['lname'];?>" required>
                                 </div>
                             </div>
                     </div>
@@ -114,11 +114,11 @@
                     <div class="mt-4">
                             <div class="row">
                                 <div class="col-6">
-                                    <input type="date" name="birth-date" id="birth-date" class="form-control p-2 border-dark" value="<?php if(isset($_SESSION['birth-date'])) echo $_SESSION['birth-date'];?>" required>
+                                    <input type="date" name="birth-date" id="birth-date" class="form-control p-2 border-dark border-2" value="<?php if(isset($_SESSION['birth-date'])) echo $_SESSION['birth-date'];?>" required>
                                 </div>
 
                                 <div class="col-6">
-                                    <select class="form-select border-dark p-2" name="gender" required>
+                                    <select class="form-select border-dark border-2 p-2" name="gender" required>
                                         <option value="" disabled selected>Select gender</option>
                                         <option value="Male" <?php if (isset($_SESSION['gender']) && $_SESSION['gender'] === 'Male') echo 'selected'; ?>>Male</option>
                                         <option value="Female" <?php if (isset($_SESSION['gender']) && $_SESSION['gender'] === 'Female') echo 'selected'; ?>>Female</option>
@@ -131,11 +131,11 @@
                     <div class="mt-4">
                             <div class="row">
                                 <div class="col-6">
-                                    <input type="tel" name="contact" id="contact" class="form-control p-2 border-dark" placeholder="Phone Number" value="<?php if(isset($_SESSION['contact'])) echo $_SESSION['contact'];?>" required>
+                                    <input type="tel" name="contact" id="contact" class="form-control p-2 border-dark border-2" placeholder="Phone Number" value="<?php if(isset($_SESSION['contact'])) echo $_SESSION['contact'];?>" required>
                                 </div>
 
                                 <div class="col-6">
-                                    <input type="email" name="email" id="email" class="form-control p-2 border-dark" placeholder="Email Address" value="<?php if(isset($_SESSION['email'])) echo $_SESSION['email'];?>" required>
+                                    <input type="email" name="email" id="email" class="form-control p-2 border-dark border-2" placeholder="Email Address" value="<?php if(isset($_SESSION['email'])) echo $_SESSION['email'];?>" required>
                                     
                                     
                                 </div>
@@ -146,7 +146,7 @@
                         <div class="mt-4">
                             <div class="row">
                                 <div class="col-6 position-relative">
-    <input type="password" name="password" id="password" class="form-control p-2 border-dark" placeholder="Password" value="<?php if(isset($_SESSION['password'])) echo $_SESSION['password'];?>" required>
+    <input type="password" name="password" id="password" class="form-control p-2 border-dark border-2" placeholder="Password" value="<?php if(isset($_SESSION['password'])) echo $_SESSION['password'];?>" required>
     <i id="togglePassword" class="fas fa-eye text-secondary position-absolute top-0 end-0 py-2 fs-5 mt-1 me-4"></i>
 
     <script>
@@ -168,7 +168,7 @@
 
 
                                 <div class="col-6">
-                                    <input type="password" name="conf-password" id="conf-password" class="form-control p-2 border-dark" placeholder="Confirm Password" value="<?php if(isset($_SESSION['conf-password'])) echo $_SESSION['conf-password'];?>" required>
+                                    <input type="password" name="conf-password" id="conf-password" class="form-control p-2 border-dark border-2" placeholder="Confirm Password" value="<?php if(isset($_SESSION['conf-password'])) echo $_SESSION['conf-password'];?>" required>
                                 </div>
                             </div>
                     </div>
