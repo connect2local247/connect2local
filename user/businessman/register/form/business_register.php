@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="/asset/css/style.css">
     <link rel="stylesheet" href="/asset/css/form.css">
 </head>
-<body>
+<body id="form-body">
         
 <!-- BUSINESS REGISTER FORM -->
         <script>
@@ -26,17 +26,17 @@
         ?>
         <form action="/user/businessman/register/code/data-validation.php" method="post" class="p-2 col-lg-9 col-md-10 col-12 d-flex align-items-center" style="width:100%;height:100vh;">
            
-        <fieldset class="border p-3 border-dark bg-gradient rounded-2 col-lg-6 col-md-10 col-12 text-bg-dark bg-gradient" style="margin:auto;">
+        <fieldset class="border p-3 bg-gradient rounded-2 col-lg-6 col-md-10 col-12 text-white" id="register-form" style="margin:auto;">
                     <legend class="text-center mb-5 mt-2 fs-2 fw-bold">Register Form</legend>
 
                     <div class="mt-5">
                             <div class="row">
                                 <div class="col-6">
-                                    <input type="text" name="fname" id="fname" class="form-control p-2 border-dark" placeholder="First Name" value="<?php if(isset($_SESSION['fname'])) echo $_SESSION['fname'];?>"  required>
+                                    <input type="text" name="fname" id="fname" class="form-control border-2 p-2 border-dark" placeholder="First Name" value="<?php if(isset($_SESSION['fname'])) echo $_SESSION['fname'];?>"  required>
                                 </div>
 
                                 <div class="col-6">
-                                    <input type="text" name="lname" id="lname" class="form-control p-2 border-dark" placeholder="Last Name" value="<?php if(isset($_SESSION['lname'])) echo $_SESSION['lname'];?>" required>
+                                    <input type="text" name="lname" id="lname" class="form-control border-2 p-2 border-dark" placeholder="Last Name" value="<?php if(isset($_SESSION['lname'])) echo $_SESSION['lname'];?>" required>
                                 </div>
                             </div>
                     </div>
@@ -44,7 +44,7 @@
                     <div class="mt-4">
                             <div class="row">
                                 <div class="col-6">
-                                    <input type="date" name="birth-date" id="birth-date" class="form-control p-2 border-dark" value="<?php if(isset($_SESSION['birth-date'])) echo $_SESSION['birth-date'];?>" required>
+                                    <input type="date" name="birth-date" id="birth-date" class="form-control border-2 p-2 border-dark" value="<?php if(isset($_SESSION['birth-date'])) echo $_SESSION['birth-date'];?>" required>
                                 </div>
 
                                 <div class="col-6">
@@ -61,7 +61,7 @@
                     <div class="mt-4">
                             <div class="row">
                                 <div class="col-6">
-                                    <input type="text" name="address" id="address" class="form-control p-2 border-dark" placeholder="Shop Address" value="<?php if(isset($_SESSION['address'])) echo $_SESSION['address'];?>" required>
+                                    <input type="text" name="address" id="address" class="form-control border-2 p-2 border-dark" placeholder="Shop Address" value="<?php if(isset($_SESSION['address'])) echo $_SESSION['address'];?>" required>
                                 </div>
 <!-- BUSINESS CATEGORY DIV -->
                                 <div class="col-6">
@@ -106,11 +106,11 @@
                     <div class="mt-4">
                             <div class="row">
                                 <div class="col-6">
-                                    <input type="tel" name="contact" id="contact" class="form-control p-2 border-dark" placeholder="Phone Number" value="<?php if(isset($_SESSION['contact'])) echo $_SESSION['contact'];?>" required>
+                                    <input type="tel" name="contact" id="contact" class="form-control border-2 p-2 border-dark" placeholder="Phone Number" value="<?php if(isset($_SESSION['contact'])) echo $_SESSION['contact'];?>" required>
                                 </div>
 
                                 <div class="col-6">
-                                    <input type="email" name="email" id="email" class="form-control p-2 border-dark" placeholder="Email Address" value="<?php if(isset($_SESSION['email'])) echo $_SESSION['email'];?>" required>
+                                    <input type="email" name="email" id="email" class="form-control border-2 p-2 border-dark" placeholder="Email Address" value="<?php if(isset($_SESSION['email'])) echo $_SESSION['email'];?>" required>
                                     
                                     
                                 </div>
@@ -121,30 +121,16 @@
                         <div class="mt-4">
                             <div class="row">
                                 <div class="col-6 position-relative">
-    <input type="password" name="password" id="password" class="form-control p-2 border-dark" placeholder="Password" value="<?php if(isset($_SESSION['password'])) echo $_SESSION['password'];?>" required>
+    <input type="password" name="password" id="password" class="form-control border-2 p-2 border-dark" placeholder="Password" value="<?php if(isset($_SESSION['password'])) echo $_SESSION['password'];?>" required>
     <i id="togglePassword" class="fas fa-eye text-secondary position-absolute top-0 end-0 py-2 fs-5 mt-1 me-4"></i>
 
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            // Toggle password visibility
-            $("#togglePassword").click(function() {
-                var passwordField = $("#password");
-                var fieldType = passwordField.attr("type");
-
-                // Toggle between 'text' and 'password' types
-                passwordField.attr("type", fieldType === "password" ? "text" : "password");
-
-                // Toggle eye icon based on password visibility
-                $(this).toggleClass("fa-eye fa-eye-slash");
-            });
-        });
-    </script>
+   
+    <script src="/asset/js/password-display-toggle.js"></script>
 </div>
 
 
                                 <div class="col-6">
-                                    <input type="password" name="conf-password" id="conf-password" class="form-control p-2 border-dark" placeholder="Confirm Password" value="<?php if(isset($_SESSION['conf-password'])) echo $_SESSION['conf-password'];?>" required>
+                                    <input type="password" name="conf-password" id="conf-password" class="form-control border-2 p-2 border-dark" placeholder="Confirm Password" value="<?php if(isset($_SESSION['conf-password'])) echo $_SESSION['conf-password'];?>" required>
                                 </div>
                             </div>
                     </div>
@@ -156,15 +142,16 @@
                             <input type="checkbox" name="agree-terms" id="agree-terms" class="form-input-checkbox" required>
                             <label for="agree-terms" class="form-label"><a href="/local business/webpage/policy/term-condition.php" class="text-white nav-link">Term & Condition</a></label>
                         </div>
-                            <a href="#" class="nav-link">Have an Account ?</a>                    
+                            <a href="/user/businessman/login/form/login.php" class="nav-link">Have an Account ?</a>                    
                     </div>
 
                     <div class="mt-3 d-flex justify-content-center">
-                            <input type="submit" value="Register" name="submit" class="btn border text-white bg-primary bg-gradient py-3 px-5 fs-5 rounded-pill">
+                            <input type="submit" value="Register" name="submit" class="btn border text-white bg-primary bg-gradient py-3 px-5 fs-5 rounded-pill" id="register-btn">
                     </div>
                 </fieldset>
         </form>
 
-        
+        <?php include "/connect2local/component/form-footer.php"; ?>
+
 </body>
 </html>

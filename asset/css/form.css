@@ -12,10 +12,17 @@
 #register-btn{
     background: linear-gradient(rgba(255, 0, 0, 0.273),rgba(255, 0, 60, 0.495)) !important;
 }
+
+#register-btn:hover{
+    background: rgba(3, 255, 104, 0.479) !important;
+
+    transition: all .7s ease-in-out;
+}
 #error-message {
     opacity: 1;
     height: auto;
-    transition: opacity 0.5s ease, height 0.5s ease;
+    /* transition: opacity 0.7s ease, height 0.7s ease; */
+    transition: all 1s ease;
 }
 
 #error-message.hidden {
