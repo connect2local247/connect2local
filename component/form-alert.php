@@ -1,9 +1,9 @@
-<div class="my-4">
+<div class="my-4 p-2">
                     <?php
             if (isset($_SESSION['error'])) {
                 $error = $_SESSION['error'];
                 ?>
-                <div class="errorMessage col-lg-3 border rounded fs-5 position-absolute end-0 top-0 m-2 text-center d-flex flex-column align-items-center text-white" id="error-message" style="height:180px;background-color:rgb(96, 92, 92)">
+                <div class="errorMessage col-xxl-3 col-xlg-3 col-lg-4 col-md-7 col-sm-9 col-10 border rounded fs-5 position-absolute end-0 top-0 m-2 text-center d-flex flex-column align-items-center text-white" id="error-message" style="height:180px;background-color:rgb(96, 92, 92)">
                     <div class="w-100 h-100 text-center position-relative" style="background:linear-gradient(#2F2462,#001520);">
                         <div class="text-bg-dark bg-gradient p-2 rounded" id="submit-btn">
                         <i class="fa-solid fa-xmark position-absolute end-0 mt-2 me-3" id="close-mark"></i>

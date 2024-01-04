@@ -1,4 +1,4 @@
-<footer class="text-bg-dark p-3 mt-4">
+<footer class="text-bg-dark p-1 mt-4 border-top border-secondary mx-1">
             <div class="social-icon text-center">
                 <h1 class="fs-2 ">Follow Us</h1>
                 <div class="container text-center fs-3">
@@ -60,7 +60,7 @@
                 </div>
             </div>
             <hr>
-            <div class="container d-flex justify-content-center flex-column align-items-center">
+            <div class="container d-flex justify-content-center flex-column align-items-center py-3">
                 <div class="mt-2">
                       <a href="/connect2local/pages/policy/term-condition.php" target="_blank" class=" link-underline link-underline-opacity-0" style="font-size:13px;color:rgb(181, 166, 166)">Term & Condition</a><span  style="font-size:13px;color:rgb(181, 166, 166)"> | </span> <a href="/connect2local/pages/policy/privacy-policy.php" target="_blank" class="link-underline link-underline-opacity-0"  style="font-size:13px;color:rgb(181, 166, 166)">Privacy Policy</a>
                 </div>
