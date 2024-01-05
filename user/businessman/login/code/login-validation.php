@@ -3,6 +3,7 @@
 
         include "/connect2local/includes/table_query/db_connection.php";
         include "/connect2local/includes/table_query/find_encrypt_data.php";
+        require "/connect2local/includes/table_query/get_encrypted_data.php";
 
         if(isset($_SESSION['error'])){
             unset($_SESSION['error']);
@@ -12,17 +13,32 @@
             unset($_SESSION['greet-message']);
         }
         function validate_login_data($email,$password){
-            if(find_encrypted_data($email,"business_register","business_verification","B_ID","B_EMAIL","B_KEY","B_ID") && find_encrypted_data($password,"business_register","business_verification","B_ID","B_PASSWORD","B_KEY","B_ID")){
+            if(find_encrypted_data($email,"business_register","business_verification","B_ID","B_EMAIL","B_KEY","B_ID")){
+                $encryptedPasswordDataArray = get_encrypted_data($password,"business_register","business_verification","B_ID","B_PASSWORD","B_KEY","B_ID");
+                $encryptedEmailDataArray = get_encrypted_data($email,"business_register","business_verification","B_ID","B_EMAIL","B_KEY","B_ID");
                 
-                $_SESSION['greet-message'] = "Login Successfully";
-                return true;
+                $encryptedPassword = $encryptedPasswordDataArray['encryptData'];
+                $encryptedEmail = $encryptedEmailDataArray['encryptData'];
+
+                $business_id = $encryptedEmailDataArray['id'];
+
+                $login_query = "SELECT B_EMAIL,B_PASSWORD FROM business_register WHERE B_ID = '$business_id' AND B_EMAIL = '$encryptedEmail' AND B_PASSWORD = '$encryptedPassword'";
+                // die($login_query);
+                $result = mysqli_query($GLOBALS['connect'],$login_query);
+                if(mysqli_num_rows($result) == 1 ){
+                    $_SESSION['greet-message'] = "Login Successfully";
+                    return true;
+                }else{
+                    $_SESSION['error'] = "Login Failed Try Again";
+                }
+
             } else if(!find_encrypted_data($email,"business_register","business_verification","B_ID","B_EMAIL","B_KEY","B_ID")){
                 
                 $_SESSION['error'] = "Email Doesn't Exists";
 
             } else if(!find_encrypted_data($password,"business_register","business_verification","B_ID","B_PASSWORD","B_KEY","B_ID")){
                 $_SESSION['error'] = "Password Doesn't Matched";
-            }
+            } 
 
             return false;
         }

@@ -26,7 +26,7 @@
                 <legend class="my-4 fw-bold fs-2 text-center text-uppercase">Login</legend>
                 <div class="mt-3">
                     <label for="email" class="form-label ps-1">Email</label>
-                    <input type="email" name="email" class="form-control border border-2 border-dark py-2" id="email" placeholder="Email Address" value="<?php if(isset($_SESSION['email'])) echo $_SESSION['email'] ?>" required>
+                    <input type="email" name="email" class="form-control border border-2 border-dark py-2" id="email" placeholder="Email Address" required>
                 </div>
 
                 <div class="mt-3">
