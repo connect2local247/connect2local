@@ -18,7 +18,7 @@
                 <div class="register d-flex align-items-center" style="gap:7px">
                     <button class="btn px-4 py-2  text-white user-auth-btn d-xxl-block d-xl-block d-lg-block d-md-block d-sm-none d-none" onclick="location.href='/component/register-choice.php'">Sign Up</button>
                     <button class="btn px-4 py-2  text-white user-auth-btn d-xxl-block d-xl-block d-lg-block d-md-block d-sm-none d-none" onclick="location.href='/component/login-choice.php'">Login</button>
-                    <button class="btn text-white py-2 px-3 mx-4 d-xxl-block d-xl-block d-lg-block d-md-block d-sm-block d-none" id="add-new-btn"><i class="fa-solid fa-plus shadow border rounded-circle p-1 "></i> Add Business</button>
+                    <button class="btn text-white py-2 px-3 mx-4 d-xxl-block d-xl-block d-lg-block d-md-block d-sm-block d-none" onclick="location.href='/user/businessman/add_business/form/add-business-form.php'" id="add-new-btn"><i class="fa-solid fa-plus shadow border rounded-circle p-1 "></i> Add Business</button>
                     <div class="menu-bar-icon">
                                 <i class="fa-solid fa-bars fs-4 text-white d-xxl-none d-xl-block d-lg-block d-md-block d-sm-block d-block" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"></i>
                     </div>
@@ -42,7 +42,7 @@
               </div>
               <div class="card-footer border-top border-light" id="add-new-btn">
   
-                  <button class="btn text-white py-2 px-3 mx-4 " >Add Business</button>
+                  <button class="btn text-white py-2 px-3 mx-4 " onclick="location.href='/user/businessman/add_business/form/add-business-form.php'" >Add Business</button>
               </div>
           </div>
       </div>

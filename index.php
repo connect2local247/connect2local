@@ -19,7 +19,7 @@
             <div class="row">
                 <div class="col-xxl-7 col-xlg-7 col-lg-7 col-md-10 col-sm-12 col-12 d-flex align-items-center">
                     <div class="content p-3 text-white">
-                        <h1 class="h1 fw-bold">Welcome to Connect2local</h1>
+                        <h1 class="h1 fw-bold mb-3">Welcome to Connect2local</h1>
                         <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ullam sint quia, sapiente, id corrupti dolores minima nostrum eligendi nam minus voluptate ea illum nemo eos?</p>
                         <button class="btn border text-white px-5 py-3 rounded-pill" id="modal-btn">Get Started</button>
                     </div>
@@ -32,7 +32,7 @@
 
     <div class="container"> 
         <section class="our-services p-3 my-5 mx-2 ">
-                <h1 class="fs-2 fw-bold text-center text-white">Our Service</h1>
+                <h1 class="fs-2 fw-bold text-center text-white mb-5">Our Services</h1>
                 <div class="row">
                     <div class="col-lg-4 col-md-4 col-12 g-4">
                         <div class="card col-lg-11 col-md-12 col-12 category-bg">
@@ -46,7 +46,7 @@
                             </div>
                         </div>
                     </div>
-
+                    
                     <div class="col-lg-4 col-md-4 col-12 g-4">
                         <div class="card col-lg-11 col-md-12 col-12 category-bg">
                             <div class="card-content border rounded-1 shadow body-teriatory">

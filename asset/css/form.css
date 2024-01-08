@@ -1,8 +1,7 @@
 #form-body{
-    background: url('/asset/image/background/register_bg.jpg') no-repeat;
     background: linear-gradient(rgba(0, 0, 0, 0.66), rgba(29, 29, 18, 0.694)), url('/asset/image/background/register_bg.jpg') no-repeat;    
-        background-size: 100% 100%;
-        height:fit-content;
+        background-size:100% 100%;
+        /* height:fit-content; */
 }
 
 #register-form{
@@ -33,6 +32,19 @@
 #message {
     animation: fade 1.5s linear !important;
 }
+
+@media (max-height: 600px) {
+    body#form-body {
+      min-height: 100vh; /* Adjust the height for smaller screens */
+    }
+  }
+  
+  /* Media query for devices with height between 600px and 750px */
+  @media (min-height: 601px) and (max-height: 750px) {
+    body#form-body {
+      min-height: calc(100vh + 15vh); /* Increase the height by 15vh for medium-sized screens */
+    }
+  }
 
 @keyframes fade {
     0% {
