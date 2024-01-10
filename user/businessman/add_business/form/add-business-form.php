@@ -59,7 +59,7 @@
   </style>
 </head>
         <script>
-            // path = "/user/businessman/register/form/email_verification.php";
+            path = "/user/businessman/add_business/form/request_info.php";
         </script>
         <?php 
 
@@ -134,16 +134,16 @@
               </div>
 
                 <div class="mt-3">
-                      <textarea name="address" id="address" cols="30" rows="4" class="form-control border border-2 border-dark" placeholder="Enter your address here.." value="<?php if(isset($_SESSION['address']))  echo $_SESSION['address'] ?>" required></textarea>
+                      <textarea name="address" id="address" cols="30" rows="4" class="form-control border border-2 border-dark" placeholder="Enter your address here.." required><?php if(isset($_SESSION['address'])) echo htmlspecialchars($_SESSION['address']);?></textarea>
                 </div>
 
                 <div class="mt-3">
-                     <input name="operating-time" id="operating-time" class="form-control border border-dark border-2" placeholder="Opening Hours" value="<?php  if(isset($_SESSION['operating-time'])) echo $_SESSION['opeating-time']?>"></input>
+                     <input name="operating-time" id="operating-time" class="form-control border border-dark border-2" placeholder="Opening Hours" value="<?php  if(isset($_SESSION['operating-time'])) echo $_SESSION['opeating-time'];?>"></input>
                 </div>
 
                 <div class="mt-3 position-relative d-flex flex-column align-items-center" id="url-container">
                   
-                      <input type="text" name="web-url" id="web-url" class="form-control border border-dark border-2" placeholder="url: https://www.example.com" value="<?php if(isset($_SESSION['web-url'])) echo $_SESSION['web-url']?>">
+                      <input type="text" name="web-url" id="web-url" class="form-control border border-dark border-2" placeholder="url: https://www.example.com" value="<?php if(isset($_SESSION['web-url'])) echo $_SESSION['web-url'];?>">
                         <div class="row" id="input-container">
                                      
                         </div>
@@ -224,7 +224,7 @@
                 
 
                 <div class="mt-3">
-                      <textarea name="description" id="description" cols="30" rows="5" max="100" class="form-control border border-dark border-2" placeholder="Tell About Your Business" value="<?php  if(isset($_SESSION['description'])) echo $_SESSION['description']?>" required></textarea>
+                      <textarea name="description" id="description" cols="30" rows="5" class="form-control border border-dark border-2" placeholder="Tell About Your Business" required><?php if(isset($_SESSION['description'])) echo htmlspecialchars($_SESSION['description']);?></textarea>
                 </div>
 
                 <div class="mt-4 d-flex">

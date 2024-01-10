@@ -2,6 +2,7 @@
         session_start();
 
         include "/connect2local/includes/table_query/db_connection.php";
+        require "/connect2local/includes/code_generator/primary_key_generator.php";
         require "/connect2local/includes/table_query/find_encrypt_data.php";
         require "/connect2local/includes/table_query/get_encrypted_data.php";
         require "/connect2local/includes/table_query/get_primary_key.php";
@@ -25,7 +26,7 @@
             $email_pattern = '/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/';
             $phone_pattern = '/^\d{10}$/';
             $addressPattern = '/^[A-Za-z0-9\s\-,\.]{1,100}$/';
-            $descriptionPattern = '/^.{1,150}$/';
+            $descriptionPattern = '/^[\s\S]{50,150}$/';
             $urlPattern = '/^https?:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}(:[0-9]+)?(\/[^\s]*)?$/';
            
             if(preg_match($businessNamePattern,$business_name)){
@@ -53,12 +54,12 @@
             return false;
         }
 
-        function validateOptionalLinks($webUrl, $instaUrl, $fbUrl, $twitterUrl, $linkedinUrl,$operateTime) {
+        function validateOptionalLinks($webUrl, $instaUrl, $fbUrl, $xUrl, $linkedinUrl,$operateTime) {
             $urlPattern = '/^https?:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}(:[0-9]+)?(\/[^\s]*)?$/';
             $facebookPattern = '/^(https?:\/\/)?(www\.)?facebook\.com\/.*/i';
             $instagramPattern = '/^(https?:\/\/)?(www\.)?instagram\.com\/.*/i';
             $linkedinPattern = '/^(https?:\/\/)?(www\.)?linkedin\.com\/.*/i';
-            $twitterPattern = '/^(https?:\/\/)?(www\.)?twitter\.com\/.*/i';
+            $xPattern = '/^(https?:\/\/)?(www\.)?x\.com\/.*/i';
             $timePattern = '/^([A-Za-z]{3}-[A-Za-z]{3} [ap]\.m\.-[ap]\.m\.)|(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/';
 
             $isValid = true;
@@ -87,12 +88,12 @@
                 $_SESSION['fb-url'] = $fbUrl;
             }
         
-            // Validate Twitter URL
-            if (!empty($twitterUrl) && !preg_match($twitterPattern, $twitterUrl)) {
-                $_SESSION['error'] = "Invalid Twitter URL format.";
+            // Validate x URL
+            if (!empty($xUrl) && !preg_match($xPattern, $xUrl)) {
+                $_SESSION['error'] = "Invalid x URL format.";
                 $isValid = false;
             } else{
-                $_SESSION['twitter-url'] = $twitterUrl;
+                $_SESSION['x-url'] = $xUrl;
             }
         
             // Validate LinkedIn URL
@@ -125,7 +126,7 @@
         function check_exist_contact($contact,$email){
             if(find_encrypted_data($contact,"business_register","business_verification","B_ID","B_CONTACT","B_KEY","B_ID")){
                 $contact_business_id = get_primary_key($contact,"business_register","business_verification","B_ID","B_CONTACT","B_KEY","B_ID");
-                $email_business_id = get_primary_key($email,"business_register","business_verification","B_ID","B_CONTACT","B_KEY","B_ID");
+                $email_business_id = get_primary_key($email,"business_register","business_verification","B_ID","B_EMAIL","B_KEY","B_ID");
 
                 if($contact_business_id === $email_business_id){
                     return true;
@@ -137,6 +138,25 @@
                 $_SESSION['error'] = "Phone Number Doesn't Exists";
             }
             return false;
+        }
+
+        function get_name($business_id){
+            $name_query = "SELECT B_FNAME,B_LNAME FROM business_register WHERE B_ID = '$business_id'";
+
+            $result = mysqli_query($GLOBALS['connect'],$name_query);
+
+            if(mysqli_num_rows($result) > 0){
+                        $row = mysqli_fetch_assoc($result);
+
+                        $name_array = [
+                            "fname" => $row['B_FNAME'],
+                            "lname" => $row['B_LNAME']
+                        ];
+
+                        return $name_array;
+            }
+
+            return "";
         }
 
         if(isset($_POST['submit'])){
@@ -151,19 +171,39 @@
             $web_url = isset($_POST['web-url']) ? $_POST['web-url'] : '';
             $insta_url = isset($_POST['insta-link']) ? $_POST['insta-link'] : '';
             $fb_url = isset($_POST['fb-link']) ? $_POST['fb-link'] : '';
-            $twitter_url = isset($_POST['twit-link']) ? $_POST['twit-link'] : '';
+            $x_url = isset($_POST['twit-link']) ? $_POST['twit-link'] : '';
             $linkedin_url = isset($_POST['linkedin-link']) ? $_POST['linkedin-link'] : '';
 
 
             store_data($business_name,$category,$email,$phone,$address,$description);
-
+            
             if(validate_data($business_name,$email,$phone,$address,$description)){
-                    if(validateOptionalLinks($web_url,$insta_url,$fb_url,$twitter_url,$linkedin_url,$operate_time)){
-                        if(check_exist_email($email)){
-                                if(check_exist_contact($phone,$email)){
-                                    $_SESSION['message'] = "Your Request has been submitted";
-                                    // $_SESSION['add-request'] = ""
-                                    unset($_SESSION['error']);
+                if(validateOptionalLinks($web_url,$insta_url,$fb_url,$x_url,$linkedin_url,$operate_time)){
+                    if(check_exist_email($email)){
+                        if(check_exist_contact($phone,$email)){
+                            $business_code = generateUniqueBusinessCode();
+                            $business_id =get_primary_key($email,"business_register","business_verification","B_ID","B_EMAIL","B_KEY","B_ID");
+                            $name_array = get_name($business_id);
+
+                            $dataArray = get_encrypted_data($email,"business_register","business_verification","B_ID","B_EMAIL","B_KEY","B_ID");
+
+                            $key = $dataArray['key'];
+                            $fname = $name_array['fname'];
+                            $lname = $name_array['lname'];
+                            $encryptedEmail = encryptData($email,$key);
+                            $encryptedPhone = encryptData($phone,$key);
+                                    $insert_query = "INSERT INTO `business_info`(`BUSINESS_CODE`, `FNAME`, `LNAME`, `BUSINESS_NAME`, `CATEGORY`, `ADDRESS`, `OPERATE_TIME`, `PHONE`, `EMAIL`, `WEB_URL`, `IG_URL`, `FB_URL`, `X_URL`, `LINKEDIN_URL`, `DESCRIPTION`, `REQUEST_TIME`, `B_KEY`, `B_ID`)VALUES ('$business_code','$fname','$lname','$business_name','$category','$address','$operate_time','$encryptedPhone','$encryptedEmail','$web_url','$insta_url','$fb_url','$x_url','$linkedin_url','$description',NOW(),$key,'$business_id')";
+                                    
+                                    $result = mysqli_query($GLOBALS['connect'],$insert_query);
+                                    
+                                    if($result){
+                                        
+                                        $_SESSION['message'] = "Your Request has been submitted";
+                                        $_SESSION['greet-message'] = "Your Request Sent Successfully";
+                                        unset($_SESSION['error']);
+                                    } else{
+                                        $_SESSION['error'] = "Something went Wrong While Adding Your Business.";
+                                    }
                                 }
                         } else{
                             $_SESSION['error'] = "Email Doesn't Exists.";
@@ -171,6 +211,7 @@
                     }
             }
 
+            header("location:/user/businessman/add_business/form/add-business-form.php");
         }
 
 ?>

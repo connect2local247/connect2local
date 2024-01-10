@@ -67,4 +67,46 @@
         
             return $last_id;
         }
+
+        function generateUniqueBusinessCode() {
+            $prefix = "C2L"; // 3-letter prefix
+            $lastID = getLastUsedBusinessCodeFromDatabase();
+        
+            // Increment the last ID
+            $nextID = $lastID + 1;
+        
+            // Format the ID to have leading zeros (4 digits)
+            $formattedID = sprintf("%04d", $nextID);
+        
+            // Concatenate prefix and formatted ID
+            $uniqueBusinessCode = $prefix . $formattedID;
+        
+            return $uniqueBusinessCode;
+        }
+        
+        function getLastUsedBusinessCodeFromDatabase() {
+            $prefix = "C2L"; // 3-letter prefix
+            $query = "SELECT MAX(BUSINESS_CODE) FROM business_info WHERE BUSINESS_CODE LIKE '{$prefix}%'";
+        
+            $result = mysqli_query($GLOBALS['connect'], $query);
+        
+            if ($result && mysqli_num_rows($result) > 0) {
+                $row = mysqli_fetch_array($result);
+                $lastBusinessCodeWithPrefix = $row[0];
+        
+                // Check if the result is NULL (empty table)
+                if ($lastBusinessCodeWithPrefix === null) {
+                    $lastID = 0; // Set a default value for an empty table
+                } else {
+                    // Remove the prefix by extracting the last 4 digits
+                    $lastID = intval(substr($lastBusinessCodeWithPrefix, strlen($prefix)));
+                }
+            } else {
+                echo "No Such Rows Affected.<br>";
+                $lastID = 0; // Set a default value if there is an issue with the query
+            }
+        
+            return $lastID;
+        }
+        
 ?>
