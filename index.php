@@ -29,8 +29,37 @@
         </div>
         </section>
     </header>
-
     <div class="container"> 
+        <section class="about-us my-4">
+            <h1 class="text-center text-white my-5 h2 fw-bold">About Us</h1>
+
+            <div class="row my-4">
+                <div class="col-6 g-3" style="">
+                        <img src="/asset/image/webpage/home-content2.jpg" class="border rounded-2 shadow body-teriatory" style="background:linear-gradient(rgba(0, 98, 255, 0.469), rgba(0, 27, 159, 0.469))!important;height:100%;width:90%;">
+                </div>
+                <div class="col-6 g-3">
+                        <h1 class="h4 fw-bold text-white my-2">What is Connect2Local ?</h1>
+                        <p class="text-white fs-5" style="text-align:justify">Welcome to Connect2Local, your go-to hub for discovering and supporting businesses in Kadi, India. We've crafted a user-friendly business directory where local establishments can connect with residents effortlessly. With features like blogging and social media integration, businesses can effortlessly showcase what they offer. Join us in building a stronger local community where businesses thrive and customers discover the best of what Kadi has to offer. Explore, connect, and support local with Connect2Local!</p>
+                </div>
+            </div>
+
+            <div class="row my-5">
+                <div class="col-6 g-3">
+                <h1 class="h4 fw-bold text-white my-2" >What is Connect2Local ?</h1>
+                        <p class="text-white fs-5" style="text-align:justify;width:90%">Welcome to Connect2Local, your go-to hub for discovering and supporting businesses in Kadi, India. We've crafted a user-friendly business directory where local establishments can connect with residents effortlessly. With features like blogging and social media integration, businesses can effortlessly showcase what they offer. Join us in building a stronger local community where businesses thrive and customers discover the best of what Kadi has to offer. Explore, connect, and support local with Connect2Local!</p>
+                </div>
+                <div class="col-6 g-3">
+                <img src="/asset/image/webpage/home-content1.jpg" class="border rounded-2 shadow body-teriatory" style="background:linear-gradient(rgba(0, 98, 255, 0.469), rgba(0, 27, 159, 0.469))!important;height:100%;width:90%;">
+                </div>
+            </div>
+
+            <div class="d-flex mt-4">
+                <button class="m-auto btn text-white border px-5 py-3" id="modal-btn">Read More</button>
+            </div>
+        </section>
+        </div>
+        <hr class="border">
+        <div class="container">
         <section class="our-services p-3 my-5 mx-2 ">
                 <h1 class="fs-2 fw-bold text-center text-white mb-5">Our Services</h1>
                 <div class="row">
