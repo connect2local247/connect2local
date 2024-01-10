@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 29, 2023 at 03:04 PM
+-- Generation Time: Jan 10, 2024 at 02:31 AM
 -- Server version: 5.7.36
 -- PHP Version: 7.4.26
 
@@ -20,6 +20,47 @@ SET time_zone = "+00:00";
 --
 -- Database: `connect2local`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `business_info`
+--
+
+DROP TABLE IF EXISTS `business_info`;
+CREATE TABLE IF NOT EXISTS `business_info` (
+  `BUSINESS_CODE` varchar(7) NOT NULL,
+  `FNAME` varchar(15) DEFAULT NULL,
+  `LNAME` varchar(15) DEFAULT NULL,
+  `BUSINESS_NAME` varchar(50) DEFAULT NULL,
+  `CATEGORY` varchar(50) DEFAULT NULL,
+  `ADDRESS` varchar(100) DEFAULT NULL,
+  `OPERATE_TIME` varchar(50) DEFAULT NULL,
+  `PHONE` varchar(255) NOT NULL,
+  `EMAIL` varchar(255) NOT NULL,
+  `WEB_URL` varchar(255) DEFAULT NULL,
+  `IG_URL` varchar(255) DEFAULT NULL,
+  `FB_URL` varchar(255) DEFAULT NULL,
+  `X_URL` varchar(255) DEFAULT NULL,
+  `LINKEDIN_URL` varchar(255) DEFAULT NULL,
+  `DESCRIPTION` varchar(150) NOT NULL,
+  `APPROVAL_STATUS` varchar(3) NOT NULL DEFAULT 'No',
+  `REQUEST_TIME` datetime NOT NULL,
+  `APPROVAL_TIME` datetime DEFAULT NULL,
+  `B_KEY` int(6) NOT NULL,
+  `B_ID` varchar(10) NOT NULL,
+  PRIMARY KEY (`BUSINESS_CODE`),
+  UNIQUE KEY `PHONE` (`PHONE`,`EMAIL`),
+  KEY `business_info_fk` (`B_KEY`,`B_ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `business_info`
+--
+
+INSERT INTO `business_info` (`BUSINESS_CODE`, `FNAME`, `LNAME`, `BUSINESS_NAME`, `CATEGORY`, `ADDRESS`, `OPERATE_TIME`, `PHONE`, `EMAIL`, `WEB_URL`, `IG_URL`, `FB_URL`, `X_URL`, `LINKEDIN_URL`, `DESCRIPTION`, `APPROVAL_STATUS`, `REQUEST_TIME`, `APPROVAL_TIME`, `B_KEY`, `B_ID`) VALUES
+('C2L0001', 'Bhavesh', 'Parmar', 'LAB Solutions', 'Automobile', 'Dhaval Plaza', '', '9723884857', 'mycoding1724@gmail.com', '', '', '', '', '', 'Lab Solutions, a prominent name in the automobile industry, stands as a beacon of innovation and excellence.', 'No', '2024-01-09 16:45:39', NULL, 315276, 'C2LB000001'),
+('C2L0002', 'Bhavesh', 'Parmar', 'LAB Solutions', 'Automobile', 'Dhaval Plaza', '', 'V+EHW14u4mF3m2bRSC0jgVVkQzMzVzROWG1yT0lWYXFGT3VTWEE9PQ==', 'SFmQewBpN04OnFTmQUoHdmRsbzBTU1JoS2doVzhrT1lmQ2VDaWRiZEFGUGlVTHpGQkFZdDYyK2F0N1U9', '', '', '', '', '', 'Lab Solutions, a prominent name in the automobile industry, stands as a beacon of innovation and excellence.', 'No', '2024-01-09 16:49:25', NULL, 315276, 'C2LB000001');
 
 -- --------------------------------------------------------
 
@@ -52,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `business_register` (
 --
 
 INSERT INTO `business_register` (`B_ID`, `B_FNAME`, `B_LNAME`, `B_BIRTH_DATE`, `B_AGE`, `B_GENDER`, `B_ADDRESS`, `B_CATEGORY`, `B_CONTACT`, `B_EMAIL`, `B_PASSWORD`, `B_TERM_AGREE`, `JOIN_DATE`) VALUES
-('C2LB000001', 'Bhavesh', 'Parmar', '2004-02-17', 19, 'Male', 'Meldikrupa Society', 'Advertising', '/lnZab/UayO8uJ1UFkcdB21mT2hVc01qUHBRTXVXUCtScWticUE9PQ==', '5p9g0a9hembh8W4AHrg2ojNBS3YySDg5SWtQU21hSE1qSTFLZW11aEM0REdlWFhialMzdkdHTEpLQjA9', 'oVjp23QPn6s68p/leDPzWmVjTkpDVjBsaE5jK0UxUWx1S2M5dkE9PQ==', 'Yes', '2023-12-29 17:31:02');
+('C2LB000001', 'Bhavesh', 'Parmar', '2004-02-17', 19, 'Male', 'Dhaval Plaza,Kadi-382715,Gujarat', 'Automobile', 'xgcyFrdKyXHAtEY0cwuqvFF6Qlo0YW1GdEJUWk5CYnJLbFV0dGc9PQ==', 'aL9+zAVwkqxPxH5o/h4vuDFQMGpWb1RQZFBDQ1ZRNWZEQTJWOFc0WFMwcHFOUFhPTllTT3d5M3k5Tms9', '/ZZ10n5iKO+5QMz1n41t4kxod0d3SVA4OTYwMEFVZWNXZTgxalE9PQ==', 'Yes', '2024-01-09 16:37:53');
 
 -- --------------------------------------------------------
 
@@ -76,7 +117,7 @@ CREATE TABLE IF NOT EXISTS `business_verification` (
 --
 
 INSERT INTO `business_verification` (`B_KEY`, `B_EMAIL_VERIFIED`, `B_VERIFICATION_CODE`, `B_VERIFICATION_TOKEN`, `B_ID`) VALUES
-(302952, 'No', '0', NULL, 'C2LB000001');
+(315276, 'Yes', '0', NULL, 'C2LB000001');
 
 -- --------------------------------------------------------
 
@@ -107,8 +148,9 @@ CREATE TABLE IF NOT EXISTS `customer_register` (
 --
 
 INSERT INTO `customer_register` (`C_ID`, `C_FNAME`, `C_LNAME`, `C_BIRTH_DATE`, `C_AGE`, `C_GENDER`, `C_CONTACT`, `C_EMAIL`, `C_PASSWORD`, `C_TERM_AGREE`, `JOIN_DATE`) VALUES
-('C2L0000002', 'Bhavesh', 'Parmar', '2004-02-17', 19, 'Male', 'bg5kRqpaX8EI3GVVBER2NmhrUGI1Uk9OTXp4TDYvQUIzRUwxeEE9PQ==', 'iUQoOlkm50NmzXSd45HNMzFRNmM5b2hvRlNUY2xJYUp1VTNkZkpOdGRGY2p6RG0wWktWWXcxUlBaNGM9', 'mkbvFrHmpz20rrDJZ198wkcxZ2s2SXc3cER4QW5GVkNWQnNKdEE9PQ==', 'Yes', '2023-12-29 17:28:40'),
-('C2L0000001', 'Bhavesh', 'Parmar', '2004-02-17', 19, 'Male', 'sxEFdDeq5Ay/C/YAkZbIGVFUdW5vbjNlU0VLaGdCajlUUGhmNUE9PQ==', 'UsrfCreWef8ybuPXRLX5wmZvMXdyb1BIdXZsUzdKdkdsZUxqRGpoTWJoRUdhdzhwUWVBd2o3Y1dIZFE9', 'nV9AeKcbdSnPtAl1HkSqtCtkdGF0cDVqV1VqQU11Y3V0SDhwSHc9PQ==', 'Yes', '2023-12-25 13:42:50');
+('C2L0000001', 'Bhavesh', 'Parmar', '2004-02-17', 19, 'Male', '29aojGrSeFXJom+kI/Isw2Z5cEFzQVIyVGovZkdIbVp1T1hWTXc9PQ==', 'G4LXf7yiyxut+/rD4REUImNFNDl4NUQyQ3lqMFB6R0VrTGFvemdPKzFpRDVnUE8ySUNUTVdRSnpocFE9', 'ef7p0nrZhq9ybhfXBa0AJXZ1OSt0RmsxNDFXOUoyRjd4STdZS2c9PQ==', 'Yes', '2024-01-05 10:28:50'),
+('C2L0000002', 'Bhavesh', 'Parmar', '2004-02-17', 19, 'Male', 'pLLsDXPS2YRYUDj2lGad00xDVktla1pWaVV4Syt2cFpWRmkxaUE9PQ==', 'Ry/nKVsC9QTcwP8xyljhH3hXWXVJYlE1YXVxbDNLVGRxNXBVWE9EdGhHV1dNejNNbmFpdnZ2T3lJclE9', '+X9XbuFTzIoxasGVwNGqHkRCL0xkUDBpREdaZU1xNjk3c1VyNnc9PQ==', 'Yes', '2024-01-05 11:18:23'),
+('C2L0000003', 'Bhavesh', 'Parmar', '2004-02-17', 19, 'Male', 'tgEvjDtQ9GPnfu3A1RfwoE1xVUtlQjVnbXc1c0xGTS9CbDFxQnc9PQ==', '+ZVvH+PdOhysYkhqW3WbFFV3UERPZitZRjhnOFhuWDlKMzhlcWl2ZVFxeHNQUzhWNUpyNXRyalduY0k9', 'kjPM7fTS9zt179bQFmEQPXJPTjZPM29BNHhZNkZRNEx4THhOR2c9PQ==', 'Yes', '2024-01-05 11:51:48');
 
 -- --------------------------------------------------------
 
@@ -132,8 +174,9 @@ CREATE TABLE IF NOT EXISTS `customer_verification` (
 --
 
 INSERT INTO `customer_verification` (`C_KEY`, `C_EMAIL_VERIFIED`, `C_VERIFY_TOKEN`, `C_VERIFICATION_CODE`, `C_ID`) VALUES
-(144309, NULL, NULL, 0, 'C2L0000002'),
-(170644, NULL, NULL, 0, 'C2L0000001');
+(994476, 'Yes', '$2y$10$YDXzBO73ENxWaSxw80NrA.n0BmT5Y.s5veFBA530eoylA/I1bhqNW', 0, 'C2L0000001'),
+(374538, 'Yes', '$2y$10$4ifdAJlU3Bffk51hvTO.z.w9H5onFOu3yim.Egj9x0S5czgT9Mz3i', 0, 'C2L0000002'),
+(520437, 'Yes', '$2y$10$Sx4W8eQbaP5xIRg9nheiFu1GFqKBU18K60mKIjbutPOQFNWEcKTVK', 0, 'C2L0000003');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
