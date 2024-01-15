@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 10, 2024 at 02:31 AM
+-- Generation Time: Jan 15, 2024 at 02:17 PM
 -- Server version: 5.7.36
 -- PHP Version: 7.4.26
 
@@ -20,6 +20,29 @@ SET time_zone = "+00:00";
 --
 -- Database: `connect2local`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin_login`
+--
+
+DROP TABLE IF EXISTS `admin_login`;
+CREATE TABLE IF NOT EXISTS `admin_login` (
+  `ID` int(11) NOT NULL,
+  `NAME` varchar(32) NOT NULL,
+  `EMAIL` varchar(255) NOT NULL,
+  `PASSWORD` varchar(255) NOT NULL,
+  `SECURITY_KEY` int(6) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `admin_login`
+--
+
+INSERT INTO `admin_login` (`ID`, `NAME`, `EMAIL`, `PASSWORD`, `SECURITY_KEY`) VALUES
+(1, 'Bhavesh Parmar', 'TUbAvubKEpiWaUOC0lBql0FzRU1jT2QyR29tanpiS0tlZnhTbGRYZXlmMzg0bEd4MVFQZFR4cjVnZlE9', '2K70KoaOEuBrUln6fq5samZtMXlBVEN4bWxVQTZIWENmalJSZ2c9PQ==', 737968);
 
 -- --------------------------------------------------------
 
@@ -59,8 +82,7 @@ CREATE TABLE IF NOT EXISTS `business_info` (
 --
 
 INSERT INTO `business_info` (`BUSINESS_CODE`, `FNAME`, `LNAME`, `BUSINESS_NAME`, `CATEGORY`, `ADDRESS`, `OPERATE_TIME`, `PHONE`, `EMAIL`, `WEB_URL`, `IG_URL`, `FB_URL`, `X_URL`, `LINKEDIN_URL`, `DESCRIPTION`, `APPROVAL_STATUS`, `REQUEST_TIME`, `APPROVAL_TIME`, `B_KEY`, `B_ID`) VALUES
-('C2L0001', 'Bhavesh', 'Parmar', 'LAB Solutions', 'Automobile', 'Dhaval Plaza', '', '9723884857', 'mycoding1724@gmail.com', '', '', '', '', '', 'Lab Solutions, a prominent name in the automobile industry, stands as a beacon of innovation and excellence.', 'No', '2024-01-09 16:45:39', NULL, 315276, 'C2LB000001'),
-('C2L0002', 'Bhavesh', 'Parmar', 'LAB Solutions', 'Automobile', 'Dhaval Plaza', '', 'V+EHW14u4mF3m2bRSC0jgVVkQzMzVzROWG1yT0lWYXFGT3VTWEE9PQ==', 'SFmQewBpN04OnFTmQUoHdmRsbzBTU1JoS2doVzhrT1lmQ2VDaWRiZEFGUGlVTHpGQkFZdDYyK2F0N1U9', '', '', '', '', '', 'Lab Solutions, a prominent name in the automobile industry, stands as a beacon of innovation and excellence.', 'No', '2024-01-09 16:49:25', NULL, 315276, 'C2LB000001');
+('C2L0001', 'Bhavesh', 'Parmar', 'LAB Solutions', 'Environment', 'Meldikrupa Society', '', 'JIktscCWYTz/K8oRS9qoNlhtSDYvZFpRWHllcmoyRmRBd2UzQVE9PQ==', '06F1Nra1iiLVwCpFPmunomFYMUlCT3lQQ3I4c3VwUEREWG5wL0Z5aUFMTko5N2xBMmdhcG1FMmN6TXM9', '', '', '', '', '', 'Welcome to Connect2Local, your go-to hub for discovering and supporting businesses in Kadi, India. ', 'No', '2024-01-12 09:18:22', NULL, 315276, 'C2LB000001');
 
 -- --------------------------------------------------------
 
