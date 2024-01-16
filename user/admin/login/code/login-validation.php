@@ -4,6 +4,7 @@
         include "/connect2local/includes/table_query/db_connection.php";
         include "/connect2local/includes/security_function/secure_function.php";
         require "/connect2local/includes/code_generator/code_generator.php";
+        include "/connect2local/includes/table_query/update_data.php";
         include "/connect2local/includes/email_template/email_sending.php";
 
         if(isset($_SESSION['error'])){
@@ -97,15 +98,21 @@
                         if($email == $decryptDbEmail){
                             if($password == $decryptDbPassword){
 
-                                $key = generateSecurityKey();
-
-                                $encryptDbEmail = encryptData($db_email,$key); 
-                                $encryptDbPassword = encryptData($db_password,$key);
+                                updateDataAdmin();
                                 
-                                $update_query = "UPDATE admin_login SET EMAIL = '$encryptDbEmail',PASSWORD = '$encryptDbPassword' SECURITY_KEY = $key WHERE ID = $id";
-                                $result = mysqli_query($GLOBALS['connect'],$update_query);
+                                $query = "SELECT SECURITY_KEY FROM admin_login WHERE ID = 1";
+                                $result = mysqli_query($GLOBALS['connect'],$query);
+                                
+                                if(mysqli_num_rows($result) > 0 ){
 
-                                send_security_code($email,$key);
+                                    $row = mysqli_fetch_assoc($result);
+
+                                    $key = $row['SECURITY_KEY'];
+
+                                    $_SESSION['greet-message'] = "Login Detail Matched.";
+                                    unset($_SESSION['error']);
+                                    send_security_code($email,$key);
+                                }
                                 return true;
                             } else{
                                 $_SESSION['error'] = "Password Doesn't Matched";

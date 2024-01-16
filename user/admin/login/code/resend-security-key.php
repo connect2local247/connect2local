@@ -4,6 +4,7 @@
             include "/connect2local/includes/table_query/db_connection.php";
             require "/connect2local/includes/code_generator/code_generator.php";
             require "/connect2local/includes/security_function/secure_function.php";
+            include "/connect2local/includes/email_template/email_sending.php";
 
             if(isset($_SESSION['error'])){
                 unset($_SESSION['error']);
@@ -52,13 +53,13 @@ send_mail("",$email,$subject,$template);
 
                             $key = $row['SECURITY_KEY'];
                             $db_email = decryptData($row['EMAIL'],$row['SECURITY_KEY']);
-                            $db_password = decryptData($row['PASSWORD'],$row['SEUCRITY_KEY']);
+                            $db_password = decryptData($row['PASSWORD'],$row['SECURITY_KEY']);
 
                             $encryptDbEmail = encryptData($db_email,$new_security_key); 
                             $encryptDbPassword = encryptData($db_password,$new_security_key); 
 
-                            $update_query = "UPDATE admin_login SET EMAIL = '$encryptDbEmail', PASSWORD = '$encryptDbPassword', SECURTIY_KEY = $new_security_key WHERE ID = 1";
-
+                            $update_query = "UPDATE admin_login SET EMAIL = '$encryptDbEmail', PASSWORD = '$encryptDbPassword', SECURITY_KEY = '$new_security_key' WHERE ID = 1";
+                            // die($update_query);
                             $result = mysqli_query($GLOBALS['connect'],$update_query);
 
                             if($result){
@@ -71,11 +72,10 @@ send_mail("",$email,$subject,$template);
         }
 
         if(isset($_GET['resend_key'])){
-                if($_GET['resend_key'] == 1){
-                    $new_security_key = getNewSecurityKeyFromDatabase();
-                    if(isset($_SESSION['code_attempts'])){
-                        if($_SESSION['code_attempts'] <= 5){
-                           
+            if($_GET['resend_key'] == 1){
+                if(isset($_SESSION['code_attempts'])){
+                    if($_SESSION['code_attempts'] <= 5){
+                            getNewSecurityKeyFromDatabase();
                         } else{
                             $_SESSION['error'] = "Too Many attempts. Please try again after 24 hours";
                         }

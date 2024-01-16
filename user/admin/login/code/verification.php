@@ -2,6 +2,10 @@
 session_start();
 
 include "/connect2local/includes/table_query/db_connection.php";
+require "/connect2local/includes/code_generator/code_generator.php";
+require "/connect2local/includes/security_function/secure_function.php";
+include "/connect2local/includes/table_query/update_data.php";
+
 
 if (isset($_SESSION['error'])) {
     unset($_SESSION['error']);
@@ -51,6 +55,7 @@ if (isset($_POST['submit'])) {
 
     if ($user_code == $security_key) {
         $_SESSION['greet-message'] = "Security Key Has been Matched.";
+        updateDataAdmin();
         unset($_SESSION['error']);
         if (isset($_SESSION['code_attempts'])) {
             unset($_SESSION['code_attempts']);

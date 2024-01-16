@@ -49,12 +49,8 @@
             <div class="mt-2">
                 <input type="text" name="user-code" class="form-control py-2 border border-2 border-dark" placeholder="Enter Security Key" id="otp" value="<?php if(isset($_SESSION['user-code'])) echo $_SESSION['user-code'];?>" <?php if(isset($_SESSION['code_timestamp']) && (time() - $_SESSION['code_timestamp'] > $expirationTime)) echo 'disabled'; ?> required>
             </div>
-            <div class="mt-2" id="expirationMessage" <?php if(!(isset($_SESSION['code_timestamp']) && (time() - $_SESSION['code_timestamp'] <= $expirationTime))) echo 'style="display:none;"'; ?>>
-                Code Expires in <span id="countdownMessage"></span> seconds
-            </div>
             <div class="mt-2 d-flex justify-content-end px-2">
                 <a href="/user/admin/login/code/resend-security-key.php?resend_key=1" class="nav-link text-white" id="resendSecurityKey" <?php if(isset($_SESSION['code_timestamp']) && (time() - $_SESSION['code_timestamp'] <= $expirationTime)) echo 'style="display:none;"'; ?>>Resend Code</a>
-                <script src="/asset/js/timeout.js"></script>
             </div>
             <div class="mt-3 d-flex justify-content-center">
                 <input type="submit" name="submit" value="Submit" id="register-btn" class="btn text-white py-3 px-5 border rounded-pill" style="width:150px">
@@ -62,54 +58,5 @@
         </fieldset>
     </form>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var resendSecurityKey = document.getElementById("resendSecurityKey");
-            var expirationMessage = document.getElementById("expirationMessage");
-
-            // Function to show the Resend Code link and hide the expiration message
-            function showResendLink() {
-                resendSecurityKey.style.display = "inline";
-                expirationMessage.style.display = "none";
-            }
-
-            // Function to hide the Resend Code link and show the expiration message
-            function showExpirationMessage() {
-                resendSecurityKey.style.display = "none";
-                expirationMessage.style.display = "block";
-            }
-
-            // Example countdown logic (you can modify it according to your needs)
-            var countdown = <?php echo $expirationTime; ?>;
-            var countdownInterval;
-
-            function updateCountdown() {
-                document.getElementById("countdownMessage").innerText = countdown;
-            }
-
-            function startCountdown() {
-                countdownInterval = setInterval(function () {
-                    updateCountdown();
-                    countdown--;
-
-                    if (countdown <= 0) {
-                        clearInterval(countdownInterval);
-                        showResendLink();
-                    }
-                }, 1000);
-            }
-
-            // Check if the code has expired
-            <?php
-                if (isset($_SESSION['code_timestamp']) && (time() - $_SESSION['code_timestamp'] <= $expirationTime)) {
-            ?>
-                    startCountdown();
-            <?php
-                } else {
-                    showResendLink();
-                }
-            ?>
-        });
-    </script>
 </body>
 </html>
