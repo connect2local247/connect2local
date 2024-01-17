@@ -175,3 +175,9 @@ li.icon > a > i.link-icon:hover{
         overflow-y: scroll !important;
     }
 } 
+
+/* Blog Design Css */
+
+.blog-interaction-icons:hover{
+    color:royalblue;
+}
