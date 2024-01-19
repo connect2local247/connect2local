@@ -51,10 +51,27 @@
                         <div class="holded-text text-secondary">
                             Description
                         </div>
-                        <p class="blog-description-content mt-1" style="text-align:justify">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum voluptate ratione nam accusamus id vel tempora quisquam dolorem eius consequatur. 
+                        <p class="blog-description-content mt-1" style="text-align:justify" id="blog-description">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Lab
                         </p>
-                        <button class="btn btn-primary">Read More</button>
+                        <button class="btn" id="read-more-btn">Read More</button>
+                        <script>
+                            blogDescription = document.getElementById("blog-description")
+                            readMoreBtn = document.getElementById("read-more-btn")
+                            paragraphText = blogDescription.textContent
+
+                            paragraphLength = paragraphText.length
+
+                            readMoreBtn.style = "display:none";
+
+                            if(paragraphLength > 150){
+                                var splitIndex = 150;
+                                var secondPart = paragraphText.substring(splitIndex);
+                                readMoreBtn.style = "display:block";
+                            }
+                            console.log(paragraphLength)
+
+                        </script>
 
                         <div class="blog-detail">
                             <i class="text-secondary" style="font-size:14px">Posted on January 17, 2023 by Bhavesh Parmar </i>
