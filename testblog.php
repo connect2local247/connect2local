@@ -28,17 +28,18 @@
                         </div>
                         <div class="interaction-option  d-flex justify-content-between px-1  py-2 rounded">
                             <div class="interaction-icon">
-                                <ul class="nav">
+                                <ul class="nav" style="gap:10px">
                                     <li class="item d-flex flex-column align-items-center" style="font-size:13px">
                                         <i class="fa-regular fa-heart fs-5 mx-2 blog-interaction-icons"></i>
-                                        <span class="interaction-count">100</span>
+                                        <span class="interaction-count">Like</span>
                                     </li>
                                     <li class="item d-flex flex-column align-items-center" style="font-size:13px">
                                         <i class="fa-regular fa-comment fs-5 mx-2 blog-interaction-icons"></i>
-                                        <span class="interaction-count">10</span>
+                                        <span class="interaction-count">Comment</span>
                                     </li>
                                     <li class="item d-flex flex-column align-items-center" style="font-size:13px">
                                         <i class="fa-regular fa-share-from-square fs-5 mx-2 blog-interaction-icons"></i>
+                                        <span class="interaction-count">Share</span>
                                     </li>
                                 </ul>
                             </div>
@@ -51,27 +52,37 @@
                         <div class="holded-text text-secondary">
                             Description
                         </div>
-                        <p class="blog-description-content mt-1" style="text-align:justify" id="blog-description">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Lab
-                        </p>
-                        <button class="btn" id="read-more-btn">Read More</button>
-                        <script>
-                            blogDescription = document.getElementById("blog-description")
-                            readMoreBtn = document.getElementById("read-more-btn")
-                            paragraphText = blogDescription.textContent
+                        <p class="blog-description-content mt-1" style="text-align: justify" id="blog-description">
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi hic magnam sequi ex iusto quae aperiam quo odio fugiat! Labore Lorem ipsum dolor sit. Lorem ipsum dolor, sit amet consectetur adipisicing. <button class="border-0 text-bg-light mx-1"id="read-more-btn" style="display:none"><u>Read More</u></button>
+</p>
 
-                            paragraphLength = paragraphText.length
+<script>
+    blogDescription = document.getElementById('blog-description')
+    readMoreBtn = document.getElementById('read-more-btn')
 
-                            readMoreBtn.style = "display:none";
+    paragraphText = blogDescription.textContent;
+    buttonText = readMoreBtn.textContent;
+    buttonLength = buttonText.length;
 
-                            if(paragraphLength > 150){
-                                var splitIndex = 150;
-                                var secondPart = paragraphText.substring(splitIndex);
-                                readMoreBtn.style = "display:block";
-                            }
-                            console.log(paragraphLength)
+    maxLength = paragraphText.length - buttonLength;
+    console.log(buttonText)
+    console.log(maxLength)
+    console.log();
 
-                        </script>
+    
+    if(maxLength < 150){
+            readMoreBtn.style = "display:none";
+    } else{
+        var shortText = paragraphText.substring(0,maxLength - 2);
+        var remainingText = paragraphText.substring();
+
+        console.log(shortText);
+        // console.log(shortText);
+        readMoreBtn.style="display:inline";
+    }
+</script>
+
+
 
                         <div class="blog-detail">
                             <i class="text-secondary" style="font-size:14px">Posted on January 17, 2023 by Bhavesh Parmar </i>
