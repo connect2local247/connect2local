@@ -28,8 +28,8 @@
 
             
 
-            $business_generated_id = generateUniqueID("C2LB");
-
+            $business_generated_id = generateUniqueID("business_register","C2LB","B_ID");
+            $business_user_id = generateUniqueID("business_profile","C2LBU","USER_ID");
             $business_id = $business_generated_id;
 
             $register_insert_query = "INSERT INTO business_register (B_ID, B_FNAME, B_LNAME, B_BIRTH_DATE, B_AGE, B_GENDER,B_ADDRESS,B_CATEGORY, B_CONTACT, B_EMAIL, B_PASSWORD, B_TERM_AGREE, JOIN_DATE) 
@@ -38,6 +38,9 @@
 
             $verification_insert_query = "INSERT INTO business_verification (B_KEY,B_ID) VALUES ('$encryption_key','$business_id')";
 
+            $business_profile_insert_query = "INSERT INTO business_profile(USER_ID,FNAME,LNAME,BIRTH_DATE,GENDER,ADDRESS,CATEGORY,UPDATE_TIME,B_ID) VALUES ('$business_user_id','$fname', '$lname', '$birth_date', '$gender','$address','$category',NOW(),'$business_id')";
+
+            $business_profile_result = mysqli_query($GLOBALS['connect'],$business_profile_insert_query);
             $register_query_result = mysqli_query($GLOBALS['connect'],$register_insert_query);
             $verification_query_result = mysqli_query($GLOBALS['connect'],$verification_insert_query);
 

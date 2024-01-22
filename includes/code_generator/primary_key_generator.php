@@ -13,36 +13,29 @@
             return $key;
         }
         
-        function generateUniqueID($prefix) {
-
+        function generateUniqueID($table_name, $prefix,$primaryKeyColumn) {
             // Get the last used ID from the database or initialize to 0
-            $lastID = getLastUsedIDFromDatabase($prefix);
-            // $lastID = 0000001;
+            $lastID = getLastUsedIDFromDatabase($table_name,$primaryKeyColumn, $prefix);
+        
             // Increment the last ID
             $nextID = $lastID + 1;
-
-            if(strlen($prefix) > 3){
-                // Format the ID to have leading zeros (6 digits)
-                $formattedID = sprintf("%06d", $nextID);
-            } else{
-                // Format the ID to have leading zeros (7 digits)
-                $formattedID = sprintf("%07d", $nextID);
-            }
-
-            // Concatenate prefix and formatted ID
-            $uniqueID = $prefix . $formattedID;
-
-            return $uniqueID;
+        
+            // Determine the number of leading zeros based on the length of the prefix and total length constraint
+            $numberOfZeros = max(0, 10 - strlen($prefix) - strlen($nextID));
+        
+            // Check if the total length exceeds 10 characters, adjust the numeric part accordingly
+            $numericPart = substr($nextID, -$numberOfZeros);
+            
+            // Format the ID with the prefix and leading zeros
+            $formattedID = $prefix . str_repeat('0', $numberOfZeros) . $numericPart;
+        
+            return $formattedID;
         }
-
-        function getLastUsedIDFromDatabase($prefix) {
-            if(strlen($prefix) > 3){
-                $query = "SELECT MAX(B_ID) FROM business_register WHERE 1";
-                $result = mysqli_query($GLOBALS['connect'], $query);
-            } else{
-                $query = "SELECT MAX(C_ID) FROM customer_register WHERE 1";
-                $result = mysqli_query($GLOBALS['connect'], $query);
-            }
+        
+        
+        function getLastUsedIDFromDatabase($table_name, $primaryKeyColumn, $prefix) {
+            $query = "SELECT MAX($primaryKeyColumn) FROM $table_name";
+            $result = mysqli_query($GLOBALS['connect'], $query);
         
             if ($result && mysqli_num_rows($result) > 0) {
                 $row = mysqli_fetch_array($result);
@@ -52,21 +45,18 @@
                 if ($last_id_with_prefix === null) {
                     $last_id = 0; // Set a default value for an empty table
                 } else {
-                    if(strlen($prefix) > 3){
-                        // Remove the prefix by extracting the last 6 digits
-                        $last_id = substr($last_id_with_prefix, 4);
-                    } else{
-                        // Remove the prefix by extracting the last 7 digits
-                        $last_id = substr($last_id_with_prefix, 3);
-                    }
+                    // Remove the prefix by extracting the appropriate number of digits
+                    $prefix_length = strlen($prefix);
+                    $last_id = substr($last_id_with_prefix, $prefix_length);
                 }
             } else {
-                echo "No Such Rows Affected.<br>";
+                echo "Error in query: " . mysqli_error($GLOBALS['connect']) . "<br>";
                 $last_id = 0; // Set a default value if there is an issue with the query
             }
         
             return $last_id;
         }
+        
 
         function generateUniqueBusinessCode() {
             $prefix = "C2L"; // 3-letter prefix

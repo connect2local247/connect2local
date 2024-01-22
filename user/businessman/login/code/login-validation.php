@@ -25,7 +25,8 @@
                 $login_query = "SELECT B_EMAIL,B_PASSWORD FROM business_register WHERE B_ID = '$business_id' AND B_EMAIL = '$encryptedEmail' AND B_PASSWORD = '$encryptedPassword'";
                 // die($login_query);
                 $result = mysqli_query($GLOBALS['connect'],$login_query);
-                if(mysqli_num_rows($result) == 1 ){
+                if(mysqli_num_rows($result) > 0 ){
+                    $_SESSION['business_id'] = $business_id;
                     $_SESSION['greet-message'] = "Login Successfully";
                     return true;
                 }else{
@@ -53,7 +54,6 @@
 
                 $_SESSION['email'] = $email;
                 $_SESSION['password'] = $password;
-                
                 $_SESSION['login-status'] = true;
             }
 

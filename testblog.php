@@ -33,10 +33,15 @@
                                         <i class="fa-regular fa-heart fs-5 mx-2 blog-interaction-icons"></i>
                                         <span class="interaction-count">Like</span>
                                     </li>
-                                    <li class="item d-flex flex-column align-items-center" style="font-size:13px">
-                                        <i class="fa-regular fa-comment fs-5 mx-2 blog-interaction-icons"></i>
+                                    <li class="item d-flex flex-column align-items-center" style="font-size:13px" >
+                                        <i class="fa-regular fa-comment fs-5 mx-2 blog-interaction-icons" 
+                                        data-bs-toggle="collapse" 
+                                        data-bs-target="#comment-section" 
+                                        aria-expanded="false" 
+                                        aria-controls="comment-section"></i>
                                         <span class="interaction-count">Comment</span>
                                     </li>
+
                                     <li class="item d-flex flex-column align-items-center" style="font-size:13px">
                                         <i class="fa-regular fa-share-from-square fs-5 mx-2 blog-interaction-icons"></i>
                                         <span class="interaction-count">Share</span>
@@ -47,6 +52,18 @@
                                     <i class="fa-solid fa-link fs-5 blog-interaction-icons"></i>
                             </div>
                         </div>
+
+                        <div class="comment-section collapse border-secondary border-top p-2" id="comment-section">
+                            <span class="h5">Comments</span>
+    <form method="post" class="mt-3">
+        <div class="mb-3">
+            <textarea class="form-control" name="comment" placeholder="Add a comment..." rows="3" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Post</button>
+    </form>
+    <!-- Existing comments display logic here -->
+</div>
+
                 </div>
                 <div class="card-footer">
                         <div class="holded-text text-secondary">
