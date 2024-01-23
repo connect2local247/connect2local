@@ -16,7 +16,7 @@
                             <img src="/asset/image/user/customer.png" alt="user image" style="height:50px;width:50px" class="rounded-circle bg-light">
                             <span class="user-name fw-bold">bhavesh_1724</span>
                         </div>
-                        <i class="fa-solid fa-ellipsis-vertical" data-bs-target="#blogDetailModal" data-bs-toggle="modal"></i>
+                        <i class="fa-solid fa-ellipsis-vertical px-3 py-2" data-bs-target="#blogDetailModal" data-bs-toggle="modal"></i>
                         <?php include "./component/blog-modal.php"; ?>
                 </div>
                 <div class="card-body d-flex flex-column justify-content-center">
