@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 15, 2024 at 02:17 PM
+-- Generation Time: Jan 25, 2024 at 04:40 AM
 -- Server version: 5.7.36
 -- PHP Version: 7.4.26
 
@@ -42,7 +42,66 @@ CREATE TABLE IF NOT EXISTS `admin_login` (
 --
 
 INSERT INTO `admin_login` (`ID`, `NAME`, `EMAIL`, `PASSWORD`, `SECURITY_KEY`) VALUES
-(1, 'Bhavesh Parmar', 'TUbAvubKEpiWaUOC0lBql0FzRU1jT2QyR29tanpiS0tlZnhTbGRYZXlmMzg0bEd4MVFQZFR4cjVnZlE9', '2K70KoaOEuBrUln6fq5samZtMXlBVEN4bWxVQTZIWENmalJSZ2c9PQ==', 737968);
+(1, 'Bhavesh Parmar', 'mDOFeIyoW8u1viPXYZDZ0GxKM05wM3BzNnJaWE5KNTk4d3RzQjNPNFcxNnpGMkl6dy9rZnBUTjJpajg9', 'J55D7DOVd9gtdFmfxZdbM2pYNEZ4WjNIYkJIWGR6aW81cktjS3c9PQ==', 171392);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `blog_data`
+--
+
+DROP TABLE IF EXISTS `blog_data`;
+CREATE TABLE IF NOT EXISTS `blog_data` (
+  `BLG_ID` varchar(15) NOT NULL,
+  `BLG_TITLE` varchar(50) DEFAULT NULL,
+  `BLG_USERNAME` varchar(20) DEFAULT NULL,
+  `BLG_USER_IMG_URL` varchar(255) DEFAULT NULL,
+  `BLG_CONTENT_URL` varchar(255) DEFAULT NULL,
+  `BLG_DESCRIPT` text,
+  `BLG_AUTHOR_NAME` varchar(32) DEFAULT NULL,
+  `BLG_CONTENT_TYPE` varchar(5) DEFAULT NULL,
+  `BLG_CATEGORY` varchar(50) DEFAULT NULL,
+  `BLG_LIKE_COUNT` varchar(4) DEFAULT NULL,
+  `BLG_COMMENT_COUNT` varchar(4) DEFAULT NULL,
+  `BLG_SHARE_LINK` varchar(255) DEFAULT NULL,
+  `BLG_RELEASE_DATE` datetime DEFAULT NULL,
+  `BLG_UPDATE_TIME` datetime DEFAULT NULL,
+  `B_ID` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`BLG_ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `blog_like_data`
+--
+
+DROP TABLE IF EXISTS `blog_like_data`;
+CREATE TABLE IF NOT EXISTS `blog_like_data` (
+  `BLGR_ID` varchar(10) NOT NULL,
+  `BLGR_USERNAME` varchar(20) DEFAULT NULL,
+  `LIKE_USERNAME` varchar(20) DEFAULT NULL,
+  `LIKE_IMG_URL` varchar(255) DEFAULT NULL,
+  `LIKE_PROFILE_URL` varchar(255) DEFAULT NULL,
+  `LIKE_COUNT` varchar(4) DEFAULT NULL,
+  `LIKE_TIME` datetime DEFAULT NULL,
+  PRIMARY KEY (`BLGR_ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `blog_link_data`
+--
+
+DROP TABLE IF EXISTS `blog_link_data`;
+CREATE TABLE IF NOT EXISTS `blog_link_data` (
+  `BLG_ID` varchar(15) NOT NULL,
+  `BLGR_ID` varchar(10) DEFAULT NULL,
+  `BLGR_USERNAME` varchar(20) NOT NULL,
+  `LINK_TITLE` varchar(50) NOT NULL,
+  `LINK_URL` varchar(255) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -87,6 +146,36 @@ INSERT INTO `business_info` (`BUSINESS_CODE`, `FNAME`, `LNAME`, `BUSINESS_NAME`,
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `business_profile`
+--
+
+DROP TABLE IF EXISTS `business_profile`;
+CREATE TABLE IF NOT EXISTS `business_profile` (
+  `USER_ID` varchar(10) NOT NULL,
+  `FNAME` varchar(15) DEFAULT NULL,
+  `LNAME` varchar(15) DEFAULT NULL,
+  `BIRTH_DATE` date DEFAULT NULL,
+  `GENDER` varchar(6) DEFAULT NULL,
+  `ADDRESS` varchar(100) DEFAULT NULL,
+  `CATEGORY` varchar(50) DEFAULT NULL,
+  `PROFILE_IMG` varchar(255) DEFAULT NULL,
+  `BIO` varchar(150) DEFAULT NULL,
+  `UPDATE_TIME` datetime DEFAULT NULL,
+  `B_ID` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`USER_ID`),
+  KEY `business_id_fk` (`B_ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `business_profile`
+--
+
+INSERT INTO `business_profile` (`USER_ID`, `FNAME`, `LNAME`, `BIRTH_DATE`, `GENDER`, `ADDRESS`, `CATEGORY`, `PROFILE_IMG`, `BIO`, `UPDATE_TIME`, `B_ID`) VALUES
+('C2LBU00002', 'Bhavesh', 'Parmar', '2004-02-17', 'Male', 'Bhavesh Web Studio,Kadi-382715,Gujarat', 'Advertising', NULL, NULL, '2024-01-22 13:20:42', 'C2LB000001');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `business_register`
 --
 
@@ -115,7 +204,7 @@ CREATE TABLE IF NOT EXISTS `business_register` (
 --
 
 INSERT INTO `business_register` (`B_ID`, `B_FNAME`, `B_LNAME`, `B_BIRTH_DATE`, `B_AGE`, `B_GENDER`, `B_ADDRESS`, `B_CATEGORY`, `B_CONTACT`, `B_EMAIL`, `B_PASSWORD`, `B_TERM_AGREE`, `JOIN_DATE`) VALUES
-('C2LB000001', 'Bhavesh', 'Parmar', '2004-02-17', 19, 'Male', 'Dhaval Plaza,Kadi-382715,Gujarat', 'Automobile', 'xgcyFrdKyXHAtEY0cwuqvFF6Qlo0YW1GdEJUWk5CYnJLbFV0dGc9PQ==', 'aL9+zAVwkqxPxH5o/h4vuDFQMGpWb1RQZFBDQ1ZRNWZEQTJWOFc0WFMwcHFOUFhPTllTT3d5M3k5Tms9', '/ZZ10n5iKO+5QMz1n41t4kxod0d3SVA4OTYwMEFVZWNXZTgxalE9PQ==', 'Yes', '2024-01-09 16:37:53');
+('C2LB000001', 'Bhavesh', 'Parmar', '2004-02-17', 19, 'Male', 'Bhavesh Web Studio,Kadi-382715,Gujarat', 'Advertising', '5uHvwOb/uuj8uVH6GQ/57jlLejUrTjVWS2FjUlU1aStib1dBaGc9PQ==', 'ke6noKOTLU4FWZzc6yBiAWtzMDZPdUhpUllSUm82NVMvbnlVbU0zNnFGN2duVUJGdkRtK1U1K1RBdjQ9', 'ySQ/F+sERJpRoopxCQh5jHRWN1ZQVG8vOWdTc3JpLzE2Wm5aUkE9PQ==', 'Yes', '2024-01-22 13:20:42');
 
 -- --------------------------------------------------------
 
@@ -139,7 +228,7 @@ CREATE TABLE IF NOT EXISTS `business_verification` (
 --
 
 INSERT INTO `business_verification` (`B_KEY`, `B_EMAIL_VERIFIED`, `B_VERIFICATION_CODE`, `B_VERIFICATION_TOKEN`, `B_ID`) VALUES
-(315276, 'Yes', '0', NULL, 'C2LB000001');
+(310636, 'Yes', '0', NULL, 'C2LB000001');
 
 -- --------------------------------------------------------
 

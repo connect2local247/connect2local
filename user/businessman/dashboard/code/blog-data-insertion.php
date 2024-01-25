@@ -38,6 +38,12 @@
                 $blog_title = $_POST['blog-title'];
                 $blog_description = $_POST['blog-description'];
 
+                if (isset($_SESSION['link-array'])) {
+                    echo '<pre>';
+                    print_r($_SESSION['link-array']);
+                    echo '</pre>';
+                }
+                die();
                 $_SESSION['blog-title'] = $blog_title;
                 $_SESSION['blog-description'] = $blog_description;
 
