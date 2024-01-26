@@ -1,31 +1,6 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['link-array'])) {
-    $_SESSION['link-array'] = array();
-}
-
-if (isset($_POST['link-submit'])) {
-    $link_title = $_POST['link-title'];
-    $link_url = $_POST['link-url'];
-
-    $link_container = [
-        "title" => "$link_title",
-        "url" =>  "$link_url"
-    ];
-
-    array_push($_SESSION['link-array'], $link_container);
-}
-
-if (isset($_POST['delete-link'])) {
-    $index = $_POST['delete-link'];
-    if (isset($_SESSION['link-array'][$index])) {
-        unset($_SESSION['link-array'][$index]);
-    }
-}
-
-// Print the session array for debugging
-print_r($_SESSION['link-array']);
 ?>
 <!-- Rest of your HTML code -->
 
@@ -41,17 +16,6 @@ print_r($_SESSION['link-array']);
     <script>
         path = "/user/businessman/dashboard/dashboard.php";
     </script>
-     <div>
-        <h2>Session Values:</h2>
-        <?php
-        // Print link-array session values
-        if (isset($_SESSION['link-array'])) {
-            echo '<pre>';
-            print_r($_SESSION['link-array']);
-            echo '</pre>';
-        }
-        ?>
-    </div>
     <?php
     if (isset($_SESSION['greet-message'])) {
         if (isset($_SESSION['blog-title'])) {
@@ -70,7 +34,7 @@ print_r($_SESSION['link-array']);
         <div class="modal-dialog" role="document">
             <div class="modal-content text-bg-light">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="linkModalLabel">Add Link <?php if(isset($_SESSION['link-array'])) print_r($_SESSION['link-array']); ?></h5>
+                    <h5 class="modal-title" id="linkModalLabel">Add Link</h5>
                     <i class="fa-solid fa-xmark" data-dismiss="modal" aria-hidden="true"></i>
                 </div>
                 <form id="linkForm" method="post">
@@ -127,16 +91,6 @@ print_r($_SESSION['link-array']);
                     <div id="charCount" class="text-secondary position-absolute bottom-0 end-0 me-2 mb-1">0/1000</div>
                 </div>
                 <div id="addedLinksContainer" class="mt-3 bg-light p-3 rounded">
-    <?php
-    // Generate HTML for the added links
-    foreach ($_SESSION['link-array'] as $index => $link) {
-        echo '<span class="text-bg-dark d-block p-1 shadow d-flex my-1 position-relative" style="gap:10px;text-decoration:none;overflow:hidden" target="_blank">';
-        echo '<i class="fa-solid fa-link border-end p-1 mx-1" title="' . $link['title'] . '"></i>';
-        echo '<a href="' . $link['url'] . '" class=" nav-link">' . $link['url'] . '</a>';
-        echo '<i class="fa-solid fa-xmark border-start position-absolute end-0 p-1 mx-1" onclick="deleteCurrentLink(this, ' . $index . ')"></i>';
-        echo '</span>';
-    }
-    ?>
 </div>
                 <div class="mt-4 d-flex">
                     <input type="submit" name="submit" class="btn btn-primary px-5 py-2 rounded m-auto" value="Submit">
@@ -192,10 +146,6 @@ print_r($_SESSION['link-array']);
                 if (linkUrl != "" && linkTitle != "") {
                     // Create the link HTML
                     var linkHtml = '<span class="text-bg-light d-block p-1 shadow d-flex my-1 position-relative" style="gap:10px;text-decoration:none;overflow:hidden" target="_blank"><i class="fa-solid fa-link border-end p-1 mx-1" title="' + linkTitle + '"></i> <a href="' + linkUrl + '">' + linkUrl + '</a><i class="fa-solid fa-xmark border-start position-absolute end-0 p-1 mx-1" onclick="deleteCurrentLink(this)"></i></span>';
-
-
-
-
                     // Display the added link below the textarea
                     displayAddedLinksContainer.style.display = "block";
                     $('#addedLinksContainer').append(linkHtml);
