@@ -98,5 +98,48 @@
         
             return $lastID;
         }
+
+
+        function generateUniqueBlogID() {
+            $prefix = "BLG"; // 4-letter prefix
+            $lastID = getLastUsedBlogIDFromDatabase();
+        
+            // Increment the last ID
+            $nextID = $lastID + 1;
+        
+            // Format the ID to have leading zeros (11 digits)
+            $formattedID = sprintf("%011d", $nextID);
+        
+            // Concatenate prefix and formatted ID
+            $uniqueBlogID = $prefix . $formattedID;
+        
+            return $uniqueBlogID;
+        }
+        
+        function getLastUsedBlogIDFromDatabase() {
+            $prefix = "BLG"; // 4-letter prefix
+            $query = "SELECT MAX(BLG_ID) FROM blog_data WHERE BLG_ID LIKE '{$prefix}%';";
+        
+            $result = mysqli_query($GLOBALS['connect'], $query);
+        
+            if ($result && mysqli_num_rows($result) > 0) {
+                $row = mysqli_fetch_array($result);
+                $lastBlogIDWithPrefix = $row[0];
+        
+                // Check if the result is NULL (empty table)
+                if ($lastBlogIDWithPrefix === null) {
+                    $lastID = 0; // Set a default value for an empty table
+                } else {
+                    // Remove the prefix by extracting the last 11 digits
+                    $lastID = intval(substr($lastBlogIDWithPrefix, strlen($prefix)));
+                }
+            } else {
+                echo "Error executing query: " . mysqli_error($GLOBALS['connect']) . "<br>";
+                $lastID = 0; // Set a default value if there is an issue with the query
+            }
+        
+            return $lastID;
+        }
+        
         
 ?>
