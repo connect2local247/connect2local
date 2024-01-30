@@ -1,3 +1,35 @@
+<?php
+        session_start();
+
+        include "../../../includes/table_query/db_connection.php";
+        require "../../../includes/table_query/get_data_query.php";
+
+        function check_exist_username($username){
+            $query = "SELECT USERNAME FROM business_profile WHERE USERNAME = '$username'";
+            $result = mysqli_query($GLOBALS['connect'],$query);
+
+            if(mysqli_num_rows($result) > 0){
+                echo "<script> alert('Username Already Exists. please Try Again');</script>";
+                return false;
+            }
+            return true;
+        }
+        if(isset($_POST['submit'])){
+            $username = $_POST['username'];
+            $id = $_SESSION['user_id'];
+            $username_pattern = "/^[a-zA-Z0-9_.]{3,30}$/";
+            if(preg_match($username_pattern,$username)){
+                if(check_exist_username($username)){
+                    $update_user_name_query = "UPDATE business_profile SET USERNAME = '$username' WHERE USER_ID = '$id'";
+                    if(!mysqli_query($GLOBALS['connect'],$update_user_name_query)){
+                        echo "<script> alert('Username not updated yet. please Try Again');</script>";
+                    }
+                }
+            } else{
+                    echo "<script> document.querySelector('.form-error').classList.remove('d-none');</script>";
+            }
+        }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,6 +97,31 @@
     </style>
 </head>
 <body>
+
+    <div class="modal fade" id="setUserNamePromptModal" tabindex="-1" aria-labelledby="setUserNamePromptModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header border-0">
+                        <h1 class="modal-title fs-5" id="setUserNamePromptModalLabel">Username</h1>
+                        <i class="fa-solid fa-xmark fs-5" data-bs-dismiss="modal" aria-label="Close"></i>
+                    </div>
+                    <div class="modal-body">
+                        <form action="#" method="post" id="addLinkForm">
+                            <div class="mt-2">
+                                <div class="alert alert-danger d-none form-error" role="alert">
+                                    Please enter a valid username. It must be 3 to 30 characters long and can contain letters, numbers, periods, and underscores.
+                                </div>
+                                <input type="text" class="form-control py-2" name="username" id="username" placeholder="Enter Username" required>
+
+                            </div>
+                    </div>
+                    <div class="modal-footer d-flex border-0">
+                            <input type="submit" name="submit" value="Submit" class="btn btn-primary m-auto">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>   
     <header>
         <nav class="navbar text-bg-dark py-4 border-bottom">
             <div class="container">
@@ -76,7 +133,20 @@
             <div class="nav-menu fs-5 d-flex" style="gap:15px">
                 <i class="fa-solid fa-bell"></i>
                 <i class="fa-solid fa-user"></i>
+                <?php 
+                        if(get_username("business_profile",$_SESSION['business_id'],"USERNAME","B_ID") != NULL){
+                ?>
                 <i class="fa-solid fa-square-plus" onclick="location.href='/user/businessman/dashboard/form/add-blog.php'"></i>
+                <?php
+
+                        } else{
+
+                
+                ?>
+                <i class="fa-solid fa-square-plus" data-bs-target="#setUserNamePromptModal" data-bs-toggle="modal"></i>
+                <?php   
+                        }
+                ?>
             </div>
             </div>
         </nav>

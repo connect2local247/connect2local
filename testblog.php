@@ -1,3 +1,8 @@
+<?php 
+            include "./includes/table_query/db_connection.php";
+            require "./includes/table_query/get_data_query.php";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +19,7 @@
                 <div class="card-header d-flex justify-content-between px-3 align-items-center">
                         <div class="user-data d-flex align-items-center" style="gap:10px">
                             <img src="/asset/image/user/customer.png" alt="user image" style="height:50px;width:50px" class="rounded-circle bg-light">
-                            <span class="user-name fw-bold">bhavesh_1724</span>
+                            <span class="user-name fw-bold">Bhavesh_1724</span>
                         </div>
                         <i class="fa-solid fa-ellipsis-vertical px-3 py-2" data-bs-target="#blogDetailModal" data-bs-toggle="modal"></i>
                         <?php include "./component/blog-modal.php"; ?>

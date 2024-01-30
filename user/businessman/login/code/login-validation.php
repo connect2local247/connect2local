@@ -4,6 +4,7 @@
         include "/connect2local/includes/table_query/db_connection.php";
         include "/connect2local/includes/table_query/find_encrypt_data.php";
         require "/connect2local/includes/table_query/get_encrypted_data.php";
+        require "/connect2local/includes/table_query/get_data_query.php";
 
         if(isset($_SESSION['error'])){
             unset($_SESSION['error']);
@@ -19,16 +20,23 @@
                 
                 $encryptedPassword = $encryptedPasswordDataArray['encryptData'];
                 $encryptedEmail = $encryptedEmailDataArray['encryptData'];
-
+                $key = $encryptedEmailDataArray['key'];
                 $business_id = $encryptedEmailDataArray['id'];
-
-                $login_query = "SELECT B_EMAIL,B_PASSWORD FROM business_register WHERE B_ID = '$business_id' AND B_EMAIL = '$encryptedEmail' AND B_PASSWORD = '$encryptedPassword'";
+                $login_query = "SELECT B_EMAIL,B_PASSWORD FROM business_register WHERE B_ID = '$business_id' AND B_EMAIL = '$encryptedEmail'";
                 // die($login_query);
                 $result = mysqli_query($GLOBALS['connect'],$login_query);
                 if(mysqli_num_rows($result) > 0 ){
-                    $_SESSION['business_id'] = $business_id;
-                    $_SESSION['greet-message'] = "Login Successfully";
-                    return true;
+                    $row = mysqli_fetch_assoc($result);
+
+                    $db_password = decryptData($row['B_PASSWORD'],$key);
+
+                    if($password == $db_password){
+                        $_SESSION['business_id'] = $business_id;
+                        echo $business_id;
+                        $_SESSION['user_id'] = get_user_id("business_profile","$business_id","USER_ID","B_ID");;
+                        $_SESSION['greet-message'] = "Login Successfully";
+                        return true;
+                    }
                 }else{
                     $_SESSION['error'] = "Login Failed Try Again";
                 }

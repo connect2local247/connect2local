@@ -12,7 +12,6 @@
 </head>
 <body>
 
-   
     <div class="modal fade" id="linkModal" tabindex="-1" aria-labelledby="linkModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

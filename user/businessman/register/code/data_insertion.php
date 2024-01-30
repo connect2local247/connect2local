@@ -46,6 +46,7 @@
 
             echo $register_insert_query;
             if ($register_query_result && $verification_query_result) {
+                $_SESSION['user_id'] = $business_user_id;
                 $_SESSION['business_id'] = $business_id;
                 return true;
             }
