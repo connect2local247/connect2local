@@ -108,7 +108,7 @@
             $nextID = $lastID + 1;
         
             // Format the ID to have leading zeros (11 digits)
-            $formattedID = sprintf("%011d", $nextID);
+            $formattedID = sprintf("%07d", $nextID);
         
             // Concatenate prefix and formatted ID
             $uniqueBlogID = $prefix . $formattedID;

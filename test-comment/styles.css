@@ -1,0 +1,20 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+#comments-container {
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+#comment-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+textarea {
+    resize: none;
+    margin-bottom: 10px;
+}

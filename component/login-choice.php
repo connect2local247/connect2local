@@ -18,7 +18,7 @@
                                         <img src="/asset/image/user/customer.png" style="height:200px;width:100%" alt="">
                                 </div>
                                 <div class="card-footer border border-dark border-top border-start-0 border-end-0 text-center ">
-                                        <a href="/user/customer/register/form/customer_register.php" class="nav-link fw-bold fs-5">Customer</a>
+                                        <a href="#" class="nav-link fw-bold fs-5">Customer</a>
                                 </div>
                             </div>
                         </div>
@@ -31,7 +31,7 @@
                                         <img src="/asset/image/user/businessman.png" style="height:200px;width:100%" alt="">
                                 </div>
                                 <div class="card-footer border border-dark border-top border-start-0 border-end-0 text-center ">
-                                        <a href="/user/businessman/register/form/business_register.php" class="nav-link fw-bold fs-5">Business</a>
+                                        <a href="#" class="nav-link fw-bold fs-5">Business</a>
                                 </div>
                             </div>
                         </div>
