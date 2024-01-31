@@ -64,14 +64,14 @@
             $content_filename = $_SESSION['file-name'];
             $content_type = $_SESSION['file-type'];
             $content_size = $_SESSION['file-size'];
-            $blogger_username = get_username("business_profile",$blogger_id,"USERNAME","B_ID");
-            $blogger_user_img = get_single_data("business_profile","$blogger_id","BLG_USER_IMG_URL","B_ID");
-            $blogger_category = get_single_data("business_profile","$blogger_id","CATEGORY","B_ID");
-            $share_link = "http://connect2local/pages/blog/blog.php?blog_id='$blog_id'";
-            $blogger_profile_url = "https://connect2local/pages/profile/blogger-profile.php?blogger_id='$blogger_id'";
+            $blogger_username = get_username("business_profile",$blogger_id,"USERNAME","USER_ID");
+            $blogger_user_img = get_single_data("business_profile","PROFILE_IMG","USER_ID",$blogger_id);
+            $blogger_category = get_single_data("business_profile","CATEGORY","USER_ID",$blogger_id);
+            $share_link = "http://connect2local/pages/blog/blog.php?blog_id=$blog_id";
+            $blogger_profile_url = "https://connect2local/pages/profile/blogger-profile.php?blogger_id=$blogger_id";
             
             $insert_blog_data_query = "INSERT INTO `blog_data`(`BLG_ID`, `BLG_TITLE`, `BLG_USERNAME`, `BLG_USER_IMG_URL`, `BLG_CONTENT_URL`, `BLG_CONTENT_SIZE`, `BLG_DESCRIPT`, `BLG_AUTHOR_NAME`, `BLG_CONTENT_TYPE`, `BLG_CATEGORY`, `BLG_LIKE_COUNT`, `BLG_COMMENT_COUNT`, `BLG_SHARE_LINK`, `BLGR_PROFILE_URL`, `BLG_RELEASE_DATE`, `USER_ID`) VALUES ('$blog_id','$title','$blogger_username','$blogger_user_img','$content_filename','$content_size','$description','$blogger_name','$content_type','$blogger_category','0','0','$share_link','$blogger_profile_url',NOW(),'$blogger_id')";
-
+            die($insert_blog_data_query);
             $result = mysqli_query($GLOBALS['connect'],$insert_blog_data_query);
 
             if($result){
