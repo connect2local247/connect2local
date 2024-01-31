@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 25, 2024 at 04:40 AM
+-- Generation Time: Jan 31, 2024 at 02:16 AM
 -- Server version: 5.7.36
 -- PHP Version: 7.4.26
 
@@ -57,6 +57,7 @@ CREATE TABLE IF NOT EXISTS `blog_data` (
   `BLG_USERNAME` varchar(20) DEFAULT NULL,
   `BLG_USER_IMG_URL` varchar(255) DEFAULT NULL,
   `BLG_CONTENT_URL` varchar(255) DEFAULT NULL,
+  `BLG_CONTENT_SIZE` varchar(6) NOT NULL DEFAULT '0',
   `BLG_DESCRIPT` text,
   `BLG_AUTHOR_NAME` varchar(32) DEFAULT NULL,
   `BLG_CONTENT_TYPE` varchar(5) DEFAULT NULL,
@@ -64,10 +65,12 @@ CREATE TABLE IF NOT EXISTS `blog_data` (
   `BLG_LIKE_COUNT` varchar(4) DEFAULT NULL,
   `BLG_COMMENT_COUNT` varchar(4) DEFAULT NULL,
   `BLG_SHARE_LINK` varchar(255) DEFAULT NULL,
+  `BLGR_PROFILE_URL` varchar(255) NOT NULL,
   `BLG_RELEASE_DATE` datetime DEFAULT NULL,
   `BLG_UPDATE_TIME` datetime DEFAULT NULL,
-  `B_ID` varchar(10) DEFAULT NULL,
-  PRIMARY KEY (`BLG_ID`)
+  `USER_ID` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`BLG_ID`),
+  KEY `B_ID` (`USER_ID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -152,6 +155,7 @@ INSERT INTO `business_info` (`BUSINESS_CODE`, `FNAME`, `LNAME`, `BUSINESS_NAME`,
 DROP TABLE IF EXISTS `business_profile`;
 CREATE TABLE IF NOT EXISTS `business_profile` (
   `USER_ID` varchar(10) NOT NULL,
+  `USERNAME` varchar(30) DEFAULT NULL,
   `FNAME` varchar(15) DEFAULT NULL,
   `LNAME` varchar(15) DEFAULT NULL,
   `BIRTH_DATE` date DEFAULT NULL,
@@ -163,6 +167,7 @@ CREATE TABLE IF NOT EXISTS `business_profile` (
   `UPDATE_TIME` datetime DEFAULT NULL,
   `B_ID` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`USER_ID`),
+  UNIQUE KEY `B_USERNAME` (`USERNAME`),
   KEY `business_id_fk` (`B_ID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -170,8 +175,9 @@ CREATE TABLE IF NOT EXISTS `business_profile` (
 -- Dumping data for table `business_profile`
 --
 
-INSERT INTO `business_profile` (`USER_ID`, `FNAME`, `LNAME`, `BIRTH_DATE`, `GENDER`, `ADDRESS`, `CATEGORY`, `PROFILE_IMG`, `BIO`, `UPDATE_TIME`, `B_ID`) VALUES
-('C2LBU00002', 'Bhavesh', 'Parmar', '2004-02-17', 'Male', 'Bhavesh Web Studio,Kadi-382715,Gujarat', 'Advertising', NULL, NULL, '2024-01-22 13:20:42', 'C2LB000001');
+INSERT INTO `business_profile` (`USER_ID`, `USERNAME`, `FNAME`, `LNAME`, `BIRTH_DATE`, `GENDER`, `ADDRESS`, `CATEGORY`, `PROFILE_IMG`, `BIO`, `UPDATE_TIME`, `B_ID`) VALUES
+('C2LBU00002', NULL, 'Bhavesh', 'Parmar', '2004-02-17', 'Male', 'Bhavesh Web Studio,Kadi-382715,Gujarat', 'Advertising', NULL, NULL, '2024-01-22 13:20:42', 'C2LB000001'),
+('C2LBU00003', 'connect2local', 'Bhavesh', 'Parmar', '2004-02-17', 'Male', 'Meldikrupa Society,Kadi-382715,Gujarat', 'Automobile', NULL, NULL, '2024-01-30 16:05:16', 'C2LB000002');
 
 -- --------------------------------------------------------
 
@@ -204,7 +210,8 @@ CREATE TABLE IF NOT EXISTS `business_register` (
 --
 
 INSERT INTO `business_register` (`B_ID`, `B_FNAME`, `B_LNAME`, `B_BIRTH_DATE`, `B_AGE`, `B_GENDER`, `B_ADDRESS`, `B_CATEGORY`, `B_CONTACT`, `B_EMAIL`, `B_PASSWORD`, `B_TERM_AGREE`, `JOIN_DATE`) VALUES
-('C2LB000001', 'Bhavesh', 'Parmar', '2004-02-17', 19, 'Male', 'Bhavesh Web Studio,Kadi-382715,Gujarat', 'Advertising', '5uHvwOb/uuj8uVH6GQ/57jlLejUrTjVWS2FjUlU1aStib1dBaGc9PQ==', 'ke6noKOTLU4FWZzc6yBiAWtzMDZPdUhpUllSUm82NVMvbnlVbU0zNnFGN2duVUJGdkRtK1U1K1RBdjQ9', 'ySQ/F+sERJpRoopxCQh5jHRWN1ZQVG8vOWdTc3JpLzE2Wm5aUkE9PQ==', 'Yes', '2024-01-22 13:20:42');
+('C2LB000001', 'Bhavesh', 'Parmar', '2004-02-17', 19, 'Male', 'Bhavesh Web Studio,Kadi-382715,Gujarat', 'Advertising', '5uHvwOb/uuj8uVH6GQ/57jlLejUrTjVWS2FjUlU1aStib1dBaGc9PQ==', 'ke6noKOTLU4FWZzc6yBiAWtzMDZPdUhpUllSUm82NVMvbnlVbU0zNnFGN2duVUJGdkRtK1U1K1RBdjQ9', 'ySQ/F+sERJpRoopxCQh5jHRWN1ZQVG8vOWdTc3JpLzE2Wm5aUkE9PQ==', 'Yes', '2024-01-22 13:20:42'),
+('C2LB000002', 'Bhavesh', 'Parmar', '2004-02-17', 19, 'Male', 'Meldikrupa Society,Kadi-382715,Gujarat', 'Automobile', 'AeO5d+Gw5y2Sv3ExwdCs8Whkc29laUM5bXV3OWNQSjJFVzBZQWc9PQ==', 'cgACAWVkepKNYk6C27mInDlZWEI0b0hMd0hWendJVTF1LytsOU16c0lmeGVWTERpbVlMTE90V05UeUk9', 'ykaLBireZgfNf7wOSENVSWRPVWhBcTFmRU9pQ3lRc2VDaUdKVEE9PQ==', 'Yes', '2024-01-30 16:05:16');
 
 -- --------------------------------------------------------
 
@@ -228,7 +235,8 @@ CREATE TABLE IF NOT EXISTS `business_verification` (
 --
 
 INSERT INTO `business_verification` (`B_KEY`, `B_EMAIL_VERIFIED`, `B_VERIFICATION_CODE`, `B_VERIFICATION_TOKEN`, `B_ID`) VALUES
-(310636, 'Yes', '0', NULL, 'C2LB000001');
+(310636, 'Yes', '0', NULL, 'C2LB000001'),
+(573188, 'Yes', '0', '$2y$10$PgloDz65hZU98NdgKhJvTuJxXT7SuJGJCvrjOiCviBOUE19xBWa0u', 'C2LB000002');
 
 -- --------------------------------------------------------
 
