@@ -1,7 +1,7 @@
 <?php
 session_start();
 // unset($_SESSION['linkDataArray']);
-if (!isset($_SESSION['linkDataArray'])) {
+if(!isset($_SESSION['linkDataArray'])){
     $_SESSION['linkDataArray'] = array();
 }
 
@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // var_dump($_POST); // Check the received POST data
 // var_dump($_SESSION['linkDataArray']); // Check the content of linkDataArray
 // addLink.php
-$response = '<span class="d-flex align-items-center p-1 my-1 rounded text-bg-light shadow justify-content-between border">';
+$response  = '<span class="d-flex align-items-center p-1 my-1 rounded text-bg-light shadow justify-content-between border">';
 $response .= '<i class="fa-solid fa-link fs-5 border-end px-2" title="' . $linkTitle . '"></i>';
 $response .= '<a href="' . $linkURL . '" class="nav-link" target="_blank">' . $linkTitle . '</a>';
 $response .= '<i class="fa-solid fa-xmark fs-5 border-start px-2" onclick="deleteCurrentLink()"></i>';

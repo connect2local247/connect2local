@@ -5,8 +5,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Check if the linkIndex is set in the POST data
     if (isset($_POST['linkIndex'])) {
         $linkIndex = $_POST['linkIndex'];
-
-        // Check if the session variable exists
         if (isset($_SESSION['linkDataArray'])) {
             // Retrieve the session data
             $linkDataArray = $_SESSION['linkDataArray'];

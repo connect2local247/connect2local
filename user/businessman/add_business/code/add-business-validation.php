@@ -27,7 +27,7 @@
             $email_pattern = '/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/';
             $phone_pattern = '/^\d{10}$/';
             $addressPattern = '/^[A-Za-z0-9\s\-,\.]{1,100}$/';
-            $descriptionPattern = '/^[\s\S]{50,150}$/';
+            $descriptionPattern = '/^[\s\S]{10,150}$/';
             $urlPattern = '/^https?:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}(:[0-9]+)?(\/[^\s]*)?$/';
            
             if(preg_match($businessNamePattern,$business_name)){
@@ -241,10 +241,15 @@
                             $lname = $name_array['lname'];
                             $encryptedEmail = encryptData($email,$key);
                             $encryptedPhone = encryptData($phone,$key);
+
                                     $insert_query = "INSERT INTO `business_info`(`BUSINESS_CODE`, `FNAME`, `LNAME`, `BUSINESS_NAME`, `CATEGORY`, `ADDRESS`, `OPERATE_TIME`, `PHONE`, `EMAIL`, `WEB_URL`, `IG_URL`, `FB_URL`, `X_URL`, `LINKEDIN_URL`, `DESCRIPTION`, `REQUEST_TIME`, `B_KEY`, `B_ID`)VALUES ('$business_code','$fname','$lname','$business_name','$category','$address','$operate_time','$encryptedPhone','$encryptedEmail','$web_url','$insta_url','$fb_url','$x_url','$linkedin_url','$description',NOW(),$key,'$business_id')";
                                     
                                     $result = mysqli_query($GLOBALS['connect'],$insert_query);
+                                    $update_query = "UPDATE business_profile SET BUSINESS_NAME = '$business_name' WHERE B_ID = $business_id";
+                                    $update_result = mysqli_query($GLOBALS['connect'],$update_query);
                                     
+                                    if($update_result){
+
                                     if($result){
                                         send_greet_mail($email,$fname,$lname);
                                         $_SESSION['greet-message'] = "Your Request Sent Successfully";
@@ -254,6 +259,7 @@
                                     }
                                 }
                             }
+                          }
                         } else{
                             $_SESSION['error'] = "Email Doesn't Exists.";
                         }

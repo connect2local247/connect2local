@@ -90,9 +90,10 @@
 
                 <?php
                         if(isset($_SESSION['linkDataArray'])){ 
-                            if(count($_SESSION['linkDataArray']) <= 0){
-                                unset($_SESSION['linkDataArray']);
-                            } else{
+                            
+                        if(count($_SESSION['linkDataArray']) <= 0){
+                            unset($_SESSION['linkDataArray']);
+                        } else{
 
                             
                 ?>
@@ -114,7 +115,7 @@
                         
                         if(linkContainer.children.length <= 0){
                                 linkContainer.classList.add('d-none');
-                                unset($_SESSION['linkDataArray']);
+                                //unset($_SESSION['linkDataArray']);
                         }
                         
                     }
@@ -123,7 +124,7 @@
             </script>
                 <div id="linkContainer" class="mt-2 border rounded shadow p-2">
                         <?php
-                               
+                    
                                     foreach ($_SESSION['linkDataArray'] as $linkDataAssoc) {
                                         // Access individual elements (title and url) in the associative array
                                         $title = $linkDataAssoc['title'];
@@ -138,7 +139,9 @@
 
                                     }
                                 }
-                            }
+                       
+                        }
+                            
                         ?>
                 </div>
                 <div class="mt-4 d-flex">
@@ -208,7 +211,7 @@
         }
     }
 
-    $(document).ready(function () {
+    $(document).ready(function(){
         var maxChars = 1000;
         var textarea = $('#blog-description');
         var charCount = $('#charCount');
@@ -243,37 +246,41 @@
         
     });
 </script>
-
 <script>
-   function submitLinkForm() {
-      // Get the form data
-      var formData = $('#addLinkForm').serialize();
+        function submitLinkForm() {
+    // Get the form data
+    var formData = $('#addLinkForm').serialize();
 
-      // Make an AJAX request
-      $.ajax({
+    // Make an AJAX request
+    $.ajax({
         type: 'POST',
-        url: '/includes/data_request/addLink.php?timestamp=' + new Date().getTime(),
+        url: '/includes/data_request/addLink.php',
         data: formData,
-         success: function(response) {
-   console.log('Response:', response);
-   console.log('AJAX request successful');
-   // Handle the response if needed
-   $('#linkContainer').append(response);
+        success: function(response) {
+            console.log('Response:', response);
+            console.log('AJAX request successful');
 
-   // Clear the form fields if needed
-   $('#link-title').val('');
-   $('#link-url').val('');
+            // Append the new link to the link container
+            $('#linkContainer').append(response);
+            console.log("link added")
+            // Clear the form fields if needed
+            $('#link-title').val('');
+            $('#link-url').val('');
 
-   // Close the modal or perform any other actions
-   $('#linkModal').modal('hide');
-},
-         error: function(error) {
+            // Check if link container is empty and hide it if needed
+            if ($('#linkContainer').children().length < 0) {
+                $('#linkContainer').removeClass('d-none');
+            }
+
+            // Close the modal or perform any other actions
+            $('#linkModal').modal('hide');
+        },
+        error: function(error) {
             // Handle errors if needed
             console.log('Error:', error);
-         }
-      });
-   }
+        }
+    });
+}
 </script>
-
 </body>
 </html>
