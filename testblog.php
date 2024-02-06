@@ -61,7 +61,7 @@
                             ?>
                             <span class="user-name fw-bold">@<?php echo $username; ?></span>
                            
-                            <div class="blog-option-container position-absolute top-0 end-0 mt-5 border me-1 text-bg-light p-2 rounded d-none" style="width:70%"id="blogDetailPopup" >
+                            <div class="blog-option-container position-absolute top-0 end-0 mt-5 border me-1 text-bg-light p-2 rounded d-none" style="width:70%;z-index:5"id="blogDetailPopup" >
                             <ul class="list-unstyled text-center" >
                                 <li class="list-item mt-2 shadow border p-2 rounded d-flex align-items-center justify-content-center"><i class="fa-solid fa-circle-info"></i>&nbsp;Info</li>
                                 <li class="list-item mt-2 shadow border p-2 rounded d-flex align-items-center justify-content-center"> <i class="fa-solid fa-floppy-disk fs-4"></i>&nbsp;Save</li>
@@ -152,33 +152,42 @@
                                     </li>
                                 </ul>
                             </div>
-                            <?php
-// Sample data - You can replace this with your actual data
-$links = [
-    ['title' => 'Youtube', 'url' => 'https://youtube.com'],
-    ['title' => 'Google', 'url' => 'https://google.com'],
-    // Add more links as needed
-];
-?>
-
-<div class="visiting-link">
-    <i class="fa-solid fa-link fs-5 blog-interaction-icons"></i>
-    <div class="link-container position-absolute top-0 w-100 start-0 text-bg-light border">
-        <ul class="list-unstyled p-1">
-            <?php foreach ($links as $link) : ?>
-                <li class="list-item d-flex align-items-center justify-content-between border rounded" style="height:35px">
-                    <i class="fa-solid fa-link border-end px-2 py-1" title="<?php echo $link['url']; ?>"></i>
-                    <a href="<?php echo $link['url']; ?>" class="nav-link m-auto" title="<?php echo $link['url']; ?>" target="_blank"><?php echo $link['title']; ?></a>
-                    <i class="fa-solid fa-copy border-start px-2 py-1 copy-link" data-clipboard-text="<?php echo $link['url']; ?>" title="Copy"></i>
-                    <i class="fa-solid fa-share border-start px-2 py-1 share-link" data-share-url="<?php echo $link['url']; ?>" title="Share"></i>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-    </div>
+                            <div class="visiting-link">
+    <i class="fa-solid fa-link fs-5 blog-interaction-icons" data-bs-target="#link-container" data-bs-toggle="collapse"></i>
 </div>
+                                        </div>
+
 
 <!-- Include Clipboard.js library for copy functionality -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+
+<div class="link-container top-0 w-100 start-0 text-bg-light border-top border-dark collapse pt-3" id="link-container">
+<?php
+$fetch_link_query = "SELECT LINK_TITLE, LINK_URL FROM blog_link_data WHERE BLG_ID = '$blog_id'";
+$result = mysqli_query($GLOBALS['connect'], $fetch_link_query);
+
+if (mysqli_num_rows($result) > 0) {
+    $links = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $links[] = $row;
+    }
+?>
+    <ul class="list-unstyled p-1">
+        <?php foreach ($links as $link) : ?>
+            <li class="list-item d-flex align-items-center justify-content-between border rounded m-1" style="height:35px">
+                <i class="fa-solid fa-link border-end px-2 py-1" title="<?php echo $link['LINK_TITLE']; ?>"></i>
+                <a href="<?php echo $link['LINK_URL']; ?>" class="nav-link m-auto" title="<?php echo $link['LINK_URL']; ?>" target="_blank"><?php echo $link['LINK_TITLE']; ?></a>
+                <i class="fa-solid fa-copy border-start px-2 py-1 copy-link" data-clipboard-text="<?php echo $link['LINK_URL']; ?>" title="Copy"></i>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+</div>
+<?php
+} else {
+    echo "<div class='link-container top-0 w-100 start-0 text-bg-light border-top border-dark collapse pt-3' id='link-container'><p>No links available</p></div>";
+}
+?>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -195,57 +204,14 @@ for (var i = 0; i < copy_links.length; i++) {
         }
 
         // Set the clicked link to blue
-        this.style.color = 'blue';
+        this.style.color = 'royalblue';
 
         // Copy the link to the clipboard
         var textToCopy = this.getAttribute('data-clipboard-text');
-        navigator.clipboard.writeText(textToCopy).then(function () {
-            // Show the notification
-            showNotification();
-        }).catch(function (err) {
-            console.error('Unable to copy text: ', err);
-        });
     });
 }
-
-function showNotification() {
-    // Display the notification
-    copyNotification.style.opacity = 1;
-
-    // Hide the notification after a delay
-    setTimeout(function () {
-        copyNotification.style.opacity = 0;
-    }, 1500); // Adjust the delay as needed
-}
-
-
-
-        // Handle click events for share functionality
-        var shareIcons = document.querySelectorAll('.share-link');
-        shareIcons.forEach(function (icon) {
-            icon.addEventListener('click', function () {
-                var shareUrl = this.getAttribute('data-share-url');
-
-                if (navigator.share) {
-                    // Use Web Share API if available
-                    navigator.share({
-                        title: 'Check out this link',
-                        text: 'Shared link from your website',
-                        url: shareUrl,
-                    })
-                        .then(() => console.log('Shared successfully'))
-                        .catch((error) => console.error('Error sharing:', error));
-                } else {
-                    // Fallback for browsers that don't support Web Share API
-                    alert('Your browser does not support the Web Share API. You can manually share the link.');
-                }
-            });
-        });
     });
 </script>
-
-                        </div>
-
                         <div class="comment-section collapse border-secondary border-top p-2" id="comment-section">
                             <span class="h5">Comments</span>
     <form method="post" class="mt-3">
@@ -293,34 +259,40 @@ function showNotification() {
                             Description
                         </div>
                         <p class="blog-description-content mt-1" style="text-align: justify" id="blog-description">
-    <?php echo $description; ?> <button class="border-0 text-bg-light mx-1"id="read-more-btn" style="display:none"><u>Read More</u></button>
+    <?php echo $description; ?> 
+    <!-- <button class="border-0 text-bg-light mx-1" id="read-more-btn" style="display:none"><u>Read More</u></button> -->
 </p>
 
 <script>
-    blogDescription = document.getElementById('blog-description')
-    readMoreBtn = document.getElementById('read-more-btn')
-
-    paragraphText = blogDescription.textContent;
-    buttonText = readMoreBtn.textContent;
-    buttonLength = buttonText.length;
-
-    maxLength = paragraphText.length - buttonLength;
-    console.log(buttonText)
-    console.log(maxLength)
-    console.log();
-
+    var blogDescription = document.getElementById('blog-description');
     
-    if(maxLength < 150){
-            readMoreBtn.style = "display:none";
-    } else{
-        var shortText = paragraphText.substring(0,maxLength - 2);
-        var remainingText = paragraphText.substring();
+    var paragraphText = blogDescription.textContent.trim();
+    var maxLength = 150;
 
-        console.log(shortText);
-        // console.log(shortText);
-        readMoreBtn.style="display:inline";
+    if (paragraphText.length > maxLength) {
+        var shortText = paragraphText.substring(0, maxLength);
+        var remainingText = paragraphText.substring(maxLength);
+        
+        blogDescription.innerHTML = shortText + '<span id="remaining-text" style="display:none;">' + remainingText + '</span>' + ' <button class="border-0 bg-light  text-primary mx-1" onclick="toggleText()" id="read-more-btn" style="text-decoration:underline;font-weight:500">Read More</button>';
+        
+        function toggleText() {
+            var remainingTextSpan = document.getElementById('remaining-text');
+            var readMoreBtn = document.getElementById('read-more-btn');
+            
+            if (remainingTextSpan.style.display === 'none') {
+                remainingTextSpan.style.display = 'inline';
+                readMoreBtn.innerHTML = 'Read Less';
+            } else {
+                remainingTextSpan.style.display = 'none';
+                readMoreBtn.innerHTML = 'Read More';
+            }
+        }
     }
 </script>
+
+
+
+
 
 
 
