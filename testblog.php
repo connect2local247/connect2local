@@ -1,20 +1,10 @@
 <?php 
-<<<<<<< HEAD
-            include "./includes/table_query/db_connection.php";
-            require "./includes/table_query/get_data_query.php";
-            include "./includes/blog_function/time_function.php";
-
-            $blog_id = ""; 
-            if(isset($_GET['blog_id'])){
-                $blog_id = $_GET['blog_id'];
-=======
             function generateBlog($blog_id){
 
             
             // $blog_id = ""; 
             // if(isset($_GET['blog_id'])){
                 // $blog_id = $_GET['blog_id'];
->>>>>>> main
                 $get_blog_data_query = "SELECT * FROM blog_data WHERE BLG_ID = '$blog_id' ";
 
                 $result = mysqli_query($GLOBALS['connect'],$get_blog_data_query);
@@ -40,24 +30,8 @@
                     $user_id = $row['USER_ID'];
                 
 ?>
-<<<<<<< HEAD
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <?php include "./asset/link/cdn-link.html"; ?>
-    <link rel="stylesheet" href="/asset/css/style.css">
-</head>
-<body>
-    <div class="container">
-        <div class="card col-lg-3 col-md-5 col-12 border-0">
-=======
     <div class="container">
         <div class="card border-0">
->>>>>>> main
             <div class="card-content border border-dark rounded shadow position-relative">
                 <div class="card-header d-flex justify-content-between px-3 align-items-center position-relative">
                         <div class="user-data d-flex align-items-center " style="gap:10px">
@@ -320,12 +294,5 @@ for (var i = 0; i < copy_links.length; i++) {
     
     <?php
                 }
-<<<<<<< HEAD
-        }
-    ?>
-</body>
-</html>
-=======
     }
     ?>
->>>>>>> main
