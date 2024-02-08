@@ -23,6 +23,7 @@ if (isset($_SESSION['user_id'])) {
         $bio = $row['BIO'];
         $update_time = $row['UPDATE_TIME'];
         $business_id = $row['B_ID'];
+        // $opening_hours = $row['']
     }
 }
 ?>
@@ -34,10 +35,7 @@ if (isset($_SESSION['user_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile</title>
     <?php include "../../../../asset/link/cdn-link.html"; ?>
-<<<<<<< HEAD
-</head>
-<body class="text-bg-dark w-100" style="height:100vh">
-=======
+
     <link rel="stylesheet" href="/asset/css/form.css">
 </head>
 <body class="text-bg-dark w-100" style="height:100vh">
@@ -48,7 +46,7 @@ if (isset($_SESSION['user_id'])) {
     include "../../../../component/form-alert.php";
     unset($_SESSION['error']);
     ?>
->>>>>>> main
+
     <form action="/user/businessman/dashboard/code/edit-profile-validation.php" method="POST" class="d-flex p-2" enctype="multipart/form-data">   
         <div class="card text-bg-dark border m-auto col-lg-4">
             <div class="card-content">
@@ -62,11 +60,9 @@ if (isset($_SESSION['user_id'])) {
                     <div class="mt-2 m-auto">
                         <div class="image-container border p-4 rounded-3 position-relative">
                             <?php if(isset($profile_img)): ?>
-<<<<<<< HEAD
-                                <img src="<?php echo $profile_img; ?>" class="rounded" style="height:150px;width:150px" alt="">
-=======
-                                <img src="/database/data/user/<?php echo $profile_img; ?>" class="rounded" style="height:150px;width:150px" alt="">
->>>>>>> main
+
+                                <img src="/database/data/user/<?php echo $profile_img; ?>" class="rounded-circle" style="height:150px;width:150px" alt="">
+
                             <?php else: ?>
                                 <img src="/asset/image/user/profile.png" class="rounded" style="height:150px;width:150px" alt="">
                             <?php endif; ?>
@@ -106,8 +102,7 @@ if (isset($_SESSION['user_id'])) {
                             </div>
                         </div>
                     </div>
-
-                    <div class="mt-2">
+                    <!-- <div class="mt-2">
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-12 g-2">
                                 <input type="text" name="address"  id="address" value="<?php echo isset($address) ? $address : ''; ?>" placeholder="Shop Address" class="form-control" required>
@@ -116,35 +111,35 @@ if (isset($_SESSION['user_id'])) {
                                 <select name="category" class="form-select" required>
                                     <option value="" disabled>Select Category</option>
                                     <?php
-                                    $categories = array(
-                                        'Advertising',
-                                        'Clothing',
-                                        'Construction',
-                                        'Automobile',
-                                        'Bicycle',
-                                        'Stationary',
-                                        'Electronics',
-                                        'Education',
-                                        'Environment',
-                                        'Fashion',
-                                        'Beauty Parlor',
-                                        'Legal Services',
-                                        'Gift Articles',
-                                        'Mobile And Computer',
-                                        'Restaurants',
-                                        'Delivery Services',
-                                        'Hospital And Medical Store',
-                                        'Others'
-                                    );
+                                    // $categories = array(
+                                    //     'Advertising',
+                                    //     'Clothing',
+                                    //     'Construction',
+                                    //     'Automobile',
+                                    //     'Bicycle',
+                                    //     'Stationary',
+                                    //     'Electronics',
+                                    //     'Education',
+                                    //     'Environment',
+                                    //     'Fashion',
+                                    //     'Beauty Parlor',
+                                    //     'Legal Services',
+                                    //     'Gift Articles',
+                                    //     'Mobile And Computer',
+                                    //     'Restaurants',
+                                    //     'Delivery Services',
+                                    //     'Hospital And Medical Store',
+                                    //     'Others'
+                                    // );
 
-                                    foreach ($categories as $category) {
-                                        echo '<option value="' . $category . '" ' . (isset($category) && $category === $selectedCategory ? 'selected' : '') . '>' . $category . '</option>';
-                                    }
+                                    // foreach ($categories as $category) {
+                                    //     echo '<option value="' . $category . '" ' . (isset($category) && $category === $selectedCategory ? 'selected' : '') . '>' . $category . '</option>';
+                                    // }
                                     ?>
                                 </select>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     
                     <div class="mt-3 col-12 ">
                         <div class="col-12 g-2 position-relative">
@@ -162,25 +157,31 @@ if (isset($_SESSION['user_id'])) {
     </form>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get the bio textarea
-            var bioTextarea = document.getElementById('bio');
-            // Get the bio counter element
-            var bioCounter = document.getElementById('bio-counter');
-<<<<<<< HEAD
+       document.addEventListener('DOMContentLoaded', function() {
+    // Get the bio textarea
+    var bioTextarea = document.getElementById('bio');
+    // Get the bio counter element
+    var bioCounter = document.getElementById('bio-counter');
 
-=======
-            bioCounter.textContent = (0 + bioTextarea.value.length)+ '/' + 150;
->>>>>>> main
-            // Add input event listener to bio textarea
-            bioTextarea.addEventListener('input', function() {
-                // Limit the character count to 150
-                if (this.value.length > 150) {
-                    this.value = this.value.substring(0, 150);
-                }
-                // Update the counter
-                bioCounter.textContent = (0 + this.value.length)+ '/' + 150;
-            });
+    // Update the counter initially
+    updateCounter();
+
+    // Add input event listener to bio textarea
+    bioTextarea.addEventListener('input', function() {
+        // Limit the character count to 150
+        if (this.value.length > 150) {
+            this.value = this.value.substring(0, 150);
+        }
+        // Update the counter
+        updateCounter();
+    });
+
+    // Function to update the counter
+    function updateCounter() {
+        bioCounter.textContent = bioTextarea.value.length + '/' + 150;
+    }
+
+
 
             // Get the pen icon and profile photo input elements
             var penIcon = document.getElementById('penIcon');

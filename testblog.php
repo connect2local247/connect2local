@@ -30,7 +30,7 @@
                     $user_id = $row['USER_ID'];
                 
 ?>
-    <div class="container">
+   
         <div class="card border-0">
             <div class="card-content border border-dark rounded shadow position-relative">
                 <div class="card-header d-flex justify-content-between px-3 align-items-center position-relative">
@@ -48,8 +48,8 @@
                                  }
                             ?>
                             <span class="user-name fw-bold">@<?php echo $username; ?></span>
-                           
-                            <div class="blog-option-container position-absolute top-0 end-0 mt-5 border me-1 text-bg-light p-2 rounded d-none" style="width:70%;z-index:5"id="blogDetailPopup" >
+                            
+                            <div class="blog-option-container position-absolute top-0 end-0 mt-5 border me-1 text-bg-light p-2 rounded d-none" style="width:70%;z-index:5" id="<?php echo "blogPopUp".$blog_id; ?>">
                             <ul class="list-unstyled text-center" >
                                 <li class="list-item mt-2 shadow border p-2 rounded d-flex align-items-center justify-content-center"><i class="fa-solid fa-circle-info"></i>&nbsp;Info</li>
                                 <li class="list-item mt-2 shadow border p-2 rounded d-flex align-items-center justify-content-center"> <i class="fa-solid fa-floppy-disk fs-4"></i>&nbsp;Save</li>
@@ -59,14 +59,8 @@
                             </ul>
                         </div>
                         </div>
-                        <script>
-                            blogDetail = document.getElementById('blogDetailPopup');
-                            
-                            function toggleBlogPopUp(){
-                                blogDetail.classList.toggle('d-none');
-                            }
-                        </script>
-                        <i class="fa-solid fa-ellipsis-vertical px-3 py-2" onclick="toggleBlogPopUp()"></i>
+                        
+                        <i class="fa-solid fa-ellipsis-vertical px-3 py-2" onclick="document.getElementById('blogPopUp<?php echo $blog_id; ?>').classList.toggle('d-none')"></i>
                         <?php //include "./component/blog-modal.php"; ?>
                         
                 </div>
@@ -290,9 +284,10 @@ for (var i = 0; i < copy_links.length; i++) {
                 </div>
             </div>
         </div>
-    </div>
+   
     
     <?php
                 }
     }
     ?>
+

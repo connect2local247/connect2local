@@ -11,16 +11,16 @@
   <?php include "../../../../asset/link/cdn-link.html"; ?>
 
   <style>
-    #form-body{
+    /* #form-body{
             margin: 0;
             padding: 0;
             /* min-height: 100vh; */
-            background-size: cover;
+            /* background-size: cover; */
             /* Add your background image or color here */
-            background: url('/asset/image/background/register_bg.jpg') no-repeat center center fixed;
+            /* background: url('/asset/image/background/register_bg.jpg') no-repeat center center fixed; */
             /* Additional styling for the body */
             /* Add other styles as needed */
-        }
+        
     /* #form-footer{
       position:fixed;
       bottom:0;
@@ -68,6 +68,8 @@
         }
   </style>
 </head>
+
+<body class="text-bg-dark d-flex flex-column align-items-center p-2" style="height:100vh;width:100%">
         <script>
             path = "/user/businessman/add_business/form/request_info.php";
         </script>
@@ -76,11 +78,9 @@
                 include "../../../../component/form-alert.php";
                 unset($_SESSION['error']);
         ?>
-
-<body id="form-body">
-    <div class="container p-1 m-auto">
+    
     <form action="/user/businessman/add_business/code/add-business-validation.php" method="POST" class="d-flex justify-content-center col-lg-8 col-md-9 col-12 add-form m-auto">
-    <script>
+    <!-- <script>
         // Function to set the body height dynamically
         function setBodyHeight() {
             var formBody = document.getElementById('form-body');
@@ -96,8 +96,8 @@
         // Call the function when the window is loaded and resized
         window.onload = setBodyHeight;
         window.onresize = setBodyHeight;
-    </script>
-        <fieldset class="border p-2 col-lg-10 col-12 text-white rounded-2 h-75" id="register-form">
+    </script> -->
+        <fieldset class="border p-2 col-lg-10 col-12 text-white rounded-2" id="register-form">
             <legend class="text-center fs-2 fw-bold">Add Business</legend>
 
             <div class="mt-4">
@@ -259,7 +259,7 @@
                 </div>
         </fieldset>  
     </form>
-    </div>
+    
     <?php //include "../../../../component/form-footer.php"; ?>
 </body>
 </html>

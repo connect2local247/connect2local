@@ -76,13 +76,18 @@
                     $result = mysqli_query($GLOBALS['connect'],$query);
                     
                     if(mysqli_num_rows($result) > 0){
-                        echo "<div class='col-lg-3'>";
+                        $row_count = mysqli_num_rows($result);
+
+                        for($i = 0; $i < $row_count; $i++){   
+                            echo "<div class='row'>";
                         while($row = mysqli_fetch_assoc($result)) {
+                            echo "<div class='col-3'>";
                             $blog_id = $row['BLG_ID'];
                             generateBlog($blog_id);
-
+                            echo "</div>";
                         }
                         echo "</div>";
+                    }
                     }
             ?>
         

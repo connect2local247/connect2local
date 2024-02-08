@@ -3,86 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App Drawer</title>
-    <!-- Add your CSS styles here -->
-    <style>
-        /* Styles for the drawer */
-        .drawer {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 300px;
-            height: 100%;
-            background-color: #f0f0f0;
-            z-index: 1000;
-            transition: transform 0.3s ease-in-out;
-            transform: translateX(100%);
-        }
-        .drawer.open {
-            transform: translateX(0);
-        }
-        .drawer ul {
-            list-style: none;
-            padding: 0;
-        }
-        .drawer ul li {
-            padding: 10px;
-            border-bottom: 1px solid #ccc;
-        }
-        /* Styles for the share button */
-        .share-button {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            cursor: pointer;
-        }
-    </style>
+    <title>Document</title>
+    <?php include "./asset/link/cdn-link.html"; ?>
 </head>
 <body>
-    <!-- Share button to toggle the drawer -->
-    <button class="share-button" onclick="toggleDrawer()">Share</button>
+    <div class="container text-bg-light shadow text-bg-dark">
+            <div class="profile-container p-4 rounded">
+                <div class="row rounded ">
 
-    <!-- Drawer content -->
-    <div class="drawer" id="drawer">
-        <ul>
-            <li><a href="#" onclick="share()">Share Link</a></li>
-            <li><a href="#" onclick="copyToClipboard()">Copy Link</a></li>
-        </ul>
-    </div>
+               
+                        <div class="business-info col-5  p-2 text-center">
+                                <div class="profile-image d-flex justify-content-center">
+                                    <img src="/asset/image/user/profile.png" class="border rounded-circle" style="height:100px;width:100px" alt="">
+                                </div>
+                                <div class="business-name">
+                                    <span class="fs-4"  style="font-weight:500">Bhavesh Parmar</span>
+                                </div>
+                                <!-- <p class="">Monday - Friday: 9:00 AM - 5:00 PM</p> -->
+                                <div class="follow-btn mt-1">
+                                    <button class="btn btn-primary px-4 bg-gradient">Follow</button>
+                                </div>
+                                <div class="info mt-4 d-flex justify-content-center">
+                                    <table>
+                                        <tr class="border">
+                                            <th class="border-end px-3" style="font-size:15px;font-weight:500">Business Name</th>
+                                            <td class="px-3" style="font-size:15px">LAB Solution</td>
+                                        </tr>
+                                        <tr class="border">
+                                            <th class="border-end px-3" style="font-size:15px;font-weight:500">Opening Hours</th>
+                                            <td class="px-3" style="font-size:15px">Monday - Friday: 9:00 AM - 5:00 PM</td>
+                                        </tr>
+                                        <tr class="border">
+                                            <th class="border-end px-3" style="font-size:15px;font-weight:500">Address</th>
+                                            <td class="px-3" style="font-size:15px;white-space:pre-line">A-23, Sony Solution,
+                                        Dhaval Plaza</td>
+                                        </tr>
+                                        <tr class="border">
+                                            <th class="border-end px-3" style="font-size:15px;font-weight:500">Category</th>
+                                            <td class="px-3" style="font-size:15px">Advertising</td>
+                                        </tr>
 
-    <!-- Your blog content goes here -->
-    <p>This is your blog content.</p>
+                                    </table>
+                                </div>
+                                <!-- <div class="profile-name text-center">
+                                    <span class="fs-5"></span>
+                                </div> -->
+                            </div>
+                            <div class="profile-info col-6 p-2 ">
+                                <div class="profile-name d-flex flex-column">
+                                    <span class="fs-5 fw-bold">@bhavesh_1724</span>
+                                </div>
+                                <div class="user-profile-activity-info mt-3">
+                    <ul class="list-unstyled d-flex fw-bold m-0" style="gap:10%">
+                        <li class="list-item d-flex flex-column justify-content-center text-center"><span class="blog-count">1</span> <span>Blog</span></li>
+                        <li class="list-item d-flex flex-column justify-content-center text-center"><span class="blog-count">1</span> <span>Followers</span></li>
+                        <li class="list-item d-flex flex-column justify-content-center text-center"><span class="blog-count">1</span> <span>Following</span></li>
+                    </ul>
+                </div>
+                                <div class="category mt-2">
+                                    <span class="text-secondary">Advertising</span>
+                                </div>
+                                <div class="description" style="white-space:pre-line;margin-top:-20px">
+                                Offering Services
+                                ▶ Frontend Design
+                                ▶ Ecommerce Store
+                                ▶ Wordpress Site
+                                ▶ PHP
+                                ▶ Bug & Error Fixing
+                        Email : bhaveshwebstudio@gmail.com
+                        #webdeveloper
+                                </div>
+                                <div class="contact-info mt-2">
+                                    <button class="btn btn-light"><i class="fa-solid fa-envelope"></i>&nbsp;bhaveshwebstudio@gmail.com</button>
+                                    <button class="btn btn-light"><i class="fa-solid fa-phone"></i>&nbsp; +91 9723884857</button>
+                                </div>
 
-    <!-- Add your JavaScript here -->
-    <script>
-        // Function to toggle the drawer
-        function toggleDrawer() {
-            var drawer = document.getElementById('drawer');
-            drawer.classList.toggle('open');
-        }
-
-        // Function to share using fallback method
-        function share() {
-            var url = window.location.href;
-            // Fallback method (could be replaced with a custom share dialog)
-            alert('Share this link: ' + url);
-        }
-
-        // Function to copy the link to the clipboard
-        function copyToClipboard() {
-            var dummy = document.createElement("input");
-            document.body.appendChild(dummy);
-            dummy.setAttribute('value', window.location.href);
-            dummy.select();
-            document.execCommand("copy");
-            document.body.removeChild(dummy);
-            alert("Link copied to clipboard!");
-        }
-    </script>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="social-link fs-4 d-flex  justify-content-center border-top py-2 border-secondary" style="gap:15px">
+                        <a href="#" class="social-media-link text-white"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-media-link text-white"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="#" class="social-media-link text-white"><i class="fa-brands fa-linkedin"></i></a>
+                        <a href="#" class="social-media-link text-white"><i class="fa-brands fa-twitter"></i></a>
+                </div>
+        </div>
 </body>
 </html>

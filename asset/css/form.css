@@ -1,5 +1,5 @@
 #form-body{
-    background: linear-gradient(rgba(0, 0, 0, 0.66), rgba(29, 29, 18, 0.694)), url('/asset/image/background/register_bg.jpg') no-repeat;    
+        background: linear-gradient(rgba(0, 0, 0, 0.66), rgba(29, 29, 18, 0.694)), url('/asset/image/background/register_bg.jpg') no-repeat;    
         background-size:100% 100%;
         /* height:fit-content; */
 }
