@@ -98,6 +98,7 @@
 </head>
 <body>
 
+<<<<<<< HEAD
     <div class="modal fade" id="setUserNamePromptModal" tabindex="-1" aria-labelledby="setUserNamePromptModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -118,6 +119,28 @@
                     <div class="modal-footer d-flex border-0">
                             <input type="submit" name="submit" value="Submit" class="btn btn-primary m-auto">
                         </form>
+=======
+    <div class="modal fade alert alert-primary" id="setUserNamePromptModal" tabindex="-1" aria-labelledby="setUserNamePromptModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered ">
+                <div class="modal-content ">
+                    <div class="modal-header fw-bold fs-4 ">
+                        Error
+                    </div>
+                    <div class="modal-body">
+                        <!-- <form action="#" method="post" id="addLinkForm"> -->
+                            <div class="mt-2 text-center alert alert-danger">
+                                <!-- <div class="alert alert-danger d-none form-error" role="alert">
+                                    Please enter a valid username. It must be 3 to 30 characters long and can contain letters, numbers, periods, and underscores.
+                                </div>
+                                <input type="text" class="form-control py-2" name="username" id="username" placeholder="Enter Username" required> -->
+                                Please set your username to post blog
+                            </div>
+                    </div>
+                    <div class="modal-footer d-flex border-top justify-content-end">
+                            <a href="/user/businessman/dashboard/form/edit-profile.php" class="link text-dark fw-bold ">Edit</a>
+                            <button class="btn" data-bs-dismiss="modal" data-bs-target="">Cancel</button>
+                        <!-- </form> -->
+>>>>>>> main
                     </div>
                 </div>
             </div>

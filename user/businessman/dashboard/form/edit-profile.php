@@ -34,8 +34,21 @@ if (isset($_SESSION['user_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile</title>
     <?php include "../../../../asset/link/cdn-link.html"; ?>
+<<<<<<< HEAD
 </head>
 <body class="text-bg-dark w-100" style="height:100vh">
+=======
+    <link rel="stylesheet" href="/asset/css/form.css">
+</head>
+<body class="text-bg-dark w-100" style="height:100vh">
+    <script>
+        path = "/user/businessman/dashboard/dashboard.php";
+    </script>
+    <?php
+    include "../../../../component/form-alert.php";
+    unset($_SESSION['error']);
+    ?>
+>>>>>>> main
     <form action="/user/businessman/dashboard/code/edit-profile-validation.php" method="POST" class="d-flex p-2" enctype="multipart/form-data">   
         <div class="card text-bg-dark border m-auto col-lg-4">
             <div class="card-content">
@@ -49,7 +62,11 @@ if (isset($_SESSION['user_id'])) {
                     <div class="mt-2 m-auto">
                         <div class="image-container border p-4 rounded-3 position-relative">
                             <?php if(isset($profile_img)): ?>
+<<<<<<< HEAD
                                 <img src="<?php echo $profile_img; ?>" class="rounded" style="height:150px;width:150px" alt="">
+=======
+                                <img src="/database/data/user/<?php echo $profile_img; ?>" class="rounded" style="height:150px;width:150px" alt="">
+>>>>>>> main
                             <?php else: ?>
                                 <img src="/asset/image/user/profile.png" class="rounded" style="height:150px;width:150px" alt="">
                             <?php endif; ?>
@@ -150,7 +167,11 @@ if (isset($_SESSION['user_id'])) {
             var bioTextarea = document.getElementById('bio');
             // Get the bio counter element
             var bioCounter = document.getElementById('bio-counter');
+<<<<<<< HEAD
 
+=======
+            bioCounter.textContent = (0 + bioTextarea.value.length)+ '/' + 150;
+>>>>>>> main
             // Add input event listener to bio textarea
             bioTextarea.addEventListener('input', function() {
                 // Limit the character count to 150
