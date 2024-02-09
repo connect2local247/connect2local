@@ -31,7 +31,7 @@
                 
 ?>
    
-        <div class="card border-0">
+        <div class="card">
             <div class="card-content border border-dark rounded shadow position-relative">
                 <div class="card-header d-flex justify-content-between px-3 align-items-center position-relative">
                         <div class="user-data d-flex align-items-center " style="gap:10px">
@@ -39,7 +39,7 @@
                                     if($user_image != "" || $user_image != NULL){
 
                             ?>
-                            <img src="<?php echo $user_image;?>" alt="user image" style="height:50px;width:50px" class="rounded-circle bg-light">
+                            <img src="/database/data/user/<?php echo $user_image;?>" alt="user image" style="height:50px;width:50px" class="rounded-circle bg-light">
                             <?php
                                     } else {
                             ?>
@@ -120,7 +120,7 @@
                                     <li class="item d-flex flex-column align-items-center" style="font-size:13px" >
                                         <i class="fa-regular fa-comment fs-5 mx-2 blog-interaction-icons" 
                                         data-bs-toggle="collapse" 
-                                        data-bs-target="#comment-section" 
+                                        data-bs-target="#comment-section<?php echo $blog_id ?>" 
                                         aria-expanded="false" 
                                         aria-controls="comment-section"></i>
                                         <span class="interaction-count">Comment</span>
@@ -135,7 +135,7 @@
                                 </ul>
                             </div>
                             <div class="visiting-link">
-    <i class="fa-solid fa-link fs-5 blog-interaction-icons" data-bs-target="#link-container" data-bs-toggle="collapse"></i>
+    <i class="fa-solid fa-link fs-5 blog-interaction-icons" data-bs-target="#link-container<?php echo $blog_id ?>" data-bs-toggle="collapse"></i>
 </div>
                                         </div>
 
@@ -143,7 +143,7 @@
 <!-- Include Clipboard.js library for copy functionality -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
 
-<div class="link-container top-0 w-100 start-0 text-bg-light border-top border-dark collapse pt-3" id="link-container">
+<div class="link-container top-0 w-100 start-0 text-bg-light border-top border-dark collapse pt-3" id="link-container<?php echo $blog_id ?>">
 <?php
 $fetch_link_query = "SELECT LINK_TITLE, LINK_URL FROM blog_link_data WHERE BLG_ID = '$blog_id'";
 $result = mysqli_query($GLOBALS['connect'], $fetch_link_query);
@@ -194,7 +194,7 @@ for (var i = 0; i < copy_links.length; i++) {
 }
     });
 </script>
-                        <div class="comment-section collapse border-secondary border-top p-2" id="comment-section">
+                        <div class="comment-section collapse border-secondary border-top p-2" id="comment-section<?php echo $blog_id ?>">
                             <span class="h5">Comments</span>
     <form method="post" class="mt-3">
         <div class="mb-3">

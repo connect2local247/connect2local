@@ -61,6 +61,20 @@
              }
         }
     }
+
+    function get_blog_count($user_id){
+        $fetch_query = "SELECT BLOG_COUNT FROM business_profile_interaction WHERE USER_ID = '$user_id'";
+
+        $result = mysqli_query($GLOBALS['connect'],$fetch_query);
+
+        if(mysqli_num_rows($result) > 0){
+            $row = mysqli_fetch_assoc($result);
+
+            return $row["BLOG_COUNT"];
+        }
+
+        return;
+    }
         function insert_data($title,$description){
             $blog_id = generateUniqueBlogID();
             $blogger_id = $_SESSION['user_id'];
@@ -147,11 +161,20 @@
 
             if (is_length_valid($blog_title, $blog_description)) {
                 if(insert_data($blog_title,$blog_description)){
+                    $blog_count = get_blog_count($_SESSION['user_id']);
+                    $query = "UPDATE business_profile_interaction SET BLOG_COUNT = $blog_count + 1 ";
+                    
+                    $result = mysqli_query($GLOBALS['connect'],$query);
+
+                    if($result){
+                        echo get_blog_count($_SESSION['user_id']);
+                       
+                    }
                     $_SESSION['greet-message'] = "Your Blog Uploaded Successfully.";
                 }
             }
 
-            header("location:/testblog.php?blog_id={$_SESSION['blog_id']}");
+            header("location:/user/businessman/dashboard/form/add-blog.php");
             exit();
         }
 ?>

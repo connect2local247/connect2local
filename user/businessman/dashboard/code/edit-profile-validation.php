@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Handle profile image update
             if ($_FILES['profile_img']['error'] == UPLOAD_ERR_OK) {
                 $tmp_name = $_FILES['profile_img']['tmp_name'];
-                $target_path = "/connect2local/database/data/user/";
+                $target_path = "../../../../database/data/user/";
                 $file_name = basename($_FILES['profile_img']['name']);
                 $target_file = $file_name;
                 
@@ -77,7 +77,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if (move_uploaded_file($tmp_name, $target_file)) {
                     // Update profile image path in database
                     $update_img_query = "UPDATE business_profile SET PROFILE_IMG = '$target_file' WHERE USER_ID = '$user_id'";
+                    $update_blog_img_query = "UPDATE blog_data SET BLG_USER_IMG_URL = '$target_file' WHERE USER_ID = '$user_id'";
+                    // die($update_blog_img_query);
                     mysqli_query($GLOBALS['connect'], $update_img_query);
+                    mysqli_query($GLOBALS['connect'],$update_blog_img_query);
                 } else {
                     // Handle error if image upload fails
                     $_SESSION['error'] = "Error uploading profile image.";

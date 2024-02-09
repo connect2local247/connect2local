@@ -40,9 +40,13 @@
 
             $business_profile_insert_query = "INSERT INTO business_profile(USER_ID,FNAME,LNAME,BIRTH_DATE,GENDER,ADDRESS,CATEGORY,UPDATE_TIME,B_ID) VALUES ('$business_user_id','$fname', '$lname', '$birth_date', '$gender','$address','$category',NOW(),'$business_id')";
 
+            $business_profile_interaction_insert_query = "INSERT INTO business_profile_interaction (USER_ID,B_ID) VALUES('$business_user_id','$business_id')";
+            // die($business_profile_interaction_insert_query);
+
             $business_profile_result = mysqli_query($GLOBALS['connect'],$business_profile_insert_query);
             $register_query_result = mysqli_query($GLOBALS['connect'],$register_insert_query);
             $verification_query_result = mysqli_query($GLOBALS['connect'],$verification_insert_query);
+            $business_profile_interaction_result = mysqli_query($GLOBALS['connect'],$business_profile_interaction_insert_query);
 
             echo $register_insert_query;
             if ($register_query_result && $verification_query_result) {
