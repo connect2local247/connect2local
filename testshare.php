@@ -125,7 +125,7 @@ business_profile_interaction.FOLLOWING_COUNT AS Following_count
                             </div>
                             <div class="profile-info col-6 p-2 ">
                                 <div class="profile-name d-flex flex-column">
-                                    <span class="fs-5 fw-bold">@bhavesh_1724</span>
+                                    <span class="fs-5 fw-bold"><?php echo $username ?></span>
                                 </div>
                                 <div class="user-profile-activity-info mt-3">
                     <ul class="list-unstyled d-flex fw-bold m-0" style="gap:10%">
@@ -141,9 +141,10 @@ business_profile_interaction.FOLLOWING_COUNT AS Following_count
                                 <?php echo $bio ?>
                                 </div>
                                 <div class="contact-info mt-2">
-                                    <button class="btn btn-light"><i class="fa-solid fa-envelope"></i>&nbsp;<?php echo decryptData($email,$bKey) ?></button>
-                                    <button class="btn btn-light"><i class="fa-solid fa-phone"></i>&nbsp; <?php echo decryptData($phone,$bKey)?></button>
-                                </div>
+    <a href="mailto:<?php echo decryptData($email,$bKey) ?>" class="btn btn-light"><i class="fa-solid fa-envelope"></i>&nbsp;Email</a>
+    <a href="tel:<?php echo decryptData($phone,$bKey)?>" class="btn btn-light"><i class="fa-solid fa-phone"></i>&nbsp;Phone</a>
+</div>
+
 
                                 
                         </div>

@@ -3,7 +3,10 @@
 
         include "../../../includes/table_query/db_connection.php";
         require "../../../includes/table_query/get_data_query.php";
+        require "../../../includes/security_function/secure_function.php";
 
+        include "../../../testshare.php";
+        $user_id = $_SESSION['user_id'];
         function check_exist_username($username){
             $query = "SELECT USERNAME FROM business_profile WHERE USERNAME = '$username'";
             $result = mysqli_query($GLOBALS['connect'],$query);
@@ -166,7 +169,7 @@
             <div class="user-menu mt-3 d-flex align-items-center justify-content-center" style="width:100%">
                 <ul class="list-unstyled ms-5 d-flex flex-column" style="gap:10px;">
                     <li class="nav-item">Dashboard</li>
-                    <li class="nav-item">Account</li>
+                    <li class="nav-item" onclick="location.href='/user/businessman/dashboard/account/account.php'">Account</li>
                     <li class="nav-item">Blog</li>
                     <li class="nav-item">Setting</li>
                     <li class="nav-item">Review & Rating</li>
@@ -178,7 +181,10 @@
     </header>
 
     <section class="content-container border border-dark  offset-xxl-2 col-xxl-10" style="height:calc(100vh - 80px);">
-            <div class="profile-container border">
+            <?php
+                    fetch_profile($user_id);
+            ?>  
+            <!-- <div class="profile-container border">
                 <div class="container border rounded-1 border-dark text-bg-dark p-2">
                         <div class="row">
                             <div class="col-lg-5 p-3 d-flex justify-content-center align-items-center flex-column col-12" style="gap:15px">
@@ -217,7 +223,7 @@
                             </div>
                         </div>
                 </div>
-            </div>
+            </div> -->
     </section>
 </body>
 </html>

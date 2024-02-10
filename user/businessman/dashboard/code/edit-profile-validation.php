@@ -71,13 +71,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $tmp_name = $_FILES['profile_img']['tmp_name'];
                 $target_path = "../../../../database/data/user/";
                 $file_name = basename($_FILES['profile_img']['name']);
-                $target_file = $file_name;
+                $target_file = $target_path.$file_name;
                 
                 // Move uploaded image to target location
                 if (move_uploaded_file($tmp_name, $target_file)) {
                     // Update profile image path in database
                     $update_img_query = "UPDATE business_profile SET PROFILE_IMG = '$target_file' WHERE USER_ID = '$user_id'";
-                    $update_blog_img_query = "UPDATE blog_data SET BLG_USER_IMG_URL = '$target_file' WHERE USER_ID = '$user_id'";
+                    $update_blog_img_query = "UPDATE blog_data SET BLG_USER_IMG_URL = '$file_name' WHERE USER_ID = '$user_id'";
                     // die($update_blog_img_query);
                     mysqli_query($GLOBALS['connect'], $update_img_query);
                     mysqli_query($GLOBALS['connect'],$update_blog_img_query);
