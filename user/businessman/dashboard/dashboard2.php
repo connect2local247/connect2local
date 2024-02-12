@@ -1,5 +1,8 @@
 <?php
         session_start();
+
+        include "../../../includes/table_query/db_connection.php";
+        include "../../../includes/security_function/secure_function.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,39 +13,45 @@
     <link rel="stylesheet" href="/asset/css/style.css">
     <?php include "../../../asset/link/cdn-link.html"; ?>
     <style>
-
-@media (max-width: 767.98px) {
-    .sidebar-col {
-        display: none;
+    /* Add animation for slide left */
+    @keyframes slideLeft {
+        from {
+            transform: translateX(-100%);
+        }
+        to {
+            transform: translateX(0);
+        }
     }
-}
 
-@media (min-width: 768px) {
-    .offcanvas {
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        width: 300px; /* Adjust width as needed */
-        transition: transform 0.3s ease;
-        transform: translateX(-100%);
+    .sidebar {
+        color: #fff;
+        animation: slideLeft 0.5s; /* Apply animation */
         z-index: 1050;
     }
-
-    .offcanvas.show {
-        transform: translateX(0);
-    }
-}
-
-    </style>
+</style>
 
 </head>
 <body>
-<div class="container">
-    <div class="row">
-        <div class="col-4 sidebar-col" >
-            <div class="offcanvas offcanvas-start bg-dark text-light show" style="height:calc(100vh - 70px);margin-top:70px" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
-                <div class="offcanvas-body">
+    <nav class="navbar bg-dark" style="height:70px">
+    <div class="container">
+        <div class="home-icon text-white fs-4 ">
+            <i class="fa-solid fa-bars mx-1 d-xxl-none d-xl-none d-inline"></i>
+            <i class="fa-solid fa-house"></i>
+        </div>
+        <div class="user-profile d-flex align-items-center">
+            <img src="/asset/image/user/profile.png" style="height:40px;width:40px;" class="mx-1" alt="">
+            <span class="text-white fw-semibold">Bhavesh Parmar</span>
+        </div>
+        <div class="add-business-icon">
+            <img src="/asset/image/svg/add-business.svg" style="height:40px;width:40px" alt="">
+        </div>
+    </div>
+    </nav>
+   
+    <div class="d-flex">
+        <div class="col-xxl-2 col-lg-3 col-md-5 col-sm-7 col-9 sidebar-container d-xxl-block d-xl-block d-none" >
+            <div class="bg-dark text-light" style="min-height:100vh;position:relative;top:100px" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+                <div class="offcanvas-body pt-5">
                     <div class="sidebar d-flex flex-column align-items-center">
                         <div class="profile-container">
                             <div class="profile-image">
@@ -65,14 +74,23 @@
               
             </div>
         </div>
-        <div class="col-*">
-            <!-- Your main content here -->
+        <div class="col-* text-bg-dark">
+                <div class="content-container p-1 border border-danger" style="width:calc(100vw - 334px);position:relative;top:100px">
+                    <?php include "profile/profile.php"; fetch_profile($_SESSION['user_id']);?>
+                </div>
         </div>
     </div>
-</div>
 
 
+<script>
+    bars = document.querySelector(".fa-bars");
+    sidebarContainer = document.querySelector(".sidebar-container")
 
+bars.addEventListener("click", function(){
+    sidebarContainer.classList.toggle("d-none")
+})
+    
+</script>
 
 </body>
 </html>
