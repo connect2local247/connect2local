@@ -4,7 +4,7 @@
         require "../../includes/table_query/get_data_query.php";
         include "../../includes/blog_function/time_function.php";
         include "../../testblog.php";
-        include "../../testshare.php";
+        include "../../user/businessman/dashboard/profile/profile.php";
         require "../../includes/security_function/secure_function.php";
 ?>  
 <!DOCTYPE html>
@@ -18,7 +18,7 @@
 </head>
 <body>
         <?php
-            $user_id = $_SESSION['user_id'];
+            $user_id = $_SESSION['bp_user_id'];
             // die($user_id);
             fetch_profile($user_id);
 //             error_reporting(E_ALL);
@@ -33,12 +33,12 @@
         <div class="row">
             <?php
             // $user_id = $_SESSION['user_id']; // Assuming user ID is available in session
-            $query = "SELECT BLG_ID FROM blog_data WHERE USER_ID = '$user_id'";
+            $query = "SELECT blg_id FROM blog_data WHERE bp_user_id = '$user_id'";
             $result = mysqli_query($GLOBALS['connect'],$query);
             
             if(mysqli_num_rows($result) > 0){
                 while($row = mysqli_fetch_assoc($result)) {
-                    $blog_id = $row['BLG_ID'];
+                    $blog_id = $row['blg_id'];
             ?>
             <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4">
                 <?php generateBlog($blog_id); ?>

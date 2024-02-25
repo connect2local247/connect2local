@@ -1,24 +1,24 @@
 <?php
             session_start();
 
-            include "/connect2local/includes/table_query/db_connection.php";
-            require "/connect2local/includes/code_generator/code_generator.php";
-            require "/connect2local/includes/security_function/secure_function.php";
-            include "/connect2local/includes/email_template/email_sending.php";
+            include "../../../../includes/table_query/db_connection.php";
+            require "../../../../includes/code_generator/code_generator.php";
+            require "../../../../includes/security_function/secure_function.php";
+            include "../../../../includes/email_template/email_sending.php";
 
             if(isset($_SESSION['error'])){
                 unset($_SESSION['error']);
             }
 
-         function resend_security_key($email,$code){
+         function resend_admin_otp($email,$code){
 
             $subject = "New Security Key of Admin";
 
             $template = "
-    <div style='max-width: 600px; margin: 0 auto; padding: 20px; font-family: \"Arial\", sans-serif; background-color: #f8f8f8;'>
+    <div style='max-wadmin_idth: 600px; margin: 0 auto; padding: 20px; font-family: \"Arial\", sans-serif; background-color: #f8f8f8;'>
 
         <div style='text-align: center;'>
-            <img src='https://live.staticflickr.com/65535/53417631216_2be8f41b9e_n.jpg' alt='Connect2local' style='max-width: 100px;'>
+            <img src='https://live.staticflickr.com/65535/53417631216_2be8f41b9e_n.jpg' alt='Connect2local' style='max-wadmin_idth: 100px;'>
         </div>
 
         <div style='text-align: center;'>
@@ -42,29 +42,29 @@ send_mail("",$email,$subject,$template);
 }
         function getNewSecurityKeyFromDatabase(){
 
-                        $new_security_key = generateSecurityKey();
+                        $new_admin_otp = generateSecurityKey();
 
-                        $get_data_query = "SELECT EMAIL,PASSWORD,SECURITY_KEY FROM admin_login WHERE ID = 1";
+                        $get_data_query = "SELECT admin_email,admin_password,admin_otp FROM admin_login WHERE admin_id = 1";
 
                         $result = mysqli_query($GLOBALS['connect'],$get_data_query);
 
                         if(mysqli_num_rows($result) > 0){
                             $row = mysqli_fetch_assoc($result);
 
-                            $key = $row['SECURITY_KEY'];
-                            $db_email = decryptData($row['EMAIL'],$row['SECURITY_KEY']);
-                            $db_password = decryptData($row['PASSWORD'],$row['SECURITY_KEY']);
+                            $key = $row['admin_otp'];
+                            $db_email = decryptData($row['admin_email'],$row['admin_otp']);
+                            $db_password = decryptData($row['admin_password'],$row['admin_otp']);
 
-                            $encryptDbEmail = encryptData($db_email,$new_security_key); 
-                            $encryptDbPassword = encryptData($db_password,$new_security_key); 
+                            $encryptDbEmail = encryptData($db_email,$new_admin_otp); 
+                            $encryptDbPassword = encryptData($db_password,$new_admin_otp); 
 
-                            $update_query = "UPDATE admin_login SET EMAIL = '$encryptDbEmail', PASSWORD = '$encryptDbPassword', SECURITY_KEY = '$new_security_key' WHERE ID = 1";
+                            $update_query = "UPDATE admin_login SET admin_email = '$encryptDbEmail', admin_password = '$encryptDbPassword', admin_otp = '$new_admin_otp' WHERE admin_id = 1";
                             // die($update_query);
                             $result = mysqli_query($GLOBALS['connect'],$update_query);
 
                             if($result){
-                                resend_security_key($db_email,$new_security_key);
-                                return $new_security_key;
+                                resend_admin_otp($db_email,$new_admin_otp);
+                                return $new_admin_otp;
                             }
                         }
 

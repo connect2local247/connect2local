@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-include "/connect2local/includes/table_query/db_connection.php";
-require "/connect2local/includes/code_generator/code_generator.php";
-require "/connect2local/includes/security_function/secure_function.php";
-include "/connect2local/includes/table_query/update_data.php";
+include "../../../../includes/table_query/db_connection.php";
+require "../../../../includes/code_generator/code_generator.php";
+require "../../../../includes/security_function/secure_function.php";
+include "../../../../includes/table_query/update_data.php";
 
 
 if (isset($_SESSION['error'])) {
@@ -12,9 +12,9 @@ if (isset($_SESSION['error'])) {
 }
 function getSecurityKeyFromDatabase()
 {
-    // Assuming $GLOBALS['connect'] is a valid database connection
+    // Assuming $GLOBALS['connect'] is a valadmin_id database connection
 
-    $get_code_query = "SELECT SECURITY_KEY FROM admin_login WHERE ID = 1";
+    $get_code_query = "SELECT admin_otp FROM admin_login WHERE admin_id = 1";
     $result = mysqli_query($GLOBALS['connect'], $get_code_query);
 
     if (!$result) {
@@ -24,9 +24,9 @@ function getSecurityKeyFromDatabase()
 
     if (mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
-        $security_key = $row['SECURITY_KEY'];
+        $admin_otp = $row['admin_otp'];
 
-        return $security_key;
+        return $admin_otp;
     }
 
     return 0;
@@ -35,9 +35,9 @@ function getSecurityKeyFromDatabase()
 if (isset($_POST['submit'])) {
     $user_code = $_POST['user-code'];
 
-    $security_key = getSecurityKeyFromDatabase();
+    $admin_otp = getSecurityKeyFromDatabase();
 
-//     echo $security_key;
+//     echo $admin_otp;
 //     die();
     if (isset($_SESSION['code_attempts'])) {
         if ($_SESSION['code_attempts'] > 5) {
@@ -53,7 +53,7 @@ if (isset($_POST['submit'])) {
         }
     }
 
-    if ($user_code == $security_key) {
+    if ($user_code == $admin_otp) {
         $_SESSION['greet-message'] = "Security Key Has been Matched.";
         updateDataAdmin();
         unset($_SESSION['error']);

@@ -1,11 +1,11 @@
 <?php
         session_start();
 
-        include "/connect2local/includes/table_query/db_connection.php";
-        require "/connect2local/includes/table_query/find_encrypt_data.php";
-        require "/connect2local/includes/code_generator/code_generator.php";
-        require "/connect2local/includes/table_query/get_primary_key.php";
-        require "/connect2local/includes/email_template/email_sending.php";
+        include "../../../../includes/table_query/db_connection.php";
+        require "../../../../includes/table_query/find_encrypt_data.php";
+        require "../../../../includes/code_generator/code_generator.php";
+        require "../../../../includes/table_query/get_primary_key.php";
+        require "../../../../includes/email_template/email_sending.php";
 
 
         if(isset($_SESSION['error'])){
@@ -54,7 +54,7 @@
         }
 
         function check_email_exists($email){
-            if(find_encrypted_data($email,"business_register","business_verification","B_ID","B_EMAIL","B_KEY","B_ID")){
+            if(find_encrypted_data($email,"business_register","business_verification","b_id","b_email","b_key","b_id")){
                 return true;
             } else{
                 $_SESSION['error'] = "Email Doesn't Exists";
@@ -64,7 +64,7 @@
         }
 
         function get_name($business_id){
-            $query = "SELECT B_FNAME,B_LNAME FROM business_register WHERE B_ID = '$business_id'";
+            $query = "SELECT B_FNAME,B_LNAME FROM business_register WHERE b_id = '$business_id'";
 
             $result = mysqli_query($GLOBALS['connect'],$query);
 
@@ -81,11 +81,11 @@
         }
 
         function update_data($email,$verification_token){
-            $business_id = get_primary_key($email,"business_register","business_verification","B_ID","B_EMAIL","B_KEY","B_ID");
+            $business_id = get_primary_key($email,"business_register","business_verification","b_id","b_email","b_key","b_id");
 
             $_SESSION['fullname'] = get_name($business_id);
 
-            $find_key_query = "SELECT B_KEY FROM business_verification WHERE B_ID = '$business_id'";
+            $find_key_query = "SELECT b_key FROM business_verification WHERE b_id = '$business_id'";
 
             $result = mysqli_query($GLOBALS['connect'],$find_key_query);
 
@@ -93,11 +93,11 @@
             if($result){
                 $row = mysqli_fetch_assoc($result);
                 
-                $key = $row['B_KEY'];
+                $key = $row['b_key'];
                 echo $key;
             }
 
-            $update_query = "UPDATE business_verification SET B_VERIFICATION_TOKEN = '$verification_token' WHERE B_KEY = $key";
+            $update_query = "UPDATE business_verification SET b_verification_token = '$verification_token' WHERE b_key = $key";
             $result = mysqli_query($GLOBALS['connect'],$update_query);
 
             // die($result);
@@ -114,7 +114,7 @@
         if(isset($_POST['submit'])){
             $email = $_POST['email'];
 
-                $col_name = "B_VERIFICATION_TOKEN";
+                $col_name = "b_verification_token";
                 $verification_token = generateVerificationToken($col_name);
                 $verification_link = "http://connect2local/user/businessman/login/form/forgot-password.php?verification_token=$verification_token";
 

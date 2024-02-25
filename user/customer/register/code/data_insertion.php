@@ -11,7 +11,6 @@
             $fname = $_SESSION['fname'];
             $lname = $_SESSION['lname'];
             $birth_date = $_SESSION['birth-date'];
-            $age = $_SESSION['age'];
             $gender = $_SESSION['gender'];
             $contact = $_SESSION['contact'];
             $email = $_SESSION['email'];
@@ -26,22 +25,28 @@
 
             
 
-            $customer_generated_id = generateUniqueID("C2L");
+            $customer_generated_id = generateUniqueID("customer_register","C2L","c_id");
 
             $customer_id = $customer_generated_id;
+            $verification_code = generateVerificationCode();
+            $register_insert_query = "INSERT INTO customer_register (c_id, c_fname, c_lname, c_birth_date, c_gender, c_contact, c_email, c_password, c_term_status,join_date) 
+                         VALUES ('$customer_id', '$fname', '$lname', '$birth_date', '$gender', '$encryptedContact', '$encryptedEmail', '$encryptedPassword',$term_condition, NOW())";
 
-            $register_insert_query = "INSERT INTO customer_register (C_ID, C_FNAME, C_LNAME, C_BIRTH_DATE, C_AGE, C_GENDER, C_CONTACT, C_EMAIL, C_PASSWORD, C_TERM_AGREE, JOIN_DATE) 
-                         VALUES ('$customer_id', '$fname', '$lname', '$birth_date', '$age', '$gender', '$encryptedContact', '$encryptedEmail', '$encryptedPassword', '$term_condition', NOW())";
 
-
-            $verification_insert_query = "INSERT INTO customer_verification (C_KEY,C_ID) VALUES ('$encryption_key','$customer_id')";
+            $verification_insert_query = "INSERT INTO customer_verification (c_key,c_verification_code,c_id) VALUES ('$encryption_key','$verification_code','$customer_id')";
 
             $register_query_result = mysqli_query($GLOBALS['connect'],$register_insert_query);
             $verification_query_result = mysqli_query($GLOBALS['connect'],$verification_insert_query);
 
             echo $register_insert_query;
-            if ($register_query_result && $verification_query_result) {
-                return true;
+            if($register_query_result && $verification_query_result) {
+
+                send_code($email,$verification_code);
+            $_SESSION['c_id'] = $customer_id;       
+            $_SESSION['greet-message'] = "Congratulations !!! You are registered Successfully.";
+            $_SESSION['message'] = "Verification Code Sent Successfully.";
+            header("location:/user/customer/register/form/customer_register.php");
+            return true;
             }
             
             if (!$register_query_result) {
@@ -55,23 +60,12 @@
             return false;
             
         }
+        insert_data();
 
-        if(insert_data()){
-
-            $email = $_SESSION['email'];
-            send_code($email);
-
-            $_SESSION['greet-message'] = "Congratulations !!! You are registered Successfully.";
-            $_SESSION['message'] = "Verification Code Sent Successfully.";
-            header("location:/user/customer/register/form/customer_register.php");
-            exit;
-        }
-        function send_code($email){
+        function send_code($email,$verification_code){
                 $subject = "Verification Code From Connect2Local";
 
                 $name = $_SESSION['fname'] ." ". $_SESSION['lname'];
-                $verification_code = generateVerificationCode();
-                $_SESSION['verify-code'] = $verification_code;
                 $template = "
     <div style='max-width: 600px; margin: 0 auto; padding: 20px; font-family: \"Arial\", sans-serif;'>
 

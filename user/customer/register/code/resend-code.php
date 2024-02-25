@@ -2,6 +2,7 @@
 
         session_start();
 
+        require "../../../../includes/table_query/db_connection.php";
         require "/connect2local/includes/email_template/email_sending.php";
         require "/connect2local/includes/code_generator/code_generator.php";
 
@@ -22,9 +23,11 @@
             function resend_code($email){
                 
                 $new_verification_code = generateVerificationCode();
-                
-                $_SESSION['verify-code'] = $new_verification_code;
-                
+                $id = $_SESSION['c_id'];
+                $query = "UPDATE customer_verification SET c_verification_code = '$new_verification_code' WHERE c_id = '$id'";
+                $result = mysqli_query($GLOBALS['connect'],$query);
+                if($result){
+
                 $name = $_SESSION['fname']." ".$_SESSION['lname'];
                 $subject = "New Verification Code From Connect2Local";
                 
@@ -62,6 +65,7 @@
                 
                 $_SESSION['message'] = "Verification has been resent to your mail.";
                 send_mail($name,$email,$subject,$template);
+            }
         }
 
 ?>

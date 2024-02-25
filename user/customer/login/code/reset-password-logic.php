@@ -2,9 +2,9 @@
         session_start();
 
 
-        include "/connect2local/includes/table_query/db_connection.php";
-        require "/connect2local/includes/security_function/secure_function.php";
-        require "/connect2local/includes/table_query/get_encrypted_data.php";
+        include "../../../../includes/table_query/db_connection.php";
+        require "../../../../includes/security_function/secure_function.php";
+        require "../../../../includes/table_query/get_encrypted_data.php";
 
         if(isset($_SESSION['error'])){
             unset($_SESSION['error']);
@@ -18,7 +18,7 @@
             $verification_token = $_SESSION['verification-token'];
             if($password == $confirm_password){
 
-                $data = get_encrypted_data($email,"customer_register","customer_verification","C_ID","C_EMAIL","C_KEY","C_ID");
+                $data = get_encrypted_data($email,"customer_register","customer_verification","c_id","c_email","c_key","c_id");
 
                 $id = $data['id'];
                 $key = $data['key'];
@@ -27,7 +27,7 @@
                 $encryptedPassword = encryptData($password,$key);
 
 
-                $update_password_query = "UPDATE customer_register SET C_PASSWORD = '$encryptedPassword' WHERE C_ID = '$id' ";
+                $update_password_query = "UPDATE customer_register SET c_password = '$encryptedPassword' WHERE c_id = '$id' ";
 
                 $result = mysqli_query($GLOBALS['connect'],$update_password_query);
                 

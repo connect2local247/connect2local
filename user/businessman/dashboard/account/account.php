@@ -1,24 +1,19 @@
 <?php
-      session_start();
-
-      include "../../../../includes/table_query/db_connection.php";
-      include "../../../../includes/security_function/secure_function.php";
-
       $connect = $GLOBALS['connect'];
       $business_id = $_SESSION['business_id'];
-$fetch_data_query = "SELECT business_info.BUSINESS_NAME, business_info.EMAIL, business_info.PHONE, business_info.OPERATE_TIME, business_register.B_PASSWORD, business_info.B_KEY
+$fetch_data_query = "SELECT business_info.business_name, business_info.bi_email, business_info.bi_contact, business_info.bi_operate_time, business_register.b_password, business_info.b_key
                      FROM business_info
-                     INNER JOIN business_register ON business_info.B_ID = business_register.B_ID
-                     WHERE business_info.B_ID = '$business_id'";
+                     INNER JOIN business_register ON business_info.b_id = business_register.b_id
+                     WHERE business_info.b_id = '$business_id'";
 $result = mysqli_query($connect, $fetch_data_query);
 
 if ($row = mysqli_fetch_assoc($result)) {
-    $business_name = $row['BUSINESS_NAME'];
-    $operate_time = $row['OPERATE_TIME'];
-    $phone = $row['PHONE'];
-    $email = $row['EMAIL'];
-    $password = $row['B_PASSWORD'];
-    $bKey = $row['B_KEY'];
+    $business_name = $row['business_name'];
+    $operate_time = $row['bi_operate_time'];
+    $phone = $row['bi_contact'];
+    $email = $row['bi_email'];
+    $password = $row['b_password'];
+    $bKey = $row['b_key'];
 
 ?>
 <!DOCTYPE html>
@@ -27,7 +22,7 @@ if ($row = mysqli_fetch_assoc($result)) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <?php include "../../../../asset/link/cdn-link.html"; ?>
+  <?php include "../../../asset/link/cdn-link.html"; ?>
 </head>
 <body class="p-3">
         <div class="container py-4 px-2 border shadow mt-4 rounded-2 col-xxl-6 col-xl-6 col-lg-7 col-md-10">

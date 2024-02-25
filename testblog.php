@@ -12,22 +12,22 @@
                 if(mysqli_num_rows(($result))){
                     $row = mysqli_fetch_assoc($result);
 
-                    $title = $row['BLG_TITLE'];
-                    $description = $row['BLG_DESCRIPT'];
-                    $username = $row['BLG_USERNAME'];
-                    $user_image = $row['BLG_USER_IMG_URL'];
-                    $content_url = $row['BLG_CONTENT_URL'];
-                    $content_size = $row['BLG_CONTENT_SIZE'];
-                    $content_type = $row['BLG_CONTENT_TYPE'];
-                    $category = $row['BLG_CATEGORY'];
-                    $like_count = $row['BLG_LIKE_COUNT'];
-                    $comment_count = $row['BLG_COMMENT_COUNT'];
-                    $blogger_profile = $row['BLGR_PROFILE_URL'];
-                    $blogger_name = $row['BLG_AUTHOR_NAME'];
-                    $share_link = $row['BLG_SHARE_LINK'];
-                    $release_date = $row['BLG_RELEASE_DATE'];
-                    $update_date = $row['BLG_UPDATE_TIME'];
-                    $user_id = $row['USER_ID'];
+                    $title = $row['blg_title'];
+                    $description = $row['blg_description'];
+                    $username = $row['blg_username'];
+                    $user_image = $row['blg_user_img_url'];
+                    $content_url = $row['blg_content_url'];
+                    $content_size = $row['blg_content_size'];
+                    $content_type = $row['blg_content_type'];
+                    $category = $row['blg_category'];
+                    $like_count = $row['blg_like_count'];
+                    $comment_count = $row['blg_comment_count'];
+                    $blogger_profile = $row['blgr_profile_url'];
+                    $blogger_name = $row['blg_author_name'];
+                    $share_link = $row['blg_share_link'];
+                    $release_date = $row['blg_release_time'];
+                    $update_date = $row['blg_update_time'];
+                    $user_id = $row['bp_user_id'];
                 
 ?>
    

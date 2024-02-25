@@ -15,15 +15,15 @@
         }
 
         function get_name($business_id){
-            $query = "SELECT B_FNAME,B_LNAME FROM business_register WHERE B_ID = '$business_id'";
+            $query = "SELECT b_fname,b_lname FROM business_register WHERE B_ID = '$business_id'";
 
             $result = mysqli_query($GLOBALS['connect'],$query);
 
             if(mysqli_num_rows($result) > 0){
                 $row = mysqli_fetch_assoc($result);
 
-                $fname = $row['B_FNAME'];
-                $lname = $row['B_LNAME'];
+                $fname = $row['b_fname'];
+                $lname = $row['b_lname'];
 
                 return $fname." ".$lname;
             } 
@@ -53,7 +53,7 @@
             if(isset($_SESSION['linkDataArray'])){
 
             foreach ($_SESSION['linkDataArray'] as $key => $value) {   
-                $insert_query = "INSERT INTO blog_link_data (BLG_ID,BLGR_ID,BLGR_USERNAME,LINK_TITLE,LINK_URL) VALUES ('$blog_id','$blogger_id','$username','{$value["title"]}','{$value["url"]}')";
+                $insert_query = "INSERT INTO blog_link_data (blg_id,bp_user_id,link_title,link_url) VALUES ('$blog_id','$blogger_id','{$value["title"]}','{$value["url"]}')";
 
                 // die($insert_query);
                 $result = mysqli_query($GLOBALS['connect'],$insert_query);
@@ -63,32 +63,32 @@
     }
 
     function get_blog_count($user_id){
-        $fetch_query = "SELECT BLOG_COUNT FROM business_profile_interaction WHERE USER_ID = '$user_id'";
+        $fetch_query = "SELECT bpi_blog_count FROM business_profile_interaction WHERE bp_user_id = '$user_id'";
 
         $result = mysqli_query($GLOBALS['connect'],$fetch_query);
-
+        // die($fetch_query);
         if(mysqli_num_rows($result) > 0){
             $row = mysqli_fetch_assoc($result);
 
-            return $row["BLOG_COUNT"];
+            return $row["bpi_blog_count"];
         }
 
         return;
     }
         function insert_data($title,$description){
             $blog_id = generateUniqueBlogID();
-            $blogger_id = $_SESSION['user_id'];
+            $blogger_id = $_SESSION['bp_user_id'];
             $blogger_name = get_name($blogger_id);
             $content_filename = $_SESSION['file-name'];
             $content_type = $_SESSION['file-type'];
             $content_size = $_SESSION['file-size'];
-            $blogger_username = get_username("business_profile",$blogger_id,"USERNAME","USER_ID");
-            $blogger_user_img = get_single_data("business_profile","PROFILE_IMG","USER_ID",$blogger_id);
-            $blogger_category = get_single_data("business_profile","CATEGORY","USER_ID",$blogger_id);
+            $blogger_username = get_username("business_profile",$blogger_id,"bp_username","bp_user_id");
+            $blogger_user_img = get_single_data("business_profile","bp_profile_img_url","bp_user_id",$blogger_id);
+            $blogger_category = get_single_data("business_profile","bp_category","bp_user_id",$blogger_id);
             $share_link = "http://connect2local/pages/blog/blog.php?blog_id=$blog_id";
             $blogger_profile_url = "https://connect2local/pages/profile/blogger-profile.php?blogger_id=$blogger_id";
             $_SESSION['blog_id'] = $blog_id;
-            $insert_blog_data_query = "INSERT INTO `blog_data`(`BLG_ID`, `BLG_TITLE`, `BLG_USERNAME`, `BLG_USER_IMG_URL`, `BLG_CONTENT_URL`, `BLG_CONTENT_SIZE`, `BLG_DESCRIPT`, `BLG_AUTHOR_NAME`, `BLG_CONTENT_TYPE`, `BLG_CATEGORY`, `BLG_LIKE_COUNT`, `BLG_COMMENT_COUNT`, `BLG_SHARE_LINK`, `BLGR_PROFILE_URL`, `BLG_RELEASE_DATE`, `USER_ID`) VALUES ('$blog_id','$title','$blogger_username','$blogger_user_img','$content_filename','$content_size','$description','$blogger_name','$content_type','$blogger_category','0','0','$share_link','$blogger_profile_url',NOW(),'$blogger_id')";
+            $insert_blog_data_query = "INSERT INTO `blog_data`(`blg_id`, `blg_title`, `blg_username`, `blg_user_img_url`, `blg_content_url`, `blg_content_size`, `blg_description`, `blg_author_name`, `blg_content_type`, `blg_category`, `blg_like_count`, `blg_comment_count`, `blg_share_link`, `blgr_profile_url`, `blg_release_time`, `bp_user_id`) VALUES ('$blog_id','$title','$blogger_username','$blogger_user_img','$content_filename','$content_size','$description','$blogger_name','$content_type','$blogger_category','0','0','$share_link','$blogger_profile_url',NOW(),'$blogger_id')";
             // die($insert_blog_data_query);
             $result = mysqli_query($GLOBALS['connect'],$insert_blog_data_query);
 
@@ -107,7 +107,7 @@
 
            
             
-            
+            // die();
             
             
             // Check if a file was uploaded
@@ -132,14 +132,14 @@
                 if ($_FILES['file-upload']['size'] > $maxFileSize) {
                     // Handle the error, e.g., display a message or redirect with an error
                     $_SESSION['error'] =  "File size exceeds the limit";
-                    header("location:/user/businessman/dashboard/form/add-blog.php");
+                    header("location:/user/businessman/dashboard/dashboard.php?content=create");
                     exit;
                 }
                 // Check for file upload errors
                 if ($_FILES['file-upload']['error'] !== UPLOAD_ERR_OK) {
                     // Handle the specific error cases
                     $_SESSION['error'] = 'File upload failed with error code: ' . $_FILES['file-upload']['error'];
-                    header("location:/user/businessman/dashboard/form/add-blog.php");
+                    header("location:/user/businessman/dashboard/dashboard.php?content=create");
                     exit();
                 }
 
@@ -153,7 +153,7 @@
                     echo "File is valid, and was successfully uploaded.";
                 } else {
                     $_SESSION['error'] = "Sorry, there was an error uploading your file.";
-                    header("location:/user/businessman/dashboard/form/add-blog.php");
+                    header("location:/user/businessman/dashboard/dashboard.php?content=create");
                     exit();
                 }
             }
@@ -161,20 +161,29 @@
 
             if (is_length_valid($blog_title, $blog_description)) {
                 if(insert_data($blog_title,$blog_description)){
-                    $blog_count = get_blog_count($_SESSION['user_id']);
-                    $query = "UPDATE business_profile_interaction SET BLOG_COUNT = $blog_count + 1 ";
+                    $blog_count = get_blog_count($_SESSION['bp_user_id']);
+                    $query = "UPDATE business_profile_interaction SET bpi_blog_count = $blog_count + 1 ";
                     
                     $result = mysqli_query($GLOBALS['connect'],$query);
 
                     if($result){
-                        echo get_blog_count($_SESSION['user_id']);
-                       
+                        $_SESSION['greet-message'] = "Your Blog Uploaded Successfully.";
                     }
-                    $_SESSION['greet-message'] = "Your Blog Uploaded Successfully.";
                 }
             }
 
-            header("location:/user/businessman/dashboard/form/add-blog.php");
+            if (isset($_SESSION['greet-message'])) {
+                if (isset($_SESSION['blog-title'])) {
+                    $_SESSION['blog-title'] = "";
+                }
+                if (isset($_SESSION['blog-description'])) {
+                    $_SESSION['blog-description'] = "";
+                }
+                if(isset($_SESSION['linkDataArray'])){
+                    $_SESSION['linkDataArray'] = array();
+                }
+            }
+            header("location:/user/businessman/dashboard/dashboard.php?content=create");
             exit();
         }
 ?>

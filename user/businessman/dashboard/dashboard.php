@@ -1,229 +1,170 @@
 <?php
-        session_start();
+    session_start();
 
-        include "../../../includes/table_query/db_connection.php";
-        require "../../../includes/table_query/get_data_query.php";
-        require "../../../includes/security_function/secure_function.php";
+    include "../../../includes/table_query/db_connection.php";
+    include "../../../includes/security_function/secure_function.php";
+    include "blog/blog-data.php";
+    // include "../../../testblog.php";
+    if(isset($_SESSION['bp_user_id'])){
+      $bp_user_id = $_SESSION['bp_user_id'];
+      
+      $query = "SELECT * FROM business_profile WHERE bp_user_id = '$bp_user_id'";
+      $result = mysqli_query($GLOBALS['connect'],$query);
 
-        include "../../../testshare.php";
-        $user_id = $_SESSION['user_id'];
-        function check_exist_username($username){
-            $query = "SELECT USERNAME FROM business_profile WHERE USERNAME = '$username'";
-            $result = mysqli_query($GLOBALS['connect'],$query);
+      if(mysqli_num_rows($result) > 0){
+          $row = mysqli_fetch_assoc($result);
 
-            if(mysqli_num_rows($result) > 0){
-                echo "<script> alert('Username Already Exists. please Try Again');</script>";
-                return false;
-            }
-            return true;
-        }
-        if(isset($_POST['submit'])){
-            $username = $_POST['username'];
-            $id = $_SESSION['user_id'];
-            $username_pattern = "/^[a-zA-Z0-9_.]{3,30}$/";
-            if(preg_match($username_pattern,$username)){
-                if(check_exist_username($username)){
-                    $update_user_name_query = "UPDATE business_profile SET USERNAME = '$username' WHERE USER_ID = '$id'";
-                    if(!mysqli_query($GLOBALS['connect'],$update_user_name_query)){
-                        echo "<script> alert('Username not updated yet. please Try Again');</script>";
-                    }
-                }
-            } else{
-                    echo "<script> document.querySelector('.form-error').classList.remove('d-none');</script>";
-            }
-        }
+          $name = $row['bp_fname']." ".$row['bp_lname'];
+          $profile_img = $row['bp_profile_img_url'];
+      }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <?php include "../../../asset/link/cdn-link.html"; ?>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <?php include "../../../asset/link/cdn-link.html"; ?>
+  <link rel="stylesheet" href="/asset/css/style.css">
+  <style>
 
-    <style>
-        @keyframes slideIn {
-            from {
-                transform: translateX(-100%);
-            }
-            to {
-                transform: translateX(0);
-            }
-        }
-
-        /* Add animation for sliding out */
-        @keyframes slideOut {
-            from {
-                transform: translateX(0);
-            }
-            to {
-                transform: translateX(-100%);
-            }
-        }
-        @media  only screen and (max-width:1023px){
-            #user-vertical-menu {
-            animation-duration: 0.3s;
-            animation-timing-function: ease-in-out;
-            display: none; /* Initially hide the menu */
-        }
-
-        /* Apply slideIn animation when menu is shown */
-        #user-vertical-menu.d-block {
-            animation-name: slideIn;
-            display: block; /* Make sure the menu is visible during the animation */
-        }
-
-        /* Apply slideOut animation when menu is hidden */
-        #user-vertical-menu.d-none {
-            animation-name: slideOut;
-        }
-        #user-vertical-menu {
-            animation-duration: 0.3s;
-            animation-timing-function: ease-in-out;
-            display: none; /* Initially hide the menu */
-        }
-
-        /* Apply slideIn animation when menu is shown */
-        #user-vertical-menu.d-block {
-            animation-name: slideIn;
-            display: block; /* Make sure the menu is visible during the animation */
-        }
-
-        /* Apply slideOut animation when menu is hidden */
-        #user-vertical-menu.d-none {
-            animation-name: slideOut;
-        }
-    
-        }
-        /* Apply the animation to the user menu */
-        
-    </style>
+    .profile-section {
+      padding: 20px;
+      border-bottom: 1px solid #ccc;
+    }
+    .profile-img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+    .main-content {
+      overflow-y: auto; /* Display scrollbar when content exceeds height */
+    }
+    /* Offcanvas styling */
+   
+  .vertical-bar::-webkit-scrollbar {
+  width: 0px;  /* Remove scrollbar space */
+  background: transparent;  /* Optional: just make scrollbar invisible */
+}
+.blog-overflow::-webkit-scrollbar{
+  width:0;
+  background:transparent;
+}
+  </style>
+  
 </head>
-<body>
-
-    <div class="modal fade alert alert-primary" id="setUserNamePromptModal" tabindex="-1" aria-labelledby="setUserNamePromptModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered ">
-                <div class="modal-content ">
-                    <div class="modal-header fw-bold fs-4 ">
-                        Error
-                    </div>
-                    <div class="modal-body">
-                        <!-- <form action="#" method="post" id="addLinkForm"> -->
-                            <div class="mt-2 text-center alert alert-danger">
-                                <!-- <div class="alert alert-danger d-none form-error" role="alert">
-                                    Please enter a valid username. It must be 3 to 30 characters long and can contain letters, numbers, periods, and underscores.
-                                </div>
-                                <input type="text" class="form-control py-2" name="username" id="username" placeholder="Enter Username" required> -->
-                                Please set your username to post blog
-                            </div>
-                    </div>
-                    <div class="modal-footer d-flex border-top justify-content-end">
-                            <a href="/user/businessman/dashboard/form/edit-profile.php" class="link text-dark fw-bold ">Edit</a>
-                            <button class="btn" data-bs-dismiss="modal" data-bs-target="">Cancel</button>
-
-                    </div>
-                </div>
-            </div>
-        </div>   
-    <header>
-        <nav class="navbar text-bg-dark py-4 border-bottom">
+<body class="vertical-bar">
+<nav class="navbar text-bg-dark py-4 border-bottom">
             <div class="container">
                 <div class="home-icon fs-5">
                     <i class="fa-solid fa-bars d-xxl-none d-xl-none d-lg-none d-inline" onclick="toggleUserMenu()"></i>
-                    <i class="fa-solid fa-house mx-3 "></i>
+                    <i class="fa-solid fa-house mx-3 " onclick="location.href='/index.php'"></i>
                    
                 </div>
             <div class="nav-menu fs-5 d-flex" style="gap:15px">
                 <i class="fa-solid fa-bell"></i>
                 <i class="fa-solid fa-user"></i>
-                <?php 
-                        if(get_username("business_profile",$_SESSION['business_id'],"USERNAME","B_ID") != NULL){
-                ?>
+              
                 <i class="fa-solid fa-square-plus" onclick="location.href='/user/businessman/dashboard/form/add-blog.php'"></i>
-                <?php
-
-                        } else{
-
-                
-                ?>
+              
                 <i class="fa-solid fa-square-plus" data-bs-target="#setUserNamePromptModal" data-bs-toggle="modal"></i>
-                <?php   
-                        }
-                ?>
+                
             </div>
             </div>
-        </nav>
-        <div class="user-menu-container text-bg-dark col-xxl-2 col-xl-3 col-lg-4 col-md-4 col-sm-6 col-10 d-flex flex-column align-items-center p-3 d-xxl-block d-xl-block d-lg-block d-none position-absolute top-5" id="user-vertical-menu" style="height:calc(100vh - 80px);">
-        <script>
-    function toggleUserMenu() {
-        var userMenu = document.getElementById("user-vertical-menu");
-        userMenu.classList.toggle("d-none");
-        userMenu.classList.toggle("d-block");
-    }
-</script>
-            <div class="user-profile d-flex flex-column align-items-center">
-                <img src="/asset/image/user/profile.png" alt="" style="height: 100px; width:100px;">
-                <span class="user-name fs-3 fw-bold">Your Name</span>
-                <a href="/user/businessman/dashboard/form/edit-profile.php" style="font-size:14px; text-decoration:none;">Edit Profile</a>
-            </div>
-            <div class="user-menu mt-3 d-flex align-items-center justify-content-center" style="width:100%">
-                <ul class="list-unstyled ms-5 d-flex flex-column" style="gap:10px;">
-                    <li class="nav-item">Dashboard</li>
-                    <li class="nav-item" onclick="location.href='/user/businessman/dashboard/account/account.php'">Account</li>
-                    <li class="nav-item">Blog</li>
-                    <li class="nav-item">Setting</li>
-                    <li class="nav-item">Review & Rating</li>
-                    <li class="nav-item">Report</li>
-                    <li class="nav-item">Logout</li>
-                </ul>
-            </div>
-        </div>
-    </header>
-
-    <section class="content-container border border-dark  offset-xxl-2 col-xxl-10" style="height:calc(100vh - 80px);">
-            <?php
-                    fetch_profile($user_id);
-            ?>  
-            <!-- <div class="profile-container border">
-                <div class="container border rounded-1 border-dark text-bg-dark p-2">
-                        <div class="row">
-                            <div class="col-lg-5 p-3 d-flex justify-content-center align-items-center flex-column col-12" style="gap:15px">
-                                    <img src="/asset/image/user/profile.png" class="rounded-circle border p-1" style="height:200px;width:200px" alt="">
-                                    <div class="social-link fs-4 d-flex" style="gap:15px">
-                                        <a href="#" class="social-media-link text-white"><i class="fa-brands fa-instagram"></i></a>
-                                        <a href="#" class="social-media-link text-white"><i class="fa-brands fa-facebook"></i></a>
-                                        <a href="#" class="social-media-link text-white"><i class="fa-brands fa-linkedin"></i></a>
-                                        <a href="#" class="social-media-link text-white"><i class="fa-brands fa-twitter"></i></a>
-                                    </div>
-                                    <button class="btn text-bg-primary bg-gradient shadow  px-3">Edit Profile</button>
-                            </div>
-                            <div class="col-7 d-flex flex-column justify-content-center" style="gap:20px">
-                                    <div class="user-name fs-4 ms-1">
-                                        Bhavesh_1724
-                                    </div>
-                                    <div class="user-profile-activity-info m-0">
-                                        <ul class="list-unstyled d-flex fw-bold m-0" style="gap:10%">
-                                            <li class="list-item d-flex flex-column justify-content-center text-center"><span class="blog-count">1</span> <span>Blog</span></li>
-                                            <li class="list-item d-flex flex-column justify-content-center text-center"><span class="blog-count">1</span> <span>Follower</span></li>
-                                            <li class="list-item d-flex flex-column justify-content-center text-center"><span class="blog-count">1</span> <span>Following</span></li>
-                                        </ul>
-                                    </div>
-                                    <div class="profile-description">
-                                            <p class="" style="white-space:pre-line">
-                                            Offering Services
-                                            ▶ Frontend Design
-                                            ▶ Ecommerce Store
-                                            ▶ Wordpress Site
-                                            ▶ PHP
-                                            ▶ Bug & Error Fixing
-                                            Email : bhaveshwebstudio@gmail.com
-                                            #webdeveloper
-                                            </p>
-                                    </div>
+</nav>
+<div class="d-flex">
+  <div class="col-xxl-2 col-lg-3 col-md-5 col-sm-7 col-9 sidebar-container d-xxl-block d-xl-block d-lg-none  d-none position-fixed" >
+            <div class="bg-dark text-light vertical-bar col-12" style="min-height:calc(100vh - 102px);margin-top:100px" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+                <div class="offcanvas-body pt-5">
+                    <div class="sidebar d-flex flex-column align-items-center">
+                        <div class="profile-container">
+                            <div class="profile-image d-flex flex-column justify-content-center align-items-center">
+                                <img src="<?php if(isset($profile_img)) echo $profile_img;else echo '/asset/image/user/profile.png'; ?>" style="height:100px;width:100px;" class="rounded-circle " alt="">
+                                <span class="text-white fs-4 fw-semibold"><?php if(isset($name)) echo $name ?></span>
+                                <a href="/user/businessman/dashboard/form/edit-profile.php" class="nav-link text-warning d-block text-center mt-1">Edit Profile</a>
                             </div>
                         </div>
+                        <ul class="verticle-menu list-unstyled fs-5 mt-5">
+    <li class="list-item mt-3"><a href="dashboard.php?content=dashboard" class="nav-link" data-menu-item-id="dashboard"><i class="fas fa-tachometer-alt"></i> &nbsp; Dashboard</a></li>
+    <li class="list-item mt-3"><a href="dashboard.php?content=account" class="nav-link" data-menu-item-id="account"><i class="fa-regular fa-address-card"></i> &nbsp; Account</a></li>
+    <li class="list-item mt-3"><a href="#" class="nav-link" data-menu-item-id="notification"><i class="fa-solid fa-bell"></i> &nbsp; Notification</a></li>
+    <li class="list-item mt-3"><a href="#" class="nav-link" data-menu-item-id="blog"><i class="fa-solid fa-camera-retro"></i> &nbsp; Blog</a></li>
+    <li class="list-item mt-3"><a href="dashboard.php?content=create" class="nav-link" data-menu-item-id="create"><i class="fa-regular fa-square-plus"></i> &nbsp; Create</a></li>
+    <li class="list-item mt-3"><a href="#" class="nav-link" data-menu-item-id="search"><i class="fa-solid fa-magnifying-glass"></i> &nbsp; Search</a></li>
+    <li class="list-item mt-3"><a href="#" class="nav-link" data-menu-item-id="setting"><i class="fa-solid fa-gear"></i> &nbsp; Setting</a></li>
+    <li class="list-item mt-3"><a href="#" class="nav-link" data-menu-item-id="logout"><i class="fa-solid fa-right-from-bracket"></i> &nbsp; Logout</a></li>
+</ul>
+
+                    </div>
                 </div>
-            </div> -->
-    </section>
+              
+            </div>
+  </div>
+  <div class="col offset-xxl-2 offset-xl-3 offset-0 d-flex flex-column vertical-bar p-1 menu-content" style="max-height:calc(100vh - 102px);margin-top:100px">
+    
+                        <?php
+                                if(isset($_GET['content'])){
+                                    $url = $_GET['content'];
+                                    switch($url){
+                                        case "dashboard": include "content/dashboard_content.php";
+                                        break;
+
+                                        case "account": include "account/account.php";
+                                        break;
+
+                                        case "create": include "form/add-blog2.php";
+                                        break;
+                                    }
+                                } else{
+                                    include "content/dashboard_content.php";
+                                }
+                        ?>
+  <!-- <script>
+    // JavaScript code to handle menu clicks and load content dynamically
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuItems = document.querySelectorAll('.nav-link');
+        
+        menuItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const menuItemId = this.dataset.menuItemId;
+                loadContent(menuItemId);
+            });
+        });
+        
+        function loadContent(menuItemId) {
+            // Send AJAX request to server to fetch content
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', 'get_content.php?menuItemId=' + menuItemId, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        document.querySelector('.menu-content').innerHTML = xhr.responseText;
+                    } else {
+                        // console.log('Error fetching content');
+                    }
+                }
+            };
+            xhr.send();
+        }
+    });
+</script> -->
+
+    
+</div>
+
+          </div>
+          
+          
+<script>
+  // Toggle offcanvas function
+  function toggleOffcanvas() {
+    var offcanvas = document.getElementById('offcanvasWithBothOptions');
+    offcanvas.classList.toggle('show');
+  }
+</script>
+
+
 </body>
 </html>

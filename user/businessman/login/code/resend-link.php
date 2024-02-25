@@ -50,7 +50,7 @@
         if(isset($_GET['resend_link'])){
             $email = $_GET['email'];
 
-            $col_name = "B_VERIFICATION_TOKEN";
+            $col_name = "b_verification_token";
             $verification_token = generateVerificationToken($col_name,$email,$key);
             $verification_link = "http://connect2local/user/businessman/login/form/forgot-password.php?verification_token=$verification_token";
            

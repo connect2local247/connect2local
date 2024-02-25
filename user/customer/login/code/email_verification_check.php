@@ -1,11 +1,11 @@
 <?php
         session_start();
 
-        include "/connect2local/includes/table_query/db_connection.php";
-        require "/connect2local/includes/table_query/find_encrypt_data.php";
-        require "/connect2local/includes/code_generator/code_generator.php";
-        require "/connect2local/includes/table_query/get_primary_key.php";
-        require "/connect2local/includes/email_template/email_sending.php";
+        include "../../../../includes/table_query/db_connection.php";
+        require "../../../../includes/table_query/find_encrypt_data.php";
+        require "../../../../includes/code_generator/code_generator.php";
+        require "../../../../includes/table_query/get_primary_key.php";
+        require "../../../../includes/email_template/email_sending.php";
 
 
         if(isset($_SESSION['error'])){
@@ -54,7 +54,7 @@
         }
 
         function check_email_exists($email){
-            if(find_encrypted_data($email,"customer_register","customer_verification","C_ID","C_EMAIL","C_KEY","C_ID")){
+            if(find_encrypted_data($email,"customer_register","customer_verification","c_id","c_email","c_key","c_id")){
                 return true;
             } else{
                 $_SESSION['error'] = "Email Doesn't Exists";
@@ -64,7 +64,7 @@
         }
 
         function get_name($customer_id){
-            $query = "SELECT C_FNAME,C_LNAME FROM customer_register WHERE C_ID = '$customer_id'";
+            $query = "SELECT C_FNAME,C_LNAME FROM customer_register WHERE c_id = '$customer_id'";
 
             $result = mysqli_query($GLOBALS['connect'],$query);
 
@@ -81,11 +81,11 @@
         }
 
         function update_data($email,$verification_token){
-            $customer_id = get_primary_key($email,"customer_register","customer_verification","C_ID","C_EMAIL","C_KEY","C_ID");
+            $customer_id = get_primary_key($email,"customer_register","customer_verification","c_id","c_email","c_key","c_id");
 
             $_SESSION['fullname'] = get_name($customer_id);
 
-            $find_key_query = "SELECT C_KEY FROM customer_verification WHERE C_ID = '$customer_id'";
+            $find_key_query = "SELECT c_key FROM customer_verification WHERE c_id = '$customer_id'";
 
             $result = mysqli_query($GLOBALS['connect'],$find_key_query);
 
@@ -93,11 +93,11 @@
             if($result){
                 $row = mysqli_fetch_assoc($result);
                 
-                $key = $row['C_KEY'];
+                $key = $row['c_key'];
                 echo $key;
             }
 
-            $update_query = "UPDATE customer_verification SET C_VERIFY_TOKEN = '$verification_token' WHERE C_KEY = $key";
+            $update_query = "UPDATE customer_verification SET c_verification_token = '$verification_token' WHERE c_key = $key";
             $result = mysqli_query($GLOBALS['connect'],$update_query);
 
             // die($result);
@@ -114,7 +114,7 @@
         if(isset($_POST['submit'])){
             $email = $_POST['email'];
 
-            $col_name = "C_VERIFY_TOKEN";
+            $col_name = "c_verification_token";
                 $verification_token = generateVerificationToken($col_name);
                 $verification_link = "http://connect2local/user/customer/login/form/forgot-password.php?verification_token=$verification_token";
 

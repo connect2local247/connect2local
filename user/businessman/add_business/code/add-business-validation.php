@@ -1,12 +1,12 @@
 <?php
         session_start();
 
-        include "/connect2local/includes/table_query/db_connection.php";
-        require "/connect2local/includes/code_generator/primary_key_generator.php";
-        require "/connect2local/includes/table_query/find_encrypt_data.php";
-        require "/connect2local/includes/table_query/get_encrypted_data.php";
-        require "/connect2local/includes/table_query/get_primary_key.php";
-        require "/connect2local/includes/email_template/email_sending.php";
+        include "../../../../includes/table_query/db_connection.php";
+        require "../../../../includes/code_generator/primary_key_generator.php";
+        require "../../../../includes/table_query/find_encrypt_data.php";
+        require "../../../../includes/table_query/get_encrypted_data.php";
+        require "../../../../includes/table_query/get_primary_key.php";
+        require "../../../../includes/email_template/email_sending.php";
 
 
         if(isset($_SESSION['error'])){
@@ -61,7 +61,7 @@
             $instagramPattern = '/^(https?:\/\/)?(www\.)?instagram\.com\/.*/i';
             $linkedinPattern = '/^(https?:\/\/)?(www\.)?linkedin\.com\/.*/i';
             $xPattern = '/^(https?:\/\/)?(www\.)?x\.com\/.*/i';
-            $timePattern = '/^([A-Za-z]{3}-[A-Za-z]{3} [ap]\.m\.-[ap]\.m\.)|(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/';
+            $timePattern = '/^(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s*-\s*(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+\d{1,2}:\d{2}\s*[ap]\.m\.\s*-\s*\d{1,2}:\d{2}\s*[ap]\.m\.$/';
 
             $isValid = true;
         
@@ -105,6 +105,7 @@
                 $_SESSION['linkedin-url'] = $linkedinUrl;
             }
          // Validate Operating Time
+            // die($operateTime);
             if (!empty($operateTime) && !preg_match($timePattern, $operateTime)) {
                 $_SESSION['error'] = "Invalid Operating Time format (24-hour format).";
                 $isValid = false;
@@ -117,7 +118,7 @@
         
 
         function check_exist_email($email){
-            if(find_encrypted_data($email,"business_register","business_verification","B_ID","B_EMAIL","B_KEY","B_ID")){
+            if(find_encrypted_data($email,"business_register","business_verification","b_id","b_email","b_key","b_id")){
                 return true;
             }
 
@@ -125,9 +126,9 @@
         }
 
         function check_exist_contact($contact,$email){
-            if(find_encrypted_data($contact,"business_register","business_verification","B_ID","B_CONTACT","B_KEY","B_ID")){
-                $contact_business_id = get_primary_key($contact,"business_register","business_verification","B_ID","B_CONTACT","B_KEY","B_ID");
-                $email_business_id = get_primary_key($email,"business_register","business_verification","B_ID","B_EMAIL","B_KEY","B_ID");
+            if(find_encrypted_data($contact,"business_register","business_verification","b_id","b_contact","b_key","b_id")){
+                $contact_business_id = get_primary_key($contact,"business_register","business_verification","b_id","b_contact","b_key","b_id");
+                $email_business_id = get_primary_key($email,"business_register","business_verification","b_id","b_email","b_key","b_id");
 
                 if($contact_business_id === $email_business_id){
                     return true;
@@ -142,7 +143,7 @@
         }
 
         function get_name($business_id){
-            $name_query = "SELECT B_FNAME,B_LNAME FROM business_register WHERE B_ID = '$business_id'";
+            $name_query = "SELECT b_fname,b_lname FROM business_register WHERE b_id = '$business_id'";
 
             $result = mysqli_query($GLOBALS['connect'],$name_query);
 
@@ -150,8 +151,8 @@
                         $row = mysqli_fetch_assoc($result);
 
                         $name_array = [
-                            "fname" => $row['B_FNAME'],
-                            "lname" => $row['B_LNAME']
+                            "fname" => $row['b_fname'],
+                            "lname" => $row['b_lname']
                         ];
 
                         return $name_array;
@@ -161,14 +162,42 @@
         }
 
         function check_duplication($email,$contact){
-                if(find_encrypted_data($email,"business_info","business_verification","BUSINESS_CODE","EMAIL","B_KEY","B_KEY")){
+                if(find_encrypted_data($email,"business_info","business_verification","business_code","bi_email","b_key","b_key")){
                     $_SESSION['error'] = "Email Already Exists";
                     return false;
-                } else if(find_encrypted_data($contact,"business_info","business_verification","BUSINESS_CODE","PHONE","B_KEY","B_KEY")){
+                } else if(find_encrypted_data($contact,"business_info","business_verification","business_code","bi_contact","b_key","b_key")){
                     $_SESSION['error'] = "Phone Number Already Exists";
                     return false;
                 }
                 return true;
+        }
+        function insert_request($business_code){
+            $check_query = "SELECT `request_time` FROM `business_add_status` WHERE `business_code` = '$business_code'";
+            $result = mysqli_query($GLOBALS['connect'], $check_query);
+
+            if(mysqli_num_rows($result) == 0) {
+                // No existing entry with the same business_code, so insert data
+                $insert_query = "INSERT INTO `business_add_status`(`request_id`, `business_code`,`request_time`) VALUES ('$request_id','$business_code',NOW())";
+                mysqli_query($GLOBALS['connect'], $insert_query);
+                return true;
+                // Handle success or error
+            } else {
+                $row = mysqli_fetch_assoc($result);
+                $existing_request_time = strtotime($row['request_time']);
+                $current_time = time();
+                $time_difference = $current_time - $existing_request_time;
+                
+                if($time_difference >= 2 * 24 * 60 * 60) {
+                    // More than 2 days have passed since the existing request_time, so insert data
+                    $insert_query = "INSERT INTO `business_add_status`(`request_id`, `business_code`,`request_time`) VALUES ('$request_id','$business_code',NOW())";
+                    mysqli_query($GLOBALS['connect'], $insert_query);
+                    return true;
+                    // Handle success or error
+                } else {
+                    $_SESSION['error'] = "Please Wait For 2 Days";
+                }
+            }
+            return false;
         }
 
         function send_greet_mail($email,$fname,$lname){
@@ -231,10 +260,10 @@
                             if(check_duplication($email,$phone)){
                                 
                             $business_code = generateUniqueBusinessCode();
-                            $business_id =get_primary_key($email,"business_register","business_verification","B_ID","B_EMAIL","B_KEY","B_ID");
+                            $business_id =get_primary_key($email,"business_register","business_verification","b_id","b_email","b_key","b_id");
                             $name_array = get_name($business_id);
 
-                            $dataArray = get_encrypted_data($email,"business_register","business_verification","B_ID","B_EMAIL","B_KEY","B_ID");
+                            $dataArray = get_encrypted_data($email,"business_register","business_verification","b_id","b_email","b_key","b_id");
 
                             $key = $dataArray['key'];
                             $fname = $name_array['fname'];
@@ -242,22 +271,21 @@
                             $encryptedEmail = encryptData($email,$key);
                             $encryptedPhone = encryptData($phone,$key);
 
-                                    $insert_query = "INSERT INTO `business_info`(`BUSINESS_CODE`, `FNAME`, `LNAME`, `BUSINESS_NAME`, `CATEGORY`, `ADDRESS`, `OPERATE_TIME`, `PHONE`, `EMAIL`, `WEB_URL`, `IG_URL`, `FB_URL`, `X_URL`, `LINKEDIN_URL`, `DESCRIPTION`, `REQUEST_TIME`, `B_KEY`, `B_ID`)VALUES ('$business_code','$fname','$lname','$business_name','$category','$address','$operate_time','$encryptedPhone','$encryptedEmail','$web_url','$insta_url','$fb_url','$x_url','$linkedin_url','$description',NOW(),$key,'$business_id')";
-                                    $result = mysqli_query($GLOBALS['connect'],$insert_query);
-                                    $update_query = "UPDATE business_profile SET BUSINESS_NAME = '$business_name' WHERE B_ID = '$business_id'";
-                                    // die($update_query);
-                                    $update_result = mysqli_query($GLOBALS['connect'],$update_query);
+                                    $insert_query = "INSERT INTO `business_info`(`business_code`, `bi_fname`, `bi_lname`, `business_name`, `bi_category`, `bi_address`, `bi_operate_time`, `bi_contact`, `bi_email`, `bi_web_url`, `bi_ig_url`, `bi_fb_url`, `bi_twitter_url`, `bi_linkedin_url`, `bi_description`, `b_key`, `b_id`)VALUES ('$business_code','$fname','$lname','$business_name','$category','$address','$operate_time','$encryptedPhone','$encryptedEmail','$web_url','$insta_url','$fb_url','$x_url','$linkedin_url','$description',$key,'$business_id')";
+                                    $result = mysqli_query($GLOBALS['connect'],$insert_query); 
                                     
-                                    if($update_result){
-                                        
+                                    //    die($insert_query); 
                                     if($result){
-                                        send_greet_mail($email,$fname,$lname);
-                                        $_SESSION['greet-message'] = "Your Request Sent Successfully";
-                                        unset($_SESSION['error']);
+                                        $request_id = generateUniqueID("business_add_status","C2LR","request_id");
+                                        $result = insert_request($business_code);
+                                        if($result){
+                                            send_greet_mail($email,$fname,$lname);
+                                            $_SESSION['greet-message'] = "Your Request Sent Successfully";
+                                            unset($_SESSION['error']);
+                                        }
                                     } else{
                                         $_SESSION['error'] = "Something went Wrong While Adding Your Business.";
                                     }
-                                }
                             }
                           }
                         } else{

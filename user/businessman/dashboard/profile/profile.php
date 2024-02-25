@@ -2,39 +2,40 @@
              function fetch_profile($user_id){
 
                 $query = "SELECT 
-                business_info.FNAME AS First_Name,
-business_info.LNAME AS Last_Name,
-business_info.BUSINESS_NAME AS Business_Name,
-business_info.ADDRESS AS Business_Address,
-business_info.CATEGORY AS Category,
-business_info.OPERATE_TIME AS Operate_Time,
-business_info.PHONE AS Phone,
-business_info.EMAIL AS Email,
-business_info.WEB_URL AS Website_Url,
-business_info.IG_URL AS Instagram_url,
-business_info.FB_URL AS Facebook_url,
-business_info.X_URL AS X_url,
-business_info.LINKEDIN_URL AS Linkedin_url,
-business_info.B_KEY AS B_key,
-business_info.B_ID AS B_id,
-business_profile.USERNAME AS Username,
-business_profile.USER_ID AS User_id,
-business_profile.B_ID AS B_id,
-business_profile.PROFILE_IMG AS Profile_url,
-business_profile.BIO AS Bio,
-business_profile_interaction.BLOG_COUNT AS Blog_count,
-business_profile_interaction.FOLLOWER_COUNT AS Follower_count,
-business_profile_interaction.FOLLOWING_COUNT AS Following_count
+                business_info.bi_fname AS First_Name,
+business_info.bi_lname AS Last_Name,
+business_info.business_name AS Business_Name,
+business_info.bi_address AS Business_Address,
+business_info.bi_category AS Category,
+business_info.bi_operate_time AS Operate_Time,
+business_info.bi_contact AS Phone,
+business_info.bi_email AS Email,
+business_info.bi_web_url AS Website_Url,
+business_info.bi_ig_url AS Instagram_url,
+business_info.bi_fb_url AS Facebook_url,
+business_info.bi_twitter_url AS X_url,
+business_info.bi_linkedin_url AS Linkedin_url,
+business_info.b_key AS B_key,
+business_info.b_id AS B_id,
+business_profile.bp_username AS Username,
+business_profile.bp_user_id AS User_id,
+business_profile.b_id AS B_id,
+business_profile.bp_profile_img_url AS Profile_url,
+business_profile.bp_bio AS Bio,
+business_profile_interaction.bpi_blog_count AS Blog_count,
+business_profile_interaction.bpi_follower_count AS Follower_count,
+business_profile_interaction.bpi_following_count AS Following_count
 
             FROM 
                 business_info
             LEFT JOIN 
                 business_profile ON business_info.B_id = business_profile.B_id
             LEFT JOIN 
-                business_profile_interaction ON business_info.B_id = business_profile_interaction.B_id
+                business_profile_interaction ON business_info.B_id = business_profile_interaction.bp_user_id
             WHERE
-                business_profile.User_id = '$user_id'";
+                business_profile.bp_user_id = '$user_id'";
 
+                // echo 
                 // die($query);
         $result = mysqli_query($GLOBALS['connect'], $query);
 
@@ -67,7 +68,7 @@ business_profile_interaction.FOLLOWING_COUNT AS Following_count
         // Now you can use these variables as needed
 
         ?>  
-    <div class="container text-bg-dark shadow">
+    <div class="text-bg-dark shadow">
             <div class="profile-container p-4 rounded">
                 <div class="row rounded ">
 

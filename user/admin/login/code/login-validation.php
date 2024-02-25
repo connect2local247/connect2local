@@ -28,10 +28,10 @@
                         $subject = "Security Key of Admin";
 
                         $template = "
-                <div style='max-width: 600px; margin: 0 auto; padding: 20px; font-family: \"Arial\", sans-serif; background-color: #f8f8f8;'>
+                <div style='max-wadmin_idth: 600px; margin: 0 auto; padding: 20px; font-family: \"Arial\", sans-serif; background-color: #f8f8f8;'>
 
                     <div style='text-align: center;'>
-                        <img src='https://live.staticflickr.com/65535/53417631216_2be8f41b9e_n.jpg' alt='Connect2local' style='max-width: 100px;'>
+                        <img src='https://live.staticflickr.com/65535/53417631216_2be8f41b9e_n.jpg' alt='Connect2local' style='max-wadmin_idth: 100px;'>
                     </div>
 
                     <div style='text-align: center;'>
@@ -55,16 +55,15 @@
         }
 
         function match_credential($email,$password){
-            $query = "SELECT ID,EMAIL,PASSWORD,SECURITY_KEY FROM admin_login WHERE ID = 1";
+            $query = "SELECT admin_id,admin_email,admin_password,admin_otp FROM admin_login WHERE admin_id = 1";
             $result = mysqli_query($GLOBALS['connect'],$query);
-
             if(mysqli_num_rows($result) > 0){
 
                     $row = mysqli_fetch_assoc($result);
-                    $id = $row['ID'];
-                    $db_email = $row['EMAIL'];
-                    $db_password = $row['PASSWORD'];
-                    $security_key = $row['SECURITY_KEY'];
+                    $admin_id = $row['admin_id'];
+                    $db_email = $row['admin_email'];
+                    $db_password = $row['admin_password'];
+                    $admin_otp = $row['admin_otp'];
 
                     echo $db_email."<br>".$db_password;
                     if(!isEncrypted($db_email) || !isEncrypted($db_password)){
@@ -72,13 +71,13 @@
                         $encryptDbEmail = encryptData($db_email,$key); 
                         $encryptDbPassword = encryptData($db_password,$key); 
 
-                        $update_query = "UPDATE admin_login SET EMAIL = '$encryptDbEmail',SECURITY_KEY = '$key' WHERE ID = $id";
+                        $update_query = "UPDATE admin_login SET admin_email = '$encryptDbEmail',admin_otp = '$key' WHERE admin_id = $admin_id";
                         $result = mysqli_query($GLOBALS['connect'],$update_query);
                         
                         if(!$result){
                             die($update_query);
                         } 
-                        $update_query = "UPDATE admin_login SET PASSWORD = '$encryptDbPassword',SECURITY_KEY = '$key' WHERE ID = $id";
+                        $update_query = "UPDATE admin_login SET admin_password = '$encryptDbPassword',admin_otp = '$key' WHERE admin_id = $admin_id";
                         $result = mysqli_query($GLOBALS['connect'],$update_query);
 
                         if(!$result){
@@ -88,8 +87,8 @@
                         $_SESSION['error'] = "Login Failed !!! Try Again";
                         return false;
                     }
-                        $decryptDbEmail = decryptData($db_email,$security_key);
-                        $decryptDbPassword = decryptData($db_password,$security_key);
+                        $decryptDbEmail = decryptData($db_email,$admin_otp);
+                        $decryptDbPassword = decryptData($db_password,$admin_otp);
 
                         echo "<br>".$decryptDbEmail."<br>".$decryptDbPassword;
                         // die();
@@ -100,14 +99,14 @@
 
                                 updateDataAdmin();
                                 
-                                $query = "SELECT SECURITY_KEY FROM admin_login WHERE ID = 1";
+                                $query = "SELECT admin_otp FROM admin_login WHERE admin_id = 1";
                                 $result = mysqli_query($GLOBALS['connect'],$query);
                                 
                                 if(mysqli_num_rows($result) > 0 ){
 
                                     $row = mysqli_fetch_assoc($result);
 
-                                    $key = $row['SECURITY_KEY'];
+                                    $key = $row['admin_otp'];
 
                                     $_SESSION['greet-message'] = "Login Detail Matched.";
                                     unset($_SESSION['error']);
@@ -130,7 +129,6 @@
         if(isset($_POST['submit'])){
             $email = $_POST['email'];
             $password = $_POST['password'];
-            
             if(match_credential($email,$password)){
                 $_SESSION['greet-message'] = "Login Details Matched";
                 unset($_SESSION['error']);  

@@ -21,31 +21,42 @@
 </head>
 <body id="form-body">
         <script>
-            path = "/user/businessman/login/form/login.php";
+            path = "/user/admin/login/form/login.php";
         </script>
         <?php 
 
                 include "../../../../component/form-alert.php";
+                if(isset($_SESSION['greet-message'])){
+                  $query = "UPDATE admin_login SET verification_token = '0' WHERE admin_id = 1 ";
+                  $result = mysqli_query($GLOBALS['connect'],$query);
+                }
                 unset($_SESSION['error']);
         ?>
 <?php
 
         if(isset($_GET['verification_token'])){
             if($_GET['verification_token'] != "" ){
+              
                $verification_token = $_GET['verification_token'];
-               $query = "SELECT b_verification_token FROM business_verification WHERE b_verification_token = '$verification_token' ";
+               $query = "SELECT verification_token FROM admin_login WHERE verification_token = '$verification_token' ";
                
                $result = mysqli_query($GLOBALS['connect'],$query);
                
                $_SESSION['verification-token'] = $verification_token;
-               $email = get_email_from_token($verification_token,"business_verification","business_register","b_verification_token","b_key","b_id");
                
-               echo $email;
                if(mysqli_num_rows($result) > 0){
+                 $query = "SELECT admin_email,admin_otp FROM admin_login WHERE admin_id = 1";
+                 $result = mysqli_query($GLOBALS['connect'],$query);
+
+                 if(mysqli_num_rows($result) > 0){
+
+                    $row = mysqli_fetch_assoc($result);
+
+                    $email = decryptData($row['admin_email'],$row['admin_otp']);
                    
 ?>
 
-<form action="/user/businessman/login/code/reset-password-logic.php" method="POST" class="d-flex flex-column align-items-center justify-content-center" style="height:100vh;width: 100%;">
+<form action="/user/admin/login/code/reset-password-logic.php" method="POST" class="d-flex flex-column align-items-center justify-content-center" style="height:100vh;width: 100%;">
            
             <fieldset class="p-4 border rounded position-relative col-lg-4 col-md-7 col-11 text-white" id="register-form">
                 <legend class="my-4 fw-bold fs-2 text-center text-white">Reset Password</legend>
@@ -71,7 +82,7 @@
         </form>
 
 <?php
-
+                 }
         } else{
 ?>
 
@@ -98,14 +109,9 @@
 <?php
         }
     }
-} else{
-            
+}       
 ?>
 
-<?php
-
-    }
-?>
 
 <?php include "../../../../component/form-footer.php"; ?>
 

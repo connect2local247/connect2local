@@ -1,18 +1,4 @@
-<?php 
-        session_start();
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/asset/css/form.css">
-    <?php include "../../../../asset/link/cdn-link.html"; ?>
-</head>
-<body>
-
-    <div class="modal fade" id="linkModal" tabindex="-1" aria-labelledby="linkModalLabel" aria-hidden="true">
+<div class="modal fade" id="linkModal" tabindex="-1" aria-labelledby="linkModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -55,11 +41,11 @@
             unset($_SESSION['linkDataArray']);
         }
     }
-    include "../../../../component/form-alert.php";
+    include "../../../component/form-alert.php";
     unset($_SESSION['error']);
     ?>
-    <form action="/user/businessman/dashboard/code/blog-data-insertion.php" onsubmit="return validateForm()" class="d-flex m-auto  p-1" method="post" enctype="multipart/form-data">
-        <fieldset class="m-auto border p-2 rounded col-lg-4 col-md-9 col-12 position-relative">
+    <form id="addBlogForm" action="/user/businessman/dashboard/code/blog-data-insertion.php" onsubmit="validateForm()" class="col-lg-7 col-md-9 col-12 d-flex  flex-column align-items-center justify-content-center" style="margin-top:100px;height:calc(100vh - 150px); width:85%" method="post" enctype="multipart/form-data">
+        <fieldset class=" border p-2 rounded col-lg-7 col-md-9 col-12 position-relative">
             <div class="add-link-icon position-absolute end-0 me-2">
                 <i class="fa-solid fa-plus border rounded p-2 bg-white shadow" data-bs-target="#linkModal" data-bs-toggle="modal"></i>
             </div>
@@ -97,7 +83,8 @@
 
                             
                 ?>
-                <script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+  <script>
                 function deleteCurrentLink() {
                 // Get the index of the clicked link
                 var linkIndex = $(event.target).closest('span').index();
@@ -150,8 +137,69 @@
             </div>
         </fieldset>
     </form>
-
     <script>
+    // JavaScript code for AJAX form submission
+    $(document).ready(function(){
+        $('#addBlogForm').submit(function(e){
+            e.preventDefault(); // Prevent default form submission
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function(response) {
+                    // Handle the response
+                    if (response.includes("greet-message")) {
+                        // Session is set, show modal
+                        $('#greetModal').modal('show'); // Assuming you have a modal with ID 'greetModal'
+                    } else {
+                        // Handle other responses or actions if needed
+                    }
+                }
+            });
+        });
+    });
+</script>
+<script>
+        function submitLinkForm() {
+    // Get the form data
+    var formData = $('#addLinkForm').serialize();
+
+    // Make an AJAX request
+    $.ajax({
+        type: 'POST',
+        url: '/includes/data_request/addLink.php',
+        data: formData,
+        success: function(response) {
+            console.log('Response:', response);
+            console.log('AJAX request successful');
+
+            // Append the new link to the link container
+            $('#linkContainer').append(response);
+            console.log("link added")
+            // Clear the form fields if needed
+            $('#link-title').val('');
+            $('#link-url').val('');
+
+            // Check if link container is empty and hide it if needed
+            if ($('#linkContainer').children().length < 0) {
+                $('#linkContainer').removeClass('d-none');
+            }
+
+            // Close the modal or perform any other actions
+            $('#linkModal').modal('hide');
+        },
+        error: function(error) {
+            // Handle errors if needed
+            console.log('Error:', error);
+        }
+    });
+}
+</script>
+
+<script>
     function validateForm() {
         // Get the file input element
         var fileInput = document.getElementById('file-upload');
@@ -246,41 +294,3 @@
         
     });
 </script>
-<script>
-        function submitLinkForm() {
-    // Get the form data
-    var formData = $('#addLinkForm').serialize();
-
-    // Make an AJAX request
-    $.ajax({
-        type: 'POST',
-        url: '/includes/data_request/addLink.php',
-        data: formData,
-        success: function(response) {
-            console.log('Response:', response);
-            console.log('AJAX request successful');
-
-            // Append the new link to the link container
-            $('#linkContainer').append(response);
-            console.log("link added")
-            // Clear the form fields if needed
-            $('#link-title').val('');
-            $('#link-url').val('');
-
-            // Check if link container is empty and hide it if needed
-            if ($('#linkContainer').children().length < 0) {
-                $('#linkContainer').removeClass('d-none');
-            }
-
-            // Close the modal or perform any other actions
-            $('#linkModal').modal('hide');
-        },
-        error: function(error) {
-            // Handle errors if needed
-            console.log('Error:', error);
-        }
-    });
-}
-</script>
-</body>
-</html>

@@ -132,16 +132,11 @@
 
             $age = get_age($birth_date);
 
-            if($term_condition){
-                $term_agree = "Yes";
-            } else{
-                $term_agree = "No";
-            }
-            $_SESSION['term-condition'] = $term_agree;
+            $_SESSION['term-condition'] = $term_condition == "on" ?1 : 0;
             store_data($fname,$lname,$birth_date,$age,$gender,$contact,$email,$password,$confirm_password);
 
             if(validate_input($fname,$lname,$birth_date,$contact,$email,$password,$confirm_password)){
-                        if($_SESSION['term-condition'] == "Yes"){
+                        if($_SESSION['term-condition'] == true){
                             unset($_SESSION['error']);
                             unset($_SESSION["conf-password"]);
                             store_data($fname,$lname,$birth_date,$age,$gender,$contact,$email,$password,$confirm_password);

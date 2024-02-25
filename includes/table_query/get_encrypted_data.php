@@ -37,7 +37,6 @@ function get_encrypted_data($data, $table_name1, $table_name2, $col_name_id, $co
 
 function get_email_from_token($verification_token,$table_name,$register_table,$col_name_token,$key_col_name,$col_name_id){
     $get_data_query = "SELECT $key_col_name,$col_name_id FROM $table_name WHERE $col_name_token = '$verification_token'";
-
     $result = mysqli_query($GLOBALS['connect'],$get_data_query);
     
 
@@ -48,9 +47,8 @@ function get_email_from_token($verification_token,$table_name,$register_table,$c
         $id = $row[$col_name_id];
 
         $encryptedEmail = retrieveEncryptedEmail($id,$register_table);
-
+        
         $decryptEmail = decryptData($encryptedEmail,$key);
-
     }
 
     return $decryptEmail;
@@ -58,8 +56,8 @@ function get_email_from_token($verification_token,$table_name,$register_table,$c
 
 function retrieveEncryptedEmail($primaryKey, $table) {
     // Determine the table and column names based on the provided table
-    $emailColumn = ($table === 'customer_register') ? 'C_EMAIL' : 'B_EMAIL';
-    $idColumn = ($table === 'customer_register') ? 'C_ID':'B_ID';
+    $emailColumn = ($table === 'customer_register') ? 'c_email' : 'b_email';
+    $idColumn = ($table === 'customer_register') ? 'c_id':'b_id';
     // Retrieve the encrypted email based on the primary key
     $query = "SELECT $emailColumn FROM $table WHERE {$idColumn} = '$primaryKey'";
     $result = mysqli_query($GLOBALS['connect'], $query);

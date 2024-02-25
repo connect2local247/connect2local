@@ -1,18 +1,4 @@
-<?php 
-        session_start();
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/asset/css/form.css">
-    <?php include "../../../../asset/link/cdn-link.html"; ?>
-</head>
-<body>
-
-    <div class="modal fade" id="linkModal" tabindex="-1" aria-labelledby="linkModalLabel" aria-hidden="true">
+<div class="modal fade" id="linkModal" tabindex="-1" aria-labelledby="linkModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -20,7 +6,7 @@
                     <i class="fa-solid fa-xmark fs-5" data-bs-dismiss="modal" aria-label="Close"></i>
                 </div>
                 <div class="modal-body">
-                    <form action="/includes/data_request/addLink.php" method="post" id="addLinkForm">
+                    <form  method="POST" id="addLinkForm">
                         <div class="mt-2">
                             <input type="text" class="form-control" name="link-title" id="link-title" placeholder="Link Title" required>
                         </div>
@@ -30,29 +16,23 @@
                         </div>
                 </div>
                 <div class="modal-footer d-flex">
-                        <input type="submit" value="Add Link" class="btn btn-primary m-auto">
+                <input type="button" value="Add Link" class="btn btn-primary m-auto" onclick="submitLinkForm()">
+
+
+                        
+
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <script>
-        path = "/user/businessman/dashboard/dashboard.php";
-    </script>
+
     <?php
-    if (isset($_SESSION['greet-message'])) {
-        if (isset($_SESSION['blog-title'])) {
-            $_SESSION['blog-title'] = "";
-        }
-        if (isset($_SESSION['blog-description'])) {
-            $_SESSION['blog-description'] = "";
-        }
-    }
-    include "../../../../component/form-alert.php";
+    include "../../../component/form-alert.php";
     unset($_SESSION['error']);
     ?>
-    <form action="/user/businessman/dashboard/code/blog-data-insertion.php" onsubmit="return validateForm()" class="d-flex m-auto border p-1" method="post" enctype="multipart/form-data">
-        <fieldset class="m-auto border p-2 rounded col-lg-4 col-md-9 col-12 position-relative">
+    <form action="/user/businessman/dashboard/code/blog-data-insertion.php" onsubmit="return validateForm()" class="col-lg-7 col-md-9 col-12 d-flex  flex-column align-items-center justify-content-center" method="post" style="margin-top:100px;height:calc(100vh - 150px); width:85%" enctype="multipart/form-data">
+    <fieldset class=" border p-2 rounded col-lg-7 col-md-9 col-12 position-relative">
             <div class="add-link-icon position-absolute end-0 me-2">
                 <i class="fa-solid fa-plus border rounded p-2 bg-white shadow" data-bs-target="#linkModal" data-bs-toggle="modal"></i>
             </div>
@@ -83,13 +63,15 @@
 
                 <?php
                         if(isset($_SESSION['linkDataArray'])){ 
-                            if(count($_SESSION['linkDataArray']) <= 0){
-                                unset($_SESSION['linkDataArray']);
-                            } else{
+                            
+                        if(count($_SESSION['linkDataArray']) <= 0){
+                            unset($_SESSION['linkDataArray']);
+                        } else{
 
                             
                 ?>
-                <script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+  <script>
                 function deleteCurrentLink() {
                 // Get the index of the clicked link
                 var linkIndex = $(event.target).closest('span').index();
@@ -107,7 +89,7 @@
                         
                         if(linkContainer.children.length <= 0){
                                 linkContainer.classList.add('d-none');
-                                unset($_SESSION['linkDataArray']);
+                                //unset($_SESSION['linkDataArray']);
                         }
                         
                     }
@@ -116,19 +98,24 @@
             </script>
                 <div id="linkContainer" class="mt-2 border rounded shadow p-2">
                         <?php
-                               
+                    
                                     foreach ($_SESSION['linkDataArray'] as $linkDataAssoc) {
                                         // Access individual elements (title and url) in the associative array
                                         $title = $linkDataAssoc['title'];
                                         $url = $linkDataAssoc['url'];
-                        ?>
+                                        $_SESSION['example_data'] = 1;
+                                        session_write_close();
+                                        ?>
                             <span class="d-flex align-items-center p-1 my-1 rounded text-bg-light shadow justify-content-between border"><i class="fa-solid fa-link fs-5 border-end px-2" title="<?php echo $title; ?>"></i><a href="<?php echo $url; ?>" class="nav-link" target="_blank"><?php echo $title; ?></a><i class="fa-solid fa-xmark fs-5 border-start px-2" onclick="deleteCurrentLink()"></i></span>
-
-                        <?php
+                            
+                            <?php
+                          
 
                                     }
                                 }
-                            }
+                       
+                        }
+                            
                         ?>
                 </div>
                 <div class="mt-4 d-flex">
@@ -137,8 +124,69 @@
             </div>
         </fieldset>
     </form>
-
     <script>
+    // JavaScript code for AJAX form submission
+    $(document).ready(function(){
+        $('#addBlogForm').submit(function(e){
+            e.preventDefault(); // Prevent default form submission
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function(response) {
+                    // Handle the response
+                    if (response.includes("greet-message")) {
+                        // Session is set, show modal
+                        $('#greetModal').modal('show'); // Assuming you have a modal with ID 'greetModal'
+                    } else {
+                        // Handle other responses or actions if needed
+                    }
+                }
+            });
+        });
+    });
+</script>
+<script>
+        function submitLinkForm() {
+    // Get the form data
+    var formData = $('#addLinkForm').serialize();
+
+    // Make an AJAX request
+    $.ajax({
+        type: 'POST',
+        url: '/includes/data_request/addLink.php',
+        data: formData,
+        success: function(response) {
+            console.log('Response:', response);
+            console.log('AJAX request successful');
+
+            // Append the new link to the link container
+            $('#linkContainer').append(response);
+            console.log("link added")
+            // Clear the form fields if needed
+            $('#link-title').val('');
+            $('#link-url').val('');
+
+            // Check if link container is empty and hide it if needed
+            if ($('#linkContainer').children().length < 0) {
+                $('#linkContainer').removeClass('d-none');
+            }
+
+            // Close the modal or perform any other actions
+            $('#linkModal').modal('hide');
+        },
+        error: function(error) {
+            // Handle errors if needed
+            console.log('Error:', error);
+        }
+    });
+}
+</script>
+
+<script>
     function validateForm() {
         // Get the file input element
         var fileInput = document.getElementById('file-upload');
@@ -198,7 +246,7 @@
         }
     }
 
-    $(document).ready(function () {
+    $(document).ready(function(){
         var maxChars = 1000;
         var textarea = $('#blog-description');
         var charCount = $('#charCount');
@@ -229,8 +277,7 @@
                 textarea.removeClass('border-danger border-2');
             }
         });
+
+        
     });
 </script>
-
-</body>
-</html>

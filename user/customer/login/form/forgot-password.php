@@ -1,8 +1,8 @@
 <?php 
-        include "/connect2local/includes/table_query/db_connection.php";
-        require "/connect2local/includes/code_generator/code_generator.php";
-        require "/connect2local/includes/table_query/get_encrypted_data.php";
-        require "/connect2local/includes/security_function/secure_function.php";
+        include "../../../../includes/table_query/db_connection.php";
+        require "../../../../includes/code_generator/code_generator.php";
+        require "../../../../includes/table_query/get_encrypted_data.php";
+        require "../../../../includes/security_function/secure_function.php";
 
         session_start();
 
@@ -33,14 +33,13 @@
         if(isset($_GET['verification_token'])){
             if($_GET['verification_token'] != "" ){
                $verification_token = $_GET['verification_token'];
-               $query = "SELECT C_VERIFY_TOKEN FROM customer_verification WHERE C_VERIFY_TOKEN = '$verification_token' ";
+               $query = "SELECT c_verification_token FROM customer_verification WHERE c_verification_token = '$verification_token' ";
                
                $result = mysqli_query($GLOBALS['connect'],$query);
                
                $_SESSION['verification-token'] = $verification_token;
-               $email = get_email_from_token($verification_token,"customer_verification","customer_register","C_VERIFY_TOKEN","C_KEY","C_ID");
-               
-               
+               $email = get_email_from_token($verification_token,"customer_verification","customer_register","c_verification_token","c_key","c_id");
+               echo $email;
                if(mysqli_num_rows($result) > 0){
                    
 ?>
@@ -50,7 +49,7 @@
             <fieldset class="p-4 border rounded position-relative col-lg-4 col-md-7 col-11 text-white" id="register-form">
                 <legend class="my-4 fw-bold fs-2 text-center text-white">Reset Password</legend>
                 <div class="mt-3">
-                    <input type="email" name="email" class="form-control border-2 py-2 border border-dark" id="email" value="<?php echo $email ?>" readonly>
+                    <input type="email" name="email" class="form-control border-2 py-2 border border-dark" id="email" value="<?php echo $email; ?>" readonly>
                 </div>
 
                 <div class="mt-3 position-relative">

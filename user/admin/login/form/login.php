@@ -35,7 +35,11 @@
         <i id="togglePassword" class="fas fa-eye text-secondary position-absolute top-0 end-0 py-2 fs-5 mt-1 me-4"></i>
                     </div>
 
+                    
                     <script src="/asset/js/password-display-toggle.js"></script>
+            </div>
+            <div class="mt-2 text-end px-3">
+                   <a href="admin-email-verification.php" style="text-decoration:none;color:skyblue">Forgot Password</a>     
             </div>
 
                  <div class="mt-5 d-flex justify-content-center">

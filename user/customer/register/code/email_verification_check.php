@@ -13,34 +13,39 @@
 
         if(isset($_POST['submit'])){
             $user_code = $_POST['user-code'];
-            $verification_code = $_SESSION['verify-code'];
+            $id = $_SESSION['c_id'];
+            $query = "SELECT c_verification_code FROM customer_verification WHERE c_id = '$id'";
+            $result = mysqli_query($GLOBALS['connect'],$query);
+
+            if(mysqli_num_rows($result) > 0){
+
+                $row = mysqli_fetch_assoc($result) ;
+                $verification_code = $row["c_verification_code"];
+         
 
             if($verification_code == $user_code){
                 
                 $email = $_SESSION['email'];
                 
-                if(find_encrypted_data($email,"customer_register","customer_verification","C_ID","C_EMAIL","C_KEY","C_ID")){
-                    $customer_id = get_primary_key($email,"customer_register","customer_verification","C_ID","C_EMAIL","C_KEY","C_ID");
-                    $data= get_encrypted_data($email,"customer_register","customer_verification","C_ID","C_EMAIL","C_KEY","C_ID");
+                if(find_encrypted_data($email,"customer_register","customer_verification","c_id","c_email","c_key","c_id")){
+                    $customer_id = get_primary_key($email,"customer_register","customer_verification","c_id","c_email","c_key","c_id");
+                    $data= get_encrypted_data($email,"customer_register","customer_verification","c_id","c_email","c_key","c_id");
                     
                     $key = $data['key'];
                     
-                    $update_query = "UPDATE customer_verification SET C_EMAIL_VERIFIED = 'Yes' WHERE C_KEY = $key AND C_ID = '$customer_id'";
+                    $update_query = "UPDATE customer_verification SET c_email_status = 1,c_verification_code='0' WHERE c_key = $key AND c_id = '$customer_id' AND c_email_status = 0";
                     // die($update_query);
                     
                     $result = mysqli_query($GLOBALS['connect'],$update_query);
                     
                     if($result){
                         $_SESSION['greet-message'] = "Verification Code Matched.";
-                    } else{
-                        $update_query = "UPDATE customer_verification SET C_EMAIL_VERIFIED = 'No' WHERE C_KEY = $key AND C_ID = '$customer_id'";
-                        $result = mysqli_query($GLOBALS['connect'],$update_query);
-                    }
+                    } 
                 }
                 unset($_SESSION['user-code']);
                 unset($_SESSION['verify-code']);
 
-
+            }
                 
             } else{
                 $_SESSION['error'] = "Verification Code Doesn't Matched.";
