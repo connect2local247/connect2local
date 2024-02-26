@@ -15,12 +15,15 @@
                  $counter = 0; // Counter to keep track of blog items
                  while($row = mysqli_fetch_assoc($result)) {
                      $blog_id = $row['blg_id'];
-                    
                      // Open a new row if the counter is divisible by 3 (for large screens)
                     
             ?>
            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xxl-3 g-3">
-                <?php fetch_blog($blog_id)?> 
+           <?php
+                        include "blog/delete-blog.php";
+                        include "blog/edit-blog.php";
+                       ?>
+                <?php echo $blog_id;fetch_blog($blog_id)?> 
             </div> 
             <?php    
                     $counter++;  //Increment the counter

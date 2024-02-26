@@ -33,7 +33,7 @@
 </head>
 <body id="form-body" style="height:100vh;width:100%">
     <script>
-        path = "/user/admin/dashboard/dashboard.php";
+        path = "/user/admin/dashboard/dashboard.php?content=dashboard";
     </script>
 
     <?php 

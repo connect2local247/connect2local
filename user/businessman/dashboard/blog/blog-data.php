@@ -3,7 +3,7 @@
 // $blog_id = "blg0000001";
 // echo $blog_id; 
 function fetch_blog($blog_id){
-    $get_blog_data_query = "SELECT * FROM blog_data WHERE blg_ID = '$blog_id' ";
+    $get_blog_data_query = "SELECT * FROM blog_data WHERE blg_id = '$blog_id' ";
     
     $result = mysqli_query($GLOBALS['connect'],$get_blog_data_query);
     
@@ -29,8 +29,10 @@ function fetch_blog($blog_id){
         $user_id = $row['bp_user_id'];
 
         $unique_identifier = uniqid('blog_');
-
-        
+        $data = array(
+            "blog_id" => $blog_id ,
+            "identifier" => $unique_identifier
+        );
         include "blog.php"; 
     }
 }

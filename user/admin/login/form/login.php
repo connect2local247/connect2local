@@ -13,7 +13,7 @@
 <body id="form-body">
 
 <script>
-            path = "/user/admin/login/form/admin-verification.php";
+            path = "/user/admin/login/form/admin-verification.php?content=dashboard";
         </script>
         <?php 
 
