@@ -14,6 +14,7 @@
       if(mysqli_num_rows($result) > 0){
           $row = mysqli_fetch_assoc($result);
 
+          
           $name = $row['bp_fname']." ".$row['bp_lname'];
           $profile_img = $row['bp_profile_img_url'];
       }
@@ -27,6 +28,7 @@
   <title>Dashboard</title>
   <?php include "../../../asset/link/cdn-link.html"; ?>
   <link rel="stylesheet" href="/asset/css/style.css">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <style>
 
     .profile-section {
@@ -92,7 +94,7 @@
     <li class="list-item mt-3"><a href="#" class="nav-link" data-menu-item-id="notification"><i class="fa-solid fa-bell"></i> &nbsp; Notification</a></li>
     <li class="list-item mt-3"><a href="#" class="nav-link" data-menu-item-id="blog"><i class="fa-solid fa-camera-retro"></i> &nbsp; Blog</a></li>
     <li class="list-item mt-3"><a href="dashboard.php?content=create" class="nav-link" data-menu-item-id="create"><i class="fa-regular fa-square-plus"></i> &nbsp; Create</a></li>
-    <li class="list-item mt-3"><a href="#" class="nav-link" data-menu-item-id="search"><i class="fa-solid fa-magnifying-glass"></i> &nbsp; Search</a></li>
+    <li class="list-item mt-3"><a href="dashboard.php?content=search" class="nav-link" data-menu-item-id="search"><i class="fa-solid fa-magnifying-glass"></i> &nbsp; Search</a></li>
     <li class="list-item mt-3"><a href="#" class="nav-link" data-menu-item-id="setting"><i class="fa-solid fa-gear"></i> &nbsp; Setting</a></li>
     <li class="list-item mt-3"><a href="#" class="nav-link" data-menu-item-id="logout"><i class="fa-solid fa-right-from-bracket"></i> &nbsp; Logout</a></li>
 </ul>
@@ -115,6 +117,9 @@
                                         break;
 
                                         case "create": include "form/add-blog2.php";
+                                        break;
+
+                                        case "search" : include "../../../modules/search/search-business.php";
                                         break;
                                     }
                                 } else{

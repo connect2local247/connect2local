@@ -86,7 +86,7 @@
             $blogger_user_img = get_single_data("business_profile","bp_profile_img_url","bp_user_id",$blogger_id);
             $blogger_category = get_single_data("business_profile","bp_category","bp_user_id",$blogger_id);
             $share_link = "http://connect2local/pages/blog/blog.php?blog_id=$blog_id";
-            $blogger_profile_url = "https://connect2local/pages/profile/blogger-profile.php?blogger_id=$blogger_id";
+            $blogger_profile_url = "https://connect2local/modules/user-orofile/business_profile.php?blogger_id=$blogger_id";
             $_SESSION['blog_id'] = $blog_id;
             $insert_blog_data_query = "INSERT INTO `blog_data`(`blg_id`, `blg_title`, `blg_username`, `blg_user_img_url`, `blg_content_url`, `blg_content_size`, `blg_description`, `blg_author_name`, `blg_content_type`, `blg_category`, `blg_like_count`, `blg_comment_count`, `blg_share_link`, `blgr_profile_url`, `blg_release_time`, `bp_user_id`) VALUES ('$blog_id','$title','$blogger_username','$blogger_user_img','$content_filename','$content_size','$description','$blogger_name','$content_type','$blogger_category','0','0','$share_link','$blogger_profile_url',NOW(),'$blogger_id')";
             // die($insert_blog_data_query);
