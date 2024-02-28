@@ -7,6 +7,7 @@
         require "../../../../includes/table_query/get_encrypted_data.php";
         require "../../../../includes/table_query/get_primary_key.php";
         require "../../../../includes/email_template/email_sending.php";
+        include "../../../../includes/table_query/get_notification_data.php";
 
 
         if(isset($_SESSION['error'])){
@@ -171,10 +172,10 @@
                 }
                 return true;
         }
-        function insert_request($business_code){
+        function insert_request($business_code,$request_id){
             $check_query = "SELECT `request_time` FROM `business_add_status` WHERE `business_code` = '$business_code'";
             $result = mysqli_query($GLOBALS['connect'], $check_query);
-
+            
             if(mysqli_num_rows($result) == 0) {
                 // No existing entry with the same business_code, so insert data
                 $insert_query = "INSERT INTO `business_add_status`(`request_id`, `business_code`,`request_time`) VALUES ('$request_id','$business_code',NOW())";
@@ -277,9 +278,10 @@
                                     //    die($insert_query); 
                                     if($result){
                                         $request_id = generateUniqueID("business_add_status","C2LR","request_id");
-                                        $result = insert_request($business_code);
+                                        $result = insert_request($business_code,$request_id);
                                         if($result){
                                             send_greet_mail($email,$fname,$lname);
+                                            sent_notification("request","has requested to add their business",$business_id);
                                             $_SESSION['greet-message'] = "Your Request Sent Successfully";
                                             unset($_SESSION['error']);
                                         }
