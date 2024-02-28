@@ -41,6 +41,7 @@
   
 </head>
 <body class="vertical-bar text-bg-dark">
+  <?php include "../../../modules/notification/notification-modal.php"; ?>
 <nav class="navbar text-bg-dark py-4 border-bottom">
             <div class="container">
                 <div class="home-icon fs-5">
@@ -52,7 +53,7 @@
                     Admin
                 </div>
             <div class="nav-menu fs-5 d-flex align-items-center" style="gap:15px">
-                <i class="fa-solid fa-bell fs-4 position-relative"><span class="position-absolute top-0 start-100 translate-middle badge border border-light rounded-circle bg-danger" style="padding:5px"><span class="visually-hidden">unread messages</span></span></i>
+                <i class="fa-solid fa-bell fs-4 position-relative" data-bs-target="#notificationModal" data-bs-toggle="modal"><span class="position-absolute top-0 start-100 translate-middle badge border border-light rounded-circle bg-danger" style="padding:5px"><span class="visually-hidden">unread messages</span></span></i>
                 <img src="/asset/image/user/profile.png" alt="" class="admin-img" class="rounded-circle" style="height:30px;">
                 
             </div>
@@ -69,7 +70,7 @@
             <li class="list-item mt-3"><a href="#" class="nav-link" data-menu-item-id="notification"><i class="fa-solid fa-bell"></i> &nbsp; Notification</a></li>
             <li class="list-item mt-3"><a href="#" class="nav-link" data-menu-item-id="report"><i class="fa-solid fa-file-alt"></i> &nbsp; Report</a></li>
             <li class="list-item mt-3"><a href="dashboard.php?content=create" class="nav-link" data-menu-item-id="create"><i class="fa-solid fa-user"></i> &nbsp; User</a></li>
-            <li class="list-item mt-3"><a href="#" class="nav-link" data-menu-item-id="search"><img src="/asset/image/svg/add-business.svg" style="height:30px;">&nbsp; Request</a></li>
+            <li class="list-item mt-3"><a href="dashboard.php?content=request" class="nav-link" data-menu-item-id="search"><img src="/asset/image/svg/add-business.svg" style="height:30px;">&nbsp; Request</a></li>
             <li class="list-item mt-3"><a href="#" class="nav-link" data-menu-item-id="setting"><i class="fa-solid fa-gear"></i> &nbsp; Setting</a></li>
             <li class="list-item mt-3"><a href="#" class="nav-link" data-menu-item-id="logout"><i class="fa-solid fa-right-from-bracket"></i> &nbsp; Logout</a></li>
         </ul>
@@ -92,7 +93,7 @@
                                         case "dashboard": include "content/content.php";
                                         break;
 
-                                        case "account": include "account/account.php";
+                                        case "request": include "account/account.php";
                                         break;
 
                                         case "create": include "user/user-data.php";
