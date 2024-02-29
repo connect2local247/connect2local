@@ -13,14 +13,15 @@
       }
       
 ?>
+            <?php
+                    include "delete-blog.php";
+                    include "edit-blog.php";
+                    ?>
             <div class="card-content border border-dark rounded shadow position-relative p-2">
                     <?php include "blog-header.php" ?>
                     <?php include "blog-body.php" ?>
                     <?php include "blog-footer.php" ?>
-                                        <?php
-                    include "delete-blog.php";
-                    include "edit-blog.php";
-                    ?>
+                                       
             </div>
 
             <script>

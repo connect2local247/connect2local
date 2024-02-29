@@ -1,8 +1,5 @@
 <div class="card-header d-flex justify-content-between px-3 align-items-center position-relative">
-                      <?php
-include "delete-blog.php";
-include "edit-blog.php";
-?>
+                      
                         <div class="user-data d-flex align-items-center " style="gap:10px">
                             <?php 
                                     if($user_image != "" || $user_image != NULL){

@@ -28,6 +28,7 @@ if (mysqli_num_rows($result) >= 1) {
     echo "<div class='link-container text-dark text-center border-bottom border-dark' id='link-container<?php echo $unique_identifier; ?>'><p>No links available</p></div>";
 }
 ?>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
 
 <script>
     function copyLink() {

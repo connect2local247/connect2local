@@ -5,32 +5,26 @@
         <h1 class="modal-title fs-5" id="notificationModalLabel">Notification</h1>
         <i class="fa-solid fa-xmark" data-bs-dismiss="modal" aria-label="Close"></i>
       </div>
-      <div class="modal-body border-0">
-           <?php
-                $query = "SELECT * FROM notification";
+      <div class="modal-body border-0 text-bg-dark">
+          <?php
+          
+                $query = "SELECT * FROM notification WHERE 1";
+
                 $result = mysqli_query($GLOBALS['connect'],$query);
-                $notifications = mysqli_fetch_all($result, MYSQLI_ASSOC);
-                // Array to store new and seen notifications
-                $newNotifications = array();
-                $seenNotifications = array();
-                while($row = mysqli_fetch_assoc($result)) {
-                    if ($row['n_status'] == 0) {
-                        $newNotifications[] = $row;
-                    } else {
-                        $seenNotifications[] = $row;
+
+                if(mysqli_num_rows($result) > 0){
+                   
+
+                    while( $row = mysqli_fetch_assoc($result)){
+                        $type = $row['n_type'];
+                        $status = $row['n_status'];
+                        $content = $row['n_content'];
+                        $user_id = $row['n_user_id'];
+
+                        include "notification-design.php";
                     }
                 }
-                // Display new notifications
-                if (!empty($newNotifications)) {
-                    echo "<h3>New Notifications</h3>";
-                    include "notification-design.php"; // Modify this according to your design
-                }
-                // Display seen notifications
-                if (!empty($seenNotifications)) {
-                    echo "<h3>Seen Notifications</h3>";
-                    include "notification-design.php"; // Modify this according to your design
-                }
-           ?>
+          ?>
       </div>
       <div class="modal-footer border-0">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
