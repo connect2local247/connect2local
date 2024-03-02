@@ -1,17 +1,15 @@
 <?php
-session_start();
-include "../../includes/table_query/db_connection.php";
-require "../../includes/security_function/secure_function.php";
-require "../blog/blog-data.php";
+        session_start();
 
-if(isset($_GET['user_id'])) {
-    $user_id = $_GET['user_id'];
-    $user_id = $_SESSION['bp_user_id'];
-    fetch_profile($user_id);
-}
+        include "../../includes/table_query/db_connection.php";
+        include "../../includes/security_function/secure_function.php";
+        include "../blog/blog-data.php";
+        include "profile_function.php";
+        $connect = $GLOBALS['connect'];
+        $user_id = "C2LBU00001";
+        
 
-function fetch_profile($user_id) {
-    $query = "SELECT 
+                $query = "SELECT 
                 bi.bi_fname AS First_Name,
                 bi.bi_lname AS Last_Name,
                 bi.business_name AS Business_Name,
@@ -42,215 +40,258 @@ function fetch_profile($user_id) {
             LEFT JOIN 
                 business_profile_interaction bpi ON bp.bp_user_id = bpi.bp_user_id
             WHERE
-                bp.bp_user_id = '$user_id';";
+                bp.bp_user_id = '$user_id';
+            ";
 
-    $result = mysqli_query($GLOBALS['connect'], $query);
+        $result = mysqli_query($GLOBALS['connect'], $query);
 
-    if ($row = mysqli_fetch_assoc($result)) {
-        $fname = $row['First_Name'];
-        $lname = $row['Last_Name'];
-        $businessName = $row['Business_Name'];
-        $address = $row['Business_Address'];
-        $category = $row['Category'];
-        $operateTime = $row['Operate_Time'];
-        $phone = $row['Phone'];
-        $email = $row['Email'];
-        $webUrl = $row['Website_Url'];
-        $igUrl = $row['Instagram_url'];
-        $fbUrl = $row['Facebook_url'];
-        $xUrl = $row['X_url'];
-        $linkedinUrl = $row['Linkedin_url'];
-        $bKey = $row['B_key'];
-        $bId = $row['B_id'];
-        $username = $row['Username'];
-        $userId = $row['User_id'];
-        $profileId = $row['B_id'];
-        $profileImg = $row['Profile_url'];
-        $bio = $row['Bio'];
-        $blogCount = $row['Blog_count'];
-        $followerCount = $row['Follower_count'];
-        $followingCount = $row['Following_count'];
+        // Storing fetched data into variables
+        if ($row = mysqli_fetch_assoc($result)) {
+            $fname = $row['First_Name'];
+            $lname = $row['Last_Name'];
+            $businessName = $row['Business_Name'];
+            $address = $row['Business_Address'];
+            $category = $row['Category'];
+            $operateTime = $row['Operate_Time'];
+            $phone = $row['Phone'];
+            $email = $row['Email'];
+            $webUrl = $row['Website_Url'];
+            $igUrl = $row['Instagram_url'];
+            $fbUrl = $row['Facebook_url'];
+            $xUrl = $row['X_url'];
+            $linkedinUrl = $row['Linkedin_url'];
+            $bKey = $row['B_key'];
+            $bId = $row['B_id'];
+            $username = $row['Username'];
+            $userId = $row['User_id'];
+            $profileId = $row['B_id'];
+            $profileImg = $row['Profile_url'];
+            $bio = $row['Bio'];
+            $blogCount = getBlogCount($user_id);
+            $followerCount = $row['Follower_count'];
+            $followingCount = $row['Following_count'];
+
+            // return $row;
+        }
+
+        // return 0;
+        $blogQuery = "SELECT blg_id FROM blog_data WHERE bp_user_id = '$user_id'";
+        $blogResult = mysqli_query($connect,$blogQuery);
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
-    <!-- Include Bootstrap CSS -->
-    <?php include "../../asset/link/cdn-link.html"; ?>
-    <!-- Custom CSS -->
+    <title>Business Profile</title>
     <link rel="stylesheet" href="/asset/css/style.css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <?php include "../../asset/link/cdn-link.html"; ?>
     <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: Arial, sans-serif;
+        .tab-pane {
+            display: none;
         }
-        .container {
-            max-width: 1200px;
-            margin: auto;
-            padding: 20px;
-        }
-        .profile-card {
-            background-color: #fff;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-        }
-        .profile-card h2 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            color: #333;
-        }
-        .profile-card p {
-            font-size: 1.2rem;
-            color: #666;
-        }
-        .profile-card .profile-image {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            overflow: hidden;
-            margin: 0 auto 20px;
-        }
-        .profile-card .profile-image img {
-            width: 100%;
-            height: auto;
+
+        .tab-pane.active {
             display: block;
         }
-        .social-links {
-            margin-top: 20px;
-        }
-        .social-links a {
-            color: #555;
-            font-size: 24px;
-            margin-right: 10px;
-            transition: all 0.3s ease;
-        }
-        .social-links a:hover {
-            color: #007bff;
-        }
-        .contact-info {
-            margin-top: 20px;
-        }
-        .contact-info ul {
-            list-style: none;
-            padding: 0;
-        }
-        .contact-info ul li {
-            margin-bottom: 10px;
-        }
-        .contact-info ul li a {
-            color: #555;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        .contact-info ul li a:hover {
-            color: #007bff;
-        }
-        .user-blog h2 {
-            font-size: 2rem;
-            color: #333;
-            margin-bottom: 20px;
-        }
-        .blog-card {
-            background-color: #fff;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            transition: all 0.3s ease;
-        }
-        .blog-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        .blog-card h5 {
-            font-size: 1.5rem;
-            color: #333;
-            margin-bottom: 10px;
-        }
-        .blog-card p {
-            font-size: 1.1rem;
-            color: #666;
-        }
+      
+        .business-details-table {
+        border-collapse: collapse;
+    }
+
+    .business-details-table td {
+        padding: 5px;
+        text-style:none !important;
+        color:black !important;
+    }
+
     </style>
 </head>
-<body>
+
+<body class="text-bg-light">
     <div class="container">
-        <div class="row">
-            <!-- Profile Information -->
-            <div class="col-lg-4">
-                <div class="profile-card text-center">
-                    <!-- Profile Image -->
-                    <div class="profile-image">
-                        <?php if($profileImg != "" || $profileImg != NULL): ?>
-                            <img src="/database/data/user/<?php echo $profileImg ?>" alt="Profile Picture">
-                        <?php else: ?>
-                            <img src="/asset/image/user/profile.png" alt="Default Profile Picture">
-                        <?php endif; ?>
-                    </div>
-                    <!-- User Name -->
-                    <h2><?php echo "$fname $lname" ?></h2>
-                    <p>@<?php echo $username ?></p>
-                    <!-- Social Links -->
-                    <div class="social-links">
-                        <a href="<?php echo $igUrl ?>"><i class="fab fa-instagram"></i></a>
-                        <a href="<?php echo $fbUrl ?>"><i class="fab fa-facebook"></i></a>
-                        <a href="<?php echo $linkedinUrl ?>"><i class="fab fa-linkedin"></i></a>
-                        <a href="<?php echo $xUrl ?>"><i class="fab fa-twitter"></i></a>
-                    </div>
-                </div>
-            </div>
-            <!-- Profile Content -->
-            <div class="col-lg-8">
-                <div class="profile-details">
-                    <h3>About Me</h3>
-                    <p><?php echo $bio ?></p>
-                    <!-- Contact Information -->
-                    <div class="contact-info">
-                        <h3>Contact Information</h3>
-                        <ul>
-                            <li><i class="fas fa-envelope"></i> <a href="mailto:<?php echo decryptData($email,$bKey) ?>"><?php echo decryptData($email,$bKey) ?></a></li>
-                            <li><i class="fas fa-phone"></i> <a href="tel:<?php echo decryptData($phone,$bKey)?>"><?php echo decryptData($phone,$bKey)?></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+    <div class="row border p-4 mt-5 rounded-2">
+    <div class="menu-dots text-end">
+            <i class="fa-solid fa-ellipsis-vertical"></i>
         </div>
-        <!-- User Blog Section -->
-        <div class="user-blog mt-5">
-            <h2>User Blog</h2>
-            <div class="row">
-                <?php
-                $bp_user_id = $_SESSION['bp_user_id'];
-                $query = "SELECT blg_id FROM blog_data WHERE bp_user_id = '$bp_user_id'";
-                $result = mysqli_query($GLOBALS['connect'], $query);
-                if(mysqli_num_rows($result) > 0) {
-                    while($row = mysqli_fetch_assoc($result)) {
-                        $blog_id = $row['blg_id'];
-                ?>
-                <div class="col-lg-4 col-md-6 mt-4">
-                    <div class="blog-card">
-                        <h5>Blog ID: <?php echo $blog_id; ?></h5>
-                        <!-- Fetch Blog Content using fetch_blog() function -->
-                        <?php fetch_blog($blog_id); ?>
+            <div class="row mt-2 d-flex align-items-center">
+                    <div class="col-3 d-flex justify-content-lg-end ">
+                            <img src="<?php if(isset($profileImg)){echo $profileImg;}else{echo '/asset/image/user/profile.png';} ?>" style="height:100px;width:100px" class="rounded-circle" alt="">
                     </div>
-                </div>
-                <?php
-                    }
-                }
-                ?>
+                    <div class="col-9">
+                            <div class="username fw-semibold fs-4 d-lg-block d-md-block d-none"><?php echo $fname." ".$lname; if(isset($username)) echo " | $username" ?></div>
+                            <ul class="interact-count d-flex  fw-semibold text-center mt-2" style="gap:15px">
+                                <li class="blog-count d-flex flex-column"><span class="count"><?php if(isset($blogCount)) echo $blogCount?></span> Blog</li>
+                                <li class="blog-count d-flex flex-column"><span class="count"><?php if(isset($followerCount)) echo $followerCount ?></span>Follower</li>
+                                <li class="blog-count d-flex flex-column"><span class="count"><?php if(isset($followingCount)) echo $followingCount?></span>Following</li>
+                            </ul>
+                            <div class="bio ps-4 d-lg-block d-md-block d-none mt-2">
+                                <p style="white-space:pre-line"><?php if(isset($bio)) echo $bio; ?></p>
+                            </div>
+                    </div>
             </div>
-        </div>
+            <div class="row mt-2">
+                <div class="username fw-semibold d-lg-none d-md-none d-block"><?php echo $fname." ".$lname; if(isset($username)) echo " | $username" ?>
+            </div>
+            <div class="bio ps-3 d-lg-none d-md-none d-block">
+                <p style="white-space:pre-line" class=""><?php if(isset($bio)) echo $bio; ?></p>
+            </div>
+            </div>
+            <div class="row mt-2 d-flex justify-content-around">
+    <div class="col-4 d-flex">
+        <button class="btn btn-block mx-auto btn-outline-info text-center" style="width:110px">Edit</button>
     </div>
-    <!-- Include Bootstrap JS and Font Awesome -->
-    <?php include "../../asset/link/bootstrap-link.html"; ?>
+    <div class="col-4 d-flex">
+        <button class="btn btn-block mx-auto btn-outline-info text-center" style="width:110px">Share</button>
+    </div>
+    <div class="col-4 d-flex">
+        <button class="btn btn-block mx-auto btn-outline-info text-center" style="width:110px">Contact</button>
+    </div>
+</div>
+
+    </div>
+    
+
+       
+        <!-- <div class="user-content d-flex flex-column justify-content-center align-items-center">
+            <img src="/asset/image/user/profile.png" style="height:150px;width:150px" class="mx-auto rounded-circle"
+                 alt="">
+            <span class="fs-3 fw-semibold"><?php echo $fname." ".$lname ?></span>
+            <span class="username"><i>@<?php echo $username; ?></i></span>
+            <button class="btn btn-primary bg-gradient my-2">Edit Profile</button>
+        </div> -->
+    </div>
+    <div class="container mt-5">
+  <ul class="nav nav-tabs d-flex justify-content-around fs-4" id="myTabs">
+    <li class="nav-item">
+      <a class="nav-link active" data-bs-toggle="tab" href="#tab1"><i
+                            class="fa-solid fa-table-cells text-info"></i></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" href="#tab2"><i class="fa-solid fa-circle-info text-info"></i></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" href="#tab3"><i class="fa-solid fa-icons text-info"></i></a>
+    </li>
+  </ul>
+    <div class="tab-content">
+        <div id="tab1" class="tab-pane active">
+                    <div class="row">
+                        <?php
+                                if(mysqli_num_rows($blogResult)){
+                                     while($row = mysqli_fetch_assoc($blogResult)){
+                                            $blog_id = $row['blg_id'];
+
+                                            ?>
+                                            <div class="col-lg-4 col-md-6 col-12 g-3">
+                                                <?php fetch_blog($blog_id) ?>
+                                            </div>
+                                            <?php
+                                     }
+                                }
+                        ?>
+                    </div>
+        </div>
+        <div id="tab2" class="tab-pane">
+    <div class="business-info d-flex flex-column justify-content-center align-items-center">
+        <ul class="list-group w-100 justify-content-center">
+            <?php if (!empty($businessName)) : ?>
+                <li class="list-group-item my-2 d-flex border-0 border-bottom border-dark">
+                    <div class="item-content">
+                        <b><i class="fa-solid fa-building"></i></b> <?php echo $businessName; ?>
+                    </div>
+                </li>
+            <?php endif; ?>
+            <?php if (!empty($operateTime)) : ?>
+                <li class="list-group-item my-2 d-flex border-0 border-bottom border-dark">
+                    <div class="item-content">
+                        <b><i class="fa-solid fa-business-time"></i></b> <?php echo $operateTime; ?>
+                    </div>
+                </li>
+            <?php endif; ?>
+            <?php if (!empty($address)) : ?>
+                <li class="list-group-item my-2 d-flex border-0 border-bottom border-dark">
+                    <div class="item-content">
+                        <b><i class="fa-solid fa-address-card"></i></b> <?php echo $address; ?>
+                    </div>
+                </li>
+            <?php endif; ?>
+            <?php if (!empty($category)) : ?>
+                <li class="list-group-item my-2 d-flex border-0 border-bottom border-dark">
+                    <div class="item-content">
+                        <b><i class="fa-solid fa-list"></i></b> <?php echo $category; ?>
+                    </div>
+                </li>
+            <?php endif; ?>
+        </ul>
+    </div>
+</div>
+<div id="tab3" class="tab-pane">
+    <ul class="list-group w-100 justify-content-center">
+    <?php if (!empty($webUrl)) : ?>
+            <li class="list-group-item my-2 d-flex border-0 border-bottom border-dark">
+                <div class="item-content">
+                    <b><i class="fa-solid fa-globe"></i></b> <a href="<?php echo $webUrl?>" class="nav-link d-inline">Website</a> 
+                </div>
+            </li>
+        <?php endif; ?>
+
+        <?php if (!empty($igUrl)) : ?>
+            <li class="list-group-item my-2 d-flex border-0 border-bottom border-dark">
+                <div class="item-content">
+                    <b><i class="fa-brands fa-instagram"></i></b> <a href="<?php echo $igUrl?>" class="nav-link d-inline">Instagram</a> 
+                </div>
+            </li>
+        <?php endif; ?>
+        <?php if (!empty($fbUrl)) : ?>
+            <li class="list-group-item my-2 d-flex border-0 border-bottom border-dark">
+                <div class="item-content">
+                    <b><i class="fa-brands fa-facebook"></i></b> <a href="<?php echo $fbUrl?>" class="nav-link d-inline">Facebook</a>
+                </div>
+            </li>
+        <?php endif; ?>
+        <?php if (!empty($xUrl)) : ?>
+            <li class="list-group-item my-2 d-flex border-0 border-bottom border-dark">
+                <div class="item-content">
+                    <b><i class="fa-brands fa-twitter"></i></b> <a href="<?php echo $xUrl?>" class="nav-link d-inline">Twitter</a>
+                </div>
+            </li>
+        <?php endif; ?>
+        <?php if (!empty($linkedinUrl)) : ?>
+            <li class="list-group-item my-2 d-flex border-0 border-bottom border-dark">
+                <div class="item-content">
+                    <b><i class="fa-brands fa-linkedin"></i></b> <a href="<?php echo $linkedinUrl?>" class="nav-link d-inline">Linkedin</a>
+                </div>
+            </li>
+        <?php endif; ?>
+    </ul>
+        </div>
+</div>
+
+
+
+<script>
+  function moveTab(direction) {
+    const tabs = document.querySelectorAll('.nav-link');
+    const activeTab = document.querySelector('.nav-link.active');
+    let currentIndex = Array.from(tabs).indexOf(activeTab);
+
+    if (direction === 'left') {
+      if (currentIndex > 0) {
+        tabs[currentIndex].parentNode.insertBefore(tabs[currentIndex], tabs[currentIndex - 1]);
+      }
+    } else if (direction === 'right') {
+      if (currentIndex < tabs.length - 2) {
+        tabs[currentIndex].parentNode.insertBefore(tabs[currentIndex + 1], tabs[currentIndex]);
+      }
+    }
+
+  }
+</script>
+<?php 
+        
+?>
 </body>
 </html>
-
-<?php
-    }
-}
-?>

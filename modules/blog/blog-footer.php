@@ -1,4 +1,7 @@
 <div class="card-footer">
+    <div class="blog-title fw-semibold fs-5">
+        <?php echo $title ?>
+    </div>
     <div class="holded-text text-secondary">
         Description
     </div>

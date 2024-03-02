@@ -1,4 +1,4 @@
-<div class="content p-2 blog-overflow">
+<div class="content p-2 blog-overflow blog-content">
                             <?php
                                     if (isset($content_type) && isset($content_url) && isset($title)) {
                                         if (strpos($content_type, "image") !== false) {

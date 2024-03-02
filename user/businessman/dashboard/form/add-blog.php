@@ -1,6 +1,6 @@
 <div class="modal fade" id="linkModal" tabindex="-1" aria-labelledby="linkModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content text-bg-dark">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="linkModalLabel">Add Link</h1>
                     <i class="fa-solid fa-xmark fs-5" data-bs-dismiss="modal" aria-label="Close"></i>
@@ -26,28 +26,23 @@
             </div>
         </div>
     </div>
-    <script>
-        path = "/user/businessman/dashboard/dashboard.php";
-    </script>
+
     <?php
-    if (isset($_SESSION['greet-message'])) {
-        if (isset($_SESSION['blog-title'])) {
-            $_SESSION['blog-title'] = "";
-        }
-        if (isset($_SESSION['blog-description'])) {
-            $_SESSION['blog-description'] = "";
-        }
-        if(isset($_SESSION['linkDataArray'])){
-            unset($_SESSION['linkDataArray']);
-        }
-    }
+    // unset($_SESSION['linkDataArray']);
+if(!isset($_SESSION['linkDataArray'])){
+    $_SESSION['linkDataArray'] = array();
+}
+
     include "../../../component/form-alert.php";
     unset($_SESSION['error']);
     ?>
-    <form id="addBlogForm" action="/user/businessman/dashboard/code/blog-data-insertion.php" onsubmit="validateForm()" class="col-lg-7 col-md-9 col-12 d-flex  flex-column align-items-center justify-content-center" style="margin-top:100px;height:calc(100vh - 150px); width:85%" method="post" enctype="multipart/form-data">
-        <fieldset class=" border p-2 rounded col-lg-7 col-md-9 col-12 position-relative">
+    <div class="add-form-container w-100 " style="margin-top:100px;">
+
+    
+    <form action="/user/businessman/dashboard/code/blog-data-insertion.php" onsubmit="return validateForm()" class="col-lg-7 col-md-9 col-12 d-flex  flex-column align-items-center justify-content-center vertical-bar overflow-auto" method="post" style=" margin-top:-10px;height:calc(100vh - 78px); width:100%" enctype="multipart/form-data">
+    <fieldset class=" border p-2 rounded col-lg-7 col-md-9 col-12 position-relative">
             <div class="add-link-icon position-absolute end-0 me-2">
-                <i class="fa-solid fa-plus border rounded p-2 bg-white shadow" data-bs-target="#linkModal" data-bs-toggle="modal"></i>
+                <i class="fa-solid fa-plus border rounded p-2 text-bg-white shadow" data-bs-target="#linkModal" data-bs-toggle="modal"></i>
             </div>
             <legend class="fs-3 fw-bold text-center">Add Blog</legend>
             <div class="mt-4 d-flex">
@@ -137,6 +132,7 @@
             </div>
         </fieldset>
     </form>
+    </div>
     <script>
     // JavaScript code for AJAX form submission
     $(document).ready(function(){
@@ -163,7 +159,7 @@
     });
 </script>
 <script>
-        function submitLinkForm() {
+function submitLinkForm() {
     // Get the form data
     var formData = $('#addLinkForm').serialize();
 
@@ -183,8 +179,8 @@
             $('#link-title').val('');
             $('#link-url').val('');
 
-            // Check if link container is empty and hide it if needed
-            if ($('#linkContainer').children().length < 0) {
+            // Check if link container is empty and show it if needed
+            if ($('#linkContainer').children().length > 0) {
                 $('#linkContainer').removeClass('d-none');
             }
 
@@ -197,6 +193,8 @@
         }
     });
 }
+
+
 </script>
 
 <script>

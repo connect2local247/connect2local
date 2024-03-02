@@ -3,7 +3,6 @@
 
     include "../../../includes/table_query/db_connection.php";
     include "../../../includes/security_function/secure_function.php";
-    include "blog/blog-data.php";
     // include "../../../testblog.php";
     if(isset($_SESSION['bp_user_id'])){
       $bp_user_id = $_SESSION['bp_user_id'];
@@ -27,6 +26,7 @@
   <title>Dashboard</title>
   <?php include "../../../asset/link/cdn-link.html"; ?>
   <link rel="stylesheet" href="/asset/css/style.css">
+  <link rel="stylesheet" href="/asset/css/form.css">
   <style>
 
     .profile-section {
@@ -55,7 +55,7 @@
   </style>
   
 </head>
-<body class="vertical-bar">
+<body class="vertical-bar text-bg-dark">
 <nav class="navbar text-bg-dark py-4 border-bottom">
             <div class="container">
                 <div class="home-icon fs-5">
@@ -63,20 +63,20 @@
                     <i class="fa-solid fa-house mx-3 " onclick="location.href='/index.php'"></i>
                    
                 </div>
-            <div class="nav-menu fs-5 d-flex" style="gap:15px">
-                <i class="fa-solid fa-bell"></i>
-                <i class="fa-solid fa-user"></i>
+            <div class="nav-menu fs-5 d-flex align-items-center" style="gap:15px">
+              <i class="fa-solid fa-bell fs-4"></i>
               
-                <i class="fa-solid fa-square-plus" onclick="location.href='/user/businessman/dashboard/form/add-blog.php'"></i>
+              <i class="fa-solid fa-square-plus fs-4" onclick="location.href='/user/businessman/dashboard/form/add-blog.php'"></i>
+              <img src="/user/businessman/dashboard/code/WhatsApp_Image_2023-05-26_at_10.15.37_AM-removebg-preview.png" alt="" class="rounded-circle" style="height:35px;width:35px">
               
-                <i class="fa-solid fa-square-plus" data-bs-target="#setUserNamePromptModal" data-bs-toggle="modal"></i>
+                <!-- <i class="fa-solid fa-square-plus" data-bs-target="#setUserNamePromptModal" data-bs-toggle="modal"></i> -->
                 
             </div>
             </div>
 </nav>
 <div class="d-flex">
   <div class="col-xxl-2 col-lg-3 col-md-5 col-sm-7 col-9 sidebar-container d-xxl-block d-xl-block d-lg-none  d-none position-fixed" >
-            <div class="bg-dark text-light vertical-bar col-12" style="min-height:calc(100vh - 102px);margin-top:100px" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+            <div class="bg-dark text-light vertical-bar col-12 border border-0 border-end" style="min-height:calc(100vh - 102px);margin-top:100px" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
                 <div class="offcanvas-body pt-5">
                     <div class="sidebar d-flex flex-column align-items-center">
                         <div class="profile-container">
@@ -114,44 +114,13 @@
                                         case "account": include "account/account.php";
                                         break;
 
-                                        case "create": include "form/add-blog2.php";
+                                        case "create": include "form/add-blog.php";
                                         break;
                                     }
                                 } else{
                                     include "content/dashboard_content.php";
                                 }
-                        ?>
-  <!-- <script>
-    // JavaScript code to handle menu clicks and load content dynamically
-    document.addEventListener('DOMContentLoaded', function() {
-        const menuItems = document.querySelectorAll('.nav-link');
-        
-        menuItems.forEach(item => {
-            item.addEventListener('click', function() {
-                const menuItemId = this.dataset.menuItemId;
-                loadContent(menuItemId);
-            });
-        });
-        
-        function loadContent(menuItemId) {
-            // Send AJAX request to server to fetch content
-            const xhr = new XMLHttpRequest();
-            xhr.open('GET', 'get_content.php?menuItemId=' + menuItemId, true);
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status === 200) {
-                        document.querySelector('.menu-content').innerHTML = xhr.responseText;
-                    } else {
-                        // console.log('Error fetching content');
-                    }
-                }
-            };
-            xhr.send();
-        }
-    });
-</script> -->
-
-    
+                        ?> 
 </div>
 
           </div>

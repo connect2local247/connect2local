@@ -13,7 +13,7 @@
                             
                             <option value="category">Category</option>
                             <option value="business name">Business Name</option>
-                            <option value="bp_username">Username</option>
+                            <option value="username">Username</option>
                         </select>
                     </div>
                 </div>

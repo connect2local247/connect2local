@@ -1,3 +1,8 @@
+<?php 
+            include "includes/table_query/db_connection.php";
+            include "modules/blog/blog-data.php";
+            $user_id = "C2LB000003";
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -186,7 +191,9 @@
                 <h1 class="fs-2 fw-bold text-center text-white">Our Blog</h1>
                 <div class="row">
                 <div class="col-lg-4 col-md-6 col-12 g-4"> 
-                    <div class="card mb-4 blog-post">
+                <?php fetch_blog("BLG0000007");?>
+
+                    <!-- <div class="card mb-4 blog-post">
                         <div class="card-body">
                             <img src="https://placehold.it/200x150" class="card-img-top" alt="Blog Post Image">
                             </div>
@@ -198,11 +205,12 @@
                             </p>
                             <a href="#" class="btn btn-primary btn-sm">Read More</a>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="col-lg-4 col-md-6 col-12 g-4"> 
-                    <div class="card mb-4 blog-post">
+                    <?php fetch_blog("BLG0000008");?>
+                    <!-- <div class="card mb-4 blog-post">
                         <div class="card-body">
                             <img src="https://placehold.it/200x150" class="card-img-top" alt="Blog Post Image">
                             </div>
@@ -214,11 +222,13 @@
                             </p>
                             <a href="#" class="btn btn-primary btn-sm">Read More</a>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="col-lg-4 col-md-6 col-12  g-4"> 
-                    <div class="card mb-4 blog-post">
+                    <?php fetch_blog("BLG0000009");?>
+                    <!-- <div class="card mb-4 blog-post">
+
                         <div class="card-body">
                             <img src="https://placehold.it/200x150" class="card-img-top" alt="Blog Post Image">
                             </div>
@@ -230,7 +240,7 @@
                             </p>
                             <a href="#" class="btn btn-primary btn-sm">Read More</a>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 
                 

@@ -1,6 +1,5 @@
 <?php
 session_start();
-// unset($_SESSION['linkDataArray']);
 if(!isset($_SESSION['linkDataArray'])){
     $_SESSION['linkDataArray'] = array();
 }

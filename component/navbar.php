@@ -7,7 +7,7 @@
                         <li class="nav-item"><a href="/index.php" class="nav-link text-white">Home</a></li>
                         <li class="nav-item"><a href="#" class="nav-link text-white">About</a></li>
                         <li class="nav-item"><a href="#" class="nav-link text-white">Service</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link text-white">Contact</a></li>
+                        <li class="nav-item"><a href="/webpage/contact/contact.php" class="nav-link text-white">Contact</a></li>
                         <li class="nav-item"><a href="#" class="nav-link text-white">Blog</a></li>
                         <li class="nav-item"><a href="#" class="nav-link text-white">Help</a></li>
                         <li class="nav-item"><a href="#" class="nav-link text-white">Term & Condition</a></li>
@@ -56,7 +56,7 @@
                         <li class="nav-item"><a href="#" class="nav-link text-white fs-5"><i class="fa-solid fa-house mx-1"></i> Home</a></li>
                         <li class="nav-item"><a href="#" class="nav-link text-white fs-5"><i class="fa-solid fa-address-card mx-1"></i> About</a></li>
                         <li class="nav-item"><a href="#" class="nav-link text-white fs-5"><i class="fas fa-cogs mx-1"></i> Service</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link text-white fs-5"><i class="fas fa-phone mx-1"></i> Contact</a></li>
+                        <li class="nav-item"><a href="/webpage/contact/contact.php" class="nav-link text-white fs-5"><i class="fas fa-phone mx-1"></i> Contact</a></li>
                         <li class="nav-item"><a href="#" class="nav-link text-white fs-5"><i class="fas fa-pencil-alt mx-1"></i> Blog</a></li>
                         <li class="nav-item"><a href="#" class="nav-link text-white fs-5"><i class="fas fa-question-circle mx-1"></i> Help</a></li>
                         <li class="nav-item"><a href="#" class="nav-link text-white fs-5"><i class="fas fa-file-alt mx-1"></i> Term & Condition</a></li>

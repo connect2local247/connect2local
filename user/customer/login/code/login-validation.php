@@ -18,13 +18,23 @@
                 $encryptedEmail = $encryptedEmailDataArray['encryptData'];
 
                 $customer_id = $encryptedEmailDataArray['id'];
-
-                $login_query = "SELECT c_email,c_password FROM customer_register WHERE c_id = '$customer_id' AND c_email = '$encryptedEmail' AND c_password = '$encryptedPassword'";
-                // die($login_query);
+                $key = $encryptedEmailDataArray['key'];
+                $login_query = "SELECT c_email,c_password FROM customer_register WHERE c_id = '$customer_id' AND c_email = '$encryptedEmail'";
+        
                 $result = mysqli_query($GLOBALS['connect'],$login_query);
-                if(mysqli_num_rows($result) == 1 ){
-                    $_SESSION['greet-message'] = "Login Successfully";
-                    return true;
+                if(mysqli_num_rows($result) >= 1 ){
+                    $row = mysqli_fetch_assoc($result);
+                    $db_password = decryptData($row['c_password'],$key);
+
+                    if($password == $db_password){
+                        $_SESSION['c_id'] = $customer_id;
+                        // echo $business_id;
+                        // $_SESSION['bp_user_id'] = get_user_id("business_profile","$business_id","bp_user_id","b_id");;
+                        $_SESSION['greet-message'] = "Login Successfully";
+                        return true;
+                    } else{
+                        $_SESSION['error'] = "Password doesn't matched";
+                    }
                 }else{
                     $_SESSION['error'] = "Login Failed Try Again";
                 }

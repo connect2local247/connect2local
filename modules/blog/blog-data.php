@@ -2,7 +2,7 @@
 
 // $blog_id = "blg0000001";
 // echo $blog_id; 
-function fetch_blog($blog_id){
+function fetch_blog($blog_id,$current_user_id){
     $get_blog_data_query = "SELECT * FROM blog_data WHERE blg_id = '$blog_id' ";
     
     $result = mysqli_query($GLOBALS['connect'],$get_blog_data_query);
@@ -27,7 +27,7 @@ function fetch_blog($blog_id){
         $release_date = $row['blg_release_time'];
         $update_date = $row['blg_update_time'];
         $user_id = $row['bp_user_id'];
-
+        
         $unique_identifier = uniqid('blog_');
         $data = array(
             "blog_id" => $blog_id ,

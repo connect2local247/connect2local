@@ -28,6 +28,11 @@
     </div>
 
     <?php
+    // unset($_SESSION['linkDataArray']);
+if(!isset($_SESSION['linkDataArray'])){
+    $_SESSION['linkDataArray'] = array();
+}
+
     include "../../../component/form-alert.php";
     unset($_SESSION['error']);
     ?>
