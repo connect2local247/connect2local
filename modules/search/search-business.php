@@ -2,14 +2,14 @@
         <div class="search-bar  mt-1 position-relative">
             <form id="searchForm"  method="post" class="p-2">
                 <div class="search-bar-container position-relative p-2 rounded-top d-flex justify-content-center">
-                    <div class="search-container position-relative w-75">
+                    <div class="search-container position-relative w-100">
                         <input type="text" class="form-control border border-dark rounded-pill p-2 pe-3 ps-2" name="search-business" id="search-business" placeholder="Search here...">
-                        <button type="submit" class="btn py-2 px-3 position-absolute top-0 end-0" style="z-index:10" name="search"><i class="fa-solid fa-magnifying-glass text-bg-light"></i></button>
+                        <button type="submit" class="btn py-2 px-3 position-absolute top-0 end-0" style="z-index:5" name="search"><i class="fa-solid fa-magnifying-glass text-bg-light"></i></button>
                     </div>
                     <!-- Use a select tag for filter options -->
                     <div class="select-container">
                         <label for="filterDropdown" class="visually-hidden">Filter By</label>
-                        <select class="form-select mx-1 text-bg-dark p-2" id="filterDropdown" name="filter">
+                        <select class="form-select mx-2 text-bg-dark p-2" style="width:150px" id="filterDropdown" name="filter">
                             
                             <option value="category">Category</option>
                             <option value="business name">Business Name</option>
@@ -71,15 +71,15 @@
                     const resultHtml = `
                 <div class="business-search-card border shadow p-3 mt-1 rounded">
                     <div class="row">   
-                        <div class="business-image col-lg-1 col-3 d-flex justify-content-end position-relative">
+                        <div class="business-image col-lg-1 col-2 d-flex justify-content-end position-relative">
                             <img src="${profileImgUrl}" class="position-absolute end-0 top-0 rounded-circle" style="height:50px;width:50px">
                         </div>
-                        <div class="result-content col-lg-9 col-8 d-flex flex-column">
+                        <div class="result-content col-lg-9 col-7 d-flex flex-column">
                             <span class="bp_username fw-bold" style="font-size:17px">${business.bp_username}</span>
                             <span class="business-name" style="font-size:13px;">${business.business_name}</span>
                         </div>
-                        <div class="col-lg-2 col-2 d-flex align-items-center justify-content-center">
-                            <button class="btn border border-info text-primary rounded-pill">View Profile</button>
+                        <div class="col-lg-2 col-3 d-flex align-items-center">
+                        <button class="btn border border-info text-primary rounded-pill">View <span class='d-none d-sm-inline'>Profile</span></button>
                         </div>
                     </div>
                 </div>

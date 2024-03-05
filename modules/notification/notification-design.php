@@ -1,78 +1,61 @@
 <?php
-// Assuming you have fetched row data from the database and stored it in an array called $row
-// Example $row array structure: $row = [ [ 'n_content' => 'Notification content', 'n_type' => 'Notification type', 'n_time' => 'Notification time', 'n_user_id' => 'User ID' ], ... ];
+               
 
-// Function to calculate elapsed time
-function elapsedTime($timestamp) {
-    $timeDifference = time() - strtotime($timestamp);
-    $intervals = array(
-        1                   => 'second',
-        60                  => 'minute',
-        3600                => 'hour',
-        86400               => 'day',
-        604800              => 'week',
-        2592000             => 'month',
-        31536000            => 'year'
-    );
+                $user_type = determine_user_type($current_user_id);
 
-    foreach ($intervals as $seconds => $label) {
-        $numberOfUnits = $timeDifference / $seconds;
-        if ($numberOfUnits >= 1) {
-            $roundedUnits = round($numberOfUnits);
-            return $roundedUnits . ' ' . $label . (($roundedUnits > 1) ? 's' : '') . ' ago';
-        }
-    }
-}
+                if($user_type == 'Customer'){
+                    $user_data_query = "SELECT * FROM customer_profile WHERE c_id = '$current_user_id'";
+                    $data_result = mysqli_query($GLOBALS['connect'],$user_data_query);
+                       
+                    if(mysqli_num_rows($data_result) > 0){
+                        $row = mysqli_fetch_assoc($data_result);
 
-// Function to differentiate notification type based on user ID prefix
-function userType($user_id) {
-    if (strpos($user_id, 'C2LB') === 0) {
-        return 'Business';
-    } elseif (strpos($user_id, 'C2L') === 0) {
-        return 'Customer';
-    } else {
-        return 'Unknown';
-    }
-}
+                        $username = $row['cp_username'];
+                        $profile_img = $row['cp_profile_img_url'];
+                        // $name = $row['fname']." ".$row['lname'];
+                    }
+                } else if($user_type == 'Business'){
+                    $user_data_query = "SELECT * FROM business_profile WHERE b_id = '$current_user_id'";
+                    $data_result = mysqli_query($GLOBALS['connect'],$user_data_query);
+                    
+                    if(mysqli_num_rows($data_result) > 0){
+                        $row = mysqli_fetch_assoc($data_result);
+
+                        $username = $row['username'];
+                        $profile_img = $row['profile_img_url'];
+                        $name = $row['fname']." ".$row['lname'];
+                        
+                        // die();
+                    }
+                }
+
+        if($notification['n_type'] == 'greeting'){       
 ?>
-<div class="container">
-                    <?php 
-                                        if(userType($user_id) == 'Business'){
-                                                $notificationDataQuery = "SELECT bp_fname,bp_lname,bp_profile_img_url, bp_username from business_profile WHERE b_id = '$user_id'";
-                                                echo $notificationDataQuery;
-                                                $resultQuery = mysqli_query($GLOBALS['connect'],$notificationDataQuery);
-                                                
-                                                if(mysqli_num_rows($resultQuery) > 0){
-                                        
-                                                    $data = mysqli_fetch_assoc($resultQuery);
-                                                ?>
-                                                <div class="request-notification border border-info shadow p-3 my-3 rounded d-flex justify-content-between align-items-center text-bg-dark">
-                                                    <div class="requester-info d-flex px-2 align-items-center" style="gap:7px">
-                                                    
-                                                        <span class="fullname fw-semibold text-white d-flex " style="gap:5px;"><i class="fa-solid fa-circle-info fs-4 text-info"></i> <u><?php echo $data['bp_fname']." ".$data['bp_lname'];?></u></span>
-                                                        <span style="margin-y:auto"><?php echo $content ?></span>
-                                                    </div>
-                                                    <div class="request-reply d-flex px-2  ms-auto" style="gap:10px">
-                                                        <i class="fa-solid fa-check p-2 border rounded border-success"></i>
-                                                        <i class="fa-solid fa-xmark p-2 border rounded border-danger"></i>
-                                                    </div>
-                                                    <span>
-                                                </div>
-                                                <?php
-                                                }
-                                        } else if(userType($user_id) == 'Customer'){
 
-                                        } else{
-
-                                        }
-                    ?>
+        <div class="container">
+        <div class="d-flex justify-content-between p-3 align-items-center text-bg-light rounded-1 shadow" style="height:80px">
                 
-
-                <div class="business-notification border border-info shadow p-3 my-3 rounded d-flex justify-content-between align-items-center text-bg-dark">
-                    <div class="business-info d-flex px-2 align-items-center" style="gap:7px">
-                        <img src="/asset/image/user/profile.png" style="height:35px;width:35px" class="rounded-circle" alt="">
-                        <span class="fullname fw-semibold text-white"><u>Bhavesh_1724</u></span>
-                        <span style="margin-y:auto"> started following you.</span>
+                <div class="content text-bg-light d-flex align-items-center" style="gap:10px">
+                    <div class="">
+                          <img src="/asset/image/user/profile.png" alt="" style="height:50px;width:50px" class="rounded-circle">
                     </div>
-                </div>
-</div>
+                    <div class="notifcation-box">
+                          <div class="username">
+                              <b><i><?php if(isset($username)) echo $username; else if(isset($name)) echo $name; else "Undefined" ?></i></b>
+                              <span><?php if(isset($notification['n_content'])) echo $notification['n_content']; ?></span>
+                              <span style="font-size:13px;" class="text-secondary">
+                                just now
+                              </span>
+            
+                          </div>
+                          
+                    </div>
+                  </div>
+                 
+            </div>
+              
+        </div>
+<?php
+        }
+?>
+

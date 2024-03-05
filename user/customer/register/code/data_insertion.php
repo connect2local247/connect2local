@@ -29,6 +29,8 @@
 
             $customer_id = $customer_generated_id;
             $verification_code = generateVerificationCode();
+            $cp_user_id = generateUniqueID("customer_profile","C2LU","cp_user_id");
+
             $register_insert_query = "INSERT INTO customer_register (c_id, c_fname, c_lname, c_birth_date, c_gender, c_contact, c_email, c_password, c_term_status,join_date) 
                          VALUES ('$customer_id', '$fname', '$lname', '$birth_date', '$gender', '$encryptedContact', '$encryptedEmail', '$encryptedPassword',$term_condition, NOW())";
 
@@ -37,12 +39,15 @@
 
             $register_query_result = mysqli_query($GLOBALS['connect'],$register_insert_query);
             $verification_query_result = mysqli_query($GLOBALS['connect'],$verification_insert_query);
+            $customer_profile_query = "INSERT INTO customer_profile(cp_user_id,c_id,cp_update_time) VALUES('$cp_user_id','$customer_id',NOW());";
+            $customer_profile_result = mysqli_query($GLOBALS['connect'],$customer_profile_query);
 
             echo $register_insert_query;
             if($register_query_result && $verification_query_result) {
 
                 send_code($email,$verification_code);
-            $_SESSION['c_id'] = $customer_id;       
+            $_SESSION['c_id'] = $customer_id;     
+            $_SESSION['cp_user_id'] = $cp_user_id;  
             $_SESSION['greet-message'] = "Congratulations !!! You are registered Successfully.";
             $_SESSION['message'] = "Verification Code Sent Successfully.";
             header("location:/user/customer/register/form/customer_register.php");

@@ -28,6 +28,20 @@
 
                     if($password == $db_password){
                         $_SESSION['c_id'] = $customer_id;
+                        
+                        $find_user_id = "SELECT * FROM customer_profile WHERE c_id = '$customer_id'";
+
+                        if(mysqli_num_rows(mysqli_query($GLOBALS['connect'],$find_user_id))){
+                            $row = mysqli_fetch_assoc(mysqli_query($GLOBALS['connect'],$find_user_id));
+
+                            $_SESSION['cp_user_id'] = $row['cp_user_id'];
+                            echo $_SESSION['cp_user_id'];
+
+                            $query = "INSERT INTO notification(n_type,n_content,n_time,n_user_id) VALUES('greeting','successfully login',NOW(),'$customer_id')";
+                            $result = mysqli_query($GLOBALS['connect'],$query);
+                            // die($query);
+                            // die();
+                        }
                         // echo $business_id;
                         // $_SESSION['bp_user_id'] = get_user_id("business_profile","$business_id","bp_user_id","b_id");;
                         $_SESSION['greet-message'] = "Login Successfully";

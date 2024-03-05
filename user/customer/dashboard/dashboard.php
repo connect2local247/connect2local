@@ -4,21 +4,42 @@
 
     include "../../../includes/table_query/db_connection.php";
     include "../../../includes/security_function/secure_function.php";
-    // include "../../../testblog.php";
-    // if(isset($_SESSION['c_id'])){
-    //   $c_id = $_SESSION['c_id'];
-    //   $p_user_id = $c_id;
-    //   $query = "SELECT * FROM business_profile WHERE c_id = '$c_id'";
-    //   $result = mysqli_query($GLOBALS['connect'],$query);
 
-    //   if(mysqli_num_rows($result) > 0){
-    //       $row = mysqli_fetch_assoc($result);
+    function determine_user_type($user_id) {
+      // Get the prefix of the user ID
+      $prefix = substr($user_id, 0, 3);
+      
+      // Check the prefix to determine the user type
+      if ($prefix === 'C2L' && ctype_digit(substr($user_id, 3))) {
+          return 'Customer';
+      } elseif ($prefix === 'C2LB' && ctype_digit(substr($user_id, 4))) {
+          return 'Business';
+      } else {
+          return 'Admin';
+      }
+  }
+    if(isset($_SESSION['c_id'])){
+      $c_id = $_SESSION['c_id'];
+      // $p_user_id = $c_id;
+      $current_user_id = $c_id;
+      $query = "SELECT * FROM customer_profile WHERE c_id = '$c_id'";
+      $result = mysqli_query($GLOBALS['connect'],$query);
 
-          
-    //       $name = $row['bp_fname']." ".$row['bp_lname'];
-    //       $profile_img = $row['bp_profile_img_url'];
-    //   }
-    // }
+      if(mysqli_num_rows($result) > 0){
+          $row = mysqli_fetch_assoc($result);
+
+          $query = "SELECT * FROM customer_register WHERE c_id = '$c_id'";
+
+          $result = mysqli_query($GLOBALS['connect'],$query);
+
+          $profile_img = $row['cp_profile_img_url'];
+          $username = $row['cp_username'];
+          if(mysqli_num_rows($result) > 0){
+            $row = mysqli_fetch_assoc($result);
+            $name = $row['c_fname']." ".$row['c_lname'];
+          }
+      }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,10 +75,12 @@
   width:0;
   background:transparent;
 }
+
   </style>
   
 </head>
-<body class="vertical-bar">
+<body class="vertical-bar" style="width:100%;box-sizing:border-box;">
+<?php include "../../../modules/notification/notification-modal.php"; ?>
 <nav class="navbar text-bg-dark py-4 border-bottom">
             <div class="container">
                 <div class="home-icon fs-5">
@@ -65,24 +88,27 @@
                     <i class="fa-solid fa-house mx-3 " onclick="location.href='/index.php'"></i>
                    
                 </div>
-            <div class="nav-menu fs-4 d-flex align-items-center" style="gap:15px">
-                <i class="fa-solid fa-bell"></i>
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <img src="/user/businessman/dashboard/code/WhatsApp_Image_2023-05-26_at_10.15.37_AM-removebg-preview.png" alt="" class="rounded-circle" style="height:40px;width:40px">
-                
-            </div>
-            </div>
-</nav>
+                <div>
+    <img src="<?php if(isset($profile_img)) echo $profile_img; else echo '/asset/image/user/profile.png'; ?>" alt="" class="rounded-circle" style="height:40px;width:40px">
+    <span class="mx-1 fs-5 text-white"><?php if(isset($name)) echo $name?></span>
+</div>
+
+                <div class="nav-menu fs-4 d-flex align-items-center" style="gap:15px">
+    <i class="fa-solid fa-bell" data-bs-toggle="modal" data-bs-target="#notificationModal"></i>
+    <i class="fa-solid fa-right-from-bracket"></i>
+</div>
+  </nav>
 <div class="d-flex">
-  <div class="col-xxl-2 col-lg-3 col-md-5 col-sm-7 col-9 sidebar-container d-xxl-block d-xl-block d-lg-none  d-none position-fixed vertical-bar"  style="min-height:calc(100vh - 102px);height:103vh;overflow:scroll" >
-            <div class="bg-dark text-light vertical-bar col-12" style="min-height:calc(100vh - 102px);margin-top:100px;overflow:scroll" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+<div class="col-xxl-2 col-lg-3 col-md-5 col-sm-7 col-9 sidebar-container d-xxl-block d-xl-block d-lg-none d-none position-fixed vertical-bar"  style="min-height:calc(100vh - 102px);height:103vh;overflow:scroll;z-index:10" id="dashVertical">
+
+            <div class="bg-dark text-light vertical-bar col-12" style="min-height:calc(100vh - 102px);margin-top:100px;overflow:scroll" data-bs-scroll="true" tabindex="-1"  aria-labelledby="dashNavLabel">
                 <div class="offcanvas-body pt-5">
                     <div class="sidebar d-flex flex-column align-items-center">
                         <div class="profile-container">
                             <div class="profile-image d-flex flex-column justify-content-center align-items-center">
-                                <img src="<?php if(isset($profile_img)) echo $profile_img;else echo '/asset/image/user/profile.png'; ?>" style="height:100px;width:100px;" class="rounded-circle " alt="">
+                                <img src="<?php if(isset($profile_img)) echo $profile_img; else echo '/asset/image/user/profile.png'; ?>" style="height:100px;width:100px;" class="rounded-circle " alt="">
                                 <span class="text-white fs-4 fw-semibold"><?php if(isset($name)) echo $name ?></span>
-                                <a href="/user/businessman/dashboard/form/edit-profile.php" class="nav-link text-warning d-block text-center mt-1">Edit Profile</a>
+                                <a href="/user/customer/dashboard/form/edit-profile.php" class="nav-link text-warning d-block text-center mt-1">Edit Profile</a>
                             </div>
                         </div>
                         <ul class="verticle-menu list-unstyled fs-5 mt-5">
@@ -132,12 +158,20 @@
           </div>
           
           
-<script>
+          <script>
   // Toggle offcanvas function
-  function toggleOffcanvas() {
-    var offcanvas = document.getElementById('offcanvasWithBothOptions');
-    offcanvas.classList.toggle('show');
-  }
+  function toggleUserMenu() {
+    var offcanvas = document.getElementById('dashVertical');
+    var isVisible = offcanvas.classList.contains('d-none');
+    console.log(offcanvas);
+      offcanvas.classList.toggle('d-none');
+    // if (isVisible) {
+    //     offcanvas.classList.remove('d-none');
+    // } else {
+    //     offcanvas.classList.add('d-block');
+    // }
+}
+
 </script>
 
 

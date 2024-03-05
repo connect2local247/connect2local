@@ -188,64 +188,25 @@
         </section>
 
         <section class="blog-overview p-3">
-                <h1 class="fs-2 fw-bold text-center text-white">Our Blog</h1>
-                <div class="row">
-                <div class="col-lg-4 col-md-6 col-12 g-4"> 
-                <?php fetch_blog("BLG0000007");?>
+    <h1 class="fs-2 fw-bold text-center text-white">Our Blog</h1>
+    <div class="container">
+        <div class="row">
+            <?php
+            $query = "SELECT * FROM blog_data ORDER BY RAND() LIMIT 3";
+            $result = mysqli_query($GLOBALS['connect'], $query);
 
-                    <!-- <div class="card mb-4 blog-post">
-                        <div class="card-body">
-                            <img src="https://placehold.it/200x150" class="card-img-top" alt="Blog Post Image">
-                            </div>
-                        <div class="card-footer">
-                            <h5 class="card-title">Blog Post Title</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            <p class="card-text">
-                                <small class="text-muted">Posted on January 1, 2023 by <a href="#">Author Name</a></small>
-                            </p>
-                            <a href="#" class="btn btn-primary btn-sm">Read More</a>
-                        </div>
-                    </div> -->
-                </div>
+            if (mysqli_num_rows($result) > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo '<div class="col-lg-4 col-md-6 col-12 g-4">';
+                    fetch_blog($row['blg_id'], 0);
+                    echo '</div>';
+                }
+            }
+            ?>
+        </div>
+    </div>
+</section>
 
-                <div class="col-lg-4 col-md-6 col-12 g-4"> 
-                    <?php fetch_blog("BLG0000008");?>
-                    <!-- <div class="card mb-4 blog-post">
-                        <div class="card-body">
-                            <img src="https://placehold.it/200x150" class="card-img-top" alt="Blog Post Image">
-                            </div>
-                        <div class="card-footer">
-                            <h5 class="card-title">Blog Post Title</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            <p class="card-text">
-                                <small class="text-muted">Posted on January 1, 2023 by <a href="#">Author Name</a></small>
-                            </p>
-                            <a href="#" class="btn btn-primary btn-sm">Read More</a>
-                        </div>
-                    </div> -->
-                </div>
-
-                <div class="col-lg-4 col-md-6 col-12  g-4"> 
-                    <?php fetch_blog("BLG0000009");?>
-                    <!-- <div class="card mb-4 blog-post">
-
-                        <div class="card-body">
-                            <img src="https://placehold.it/200x150" class="card-img-top" alt="Blog Post Image">
-                            </div>
-                        <div class="card-footer">
-                            <h5 class="card-title">Blog Post Title</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            <p class="card-text">
-                                <small class="text-muted">Posted on January 1, 2023 by <a href="#">Author Name</a></small>
-                            </p>
-                            <a href="#" class="btn btn-primary btn-sm">Read More</a>
-                        </div>
-                    </div> -->
-                </div>
-                
-                
-                </div>
-        </section>
     </div>
 
     <?php include "./component/footer.php";?>

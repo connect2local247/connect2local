@@ -75,10 +75,10 @@
             </div>
 </nav>
 <div class="d-flex">
-  <div class="col-xxl-2 col-lg-3 col-md-5 col-sm-7 col-9 sidebar-container d-xxl-block d-xl-block d-lg-none  d-none position-fixed" >
-            <div class="bg-dark text-light vertical-bar col-12 border border-0 border-end" style="min-height:calc(100vh - 102px);margin-top:100px" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+<div class="col-xxl-2 col-lg-3 col-md-5 col-sm-7 col-9 sidebar-container d-xxl-block d-xl-block d-lg-none d-none position-fixed vertical-bar"  style="min-height:calc(100vh - 102px);height:103vh;overflow:scroll;z-index:10" id="dashVertical">
+            <div class="bg-dark text-light col-12 border border-0 border-end vertical-bar" style="min-height:calc(100vh - 102px);height:103vh;margin-top:100px;overflow:scroll" data-bs-scroll="true" tabindex="-1" aria-labelledby="offcanvasWithBothOptionsLabel">
                 <div class="offcanvas-body pt-5">
-                    <div class="sidebar d-flex flex-column align-items-center">
+                    <div class="sidebar d-flex flex-column align-items-center vertical-bar " style="overflow:scroll">
                         <div class="profile-container">
                             <div class="profile-image d-flex flex-column justify-content-center align-items-center">
                                 <img src="<?php if(isset($profile_img)) echo $profile_img;else echo '/asset/image/user/profile.png'; ?>" style="height:100px;width:100px;" class="rounded-circle " alt="">
@@ -125,13 +125,20 @@
 
           </div>
           
-          
-<script>
+          <script>
   // Toggle offcanvas function
-  function toggleOffcanvas() {
-    var offcanvas = document.getElementById('offcanvasWithBothOptions');
-    offcanvas.classList.toggle('show');
-  }
+  function toggleUserMenu() {
+    var offcanvas = document.getElementById('dashVertical');
+    var isVisible = offcanvas.classList.contains('d-none');
+    console.log(offcanvas);
+      offcanvas.classList.toggle('d-none');
+    // if (isVisible) {
+    //     offcanvas.classList.remove('d-none');
+    // } else {
+    //     offcanvas.classList.add('d-block');
+    // }
+}
+
 </script>
 
 
