@@ -6,7 +6,7 @@
     // include "../../../testblog.php";
     if(isset($_SESSION['bp_user_id'])){
       $bp_user_id = $_SESSION['bp_user_id'];
-      
+      $current_user_id = $_SESSION['business_id'];
       $query = "SELECT * FROM business_profile WHERE bp_user_id = '$bp_user_id'";
       $result = mysqli_query($GLOBALS['connect'],$query);
 
@@ -65,9 +65,44 @@
                 </div>
             <div class="nav-menu fs-5 d-flex align-items-center" style="gap:15px">
               <i class="fa-solid fa-bell fs-4"></i>
-              
-              <i class="fa-solid fa-square-plus fs-4" onclick="location.href='/user/businessman/dashboard/form/add-blog.php'"></i>
-              <img src="/user/businessman/dashboard/code/WhatsApp_Image_2023-05-26_at_10.15.37_AM-removebg-preview.png" alt="" class="rounded-circle" style="height:35px;width:35px">
+              <?php
+                   $get_business_code = "SELECT business_code FROM business_info WHERE b_id = '$current_user_id'";
+                   $result = mysqli_query($GLOBALS['connect'],$get_business_code);
+                    // die($get_business_code);
+                  //  die($get_business_code);
+                   if(mysqli_num_rows($result) <= 0){
+                        
+                          
+
+                     
+              ?>
+              <a href="/user/businessman/add_business/form/add-business-form.php?source=dashboard&business_id=<?php echo $current_user_id ?>&user_id=<?php echo $bp_user_id ?>" class="nav-link">
+                <img src="/asset/image/svg/add-business.svg" alt="" style="height:35px;width:35px;">
+              </a>
+
+              <!-- <i class="fa-solid fa-square-plus fs-4" onclick="location.href='/user/businessman/dashboard/form/add-blog.php'"></i> -->
+              <?php
+                       } else{
+                                    $row = mysqli_fetch_assoc($result);
+
+                                    $business_code = $row['business_code'];
+
+                                    $check_status = "SELECT approval_status FROM business_add_status WHERE business_code='$business_code' AND approval_status = 0";
+
+                                    // die($check_status);
+                                    if(mysqli_num_rows(mysqli_query($GLOBALS['connect'],$check_status)) > 0){
+                       
+               
+              ?>
+              <!-- <a href="/user/businessman/add_business/form/add-business-form.php?source=dashboard&business_id=<?php echo $current_user_id ?>&user_id=<?php echo $bp_user_id ?>" class="nav-link">
+
+                <img src="/asset/image/svg/add-business.svg" alt="" style="height:35px;width:35px;">
+              </a> -->
+              <?php
+                       }
+                      }
+              ?>
+              <img src="<?php if(isset($profile_img)) echo $profile_img; else echo "/asset/image/user/profile.png"?>" alt="" class="rounded-circle" style="height:35px;width:35px">
               
                 <!-- <i class="fa-solid fa-square-plus" data-bs-target="#setUserNamePromptModal" data-bs-toggle="modal"></i> -->
                 
@@ -88,12 +123,45 @@
                         </div>
                         <ul class="verticle-menu list-unstyled fs-5 mt-5">
     <li class="list-item mt-3"><a href="dashboard.php?content=dashboard" class="nav-link" data-menu-item-id="dashboard"><i class="fas fa-tachometer-alt"></i> &nbsp; Dashboard</a></li>
-    <li class="list-item mt-3"><a href="dashboard.php?content=account" class="nav-link" data-menu-item-id="account"><i class="fa-regular fa-address-card"></i> &nbsp; Account</a></li>
+    <li class="list-item mt-3">
+    <?php if(mysqli_num_rows(mysqli_query($GLOBALS['connect'],$check_status)) == 0): ?>
+    <a href="dashboard.php?content=account" class="nav-link" data-menu-item-id="account">
+        <i class="fa-regular fa-address-card"></i> &nbsp; Account
+    </a>
+    <?php else: ?>
+    <a href="#" class="nav-link disabled text-secondary" aria-disabled="true" data-menu-item-id="account">
+      <i class="fa-solid fa-lock text-secondary"></i>
+        &nbsp; Account
+    </a>
+    <?php endif; ?>
+</li>
     <li class="list-item mt-3"><a href="#" class="nav-link" data-menu-item-id="notification"><i class="fa-solid fa-bell"></i> &nbsp; Notification</a></li>
     <li class="list-item mt-3"><a href="#" class="nav-link" data-menu-item-id="blog"><i class="fa-solid fa-camera-retro"></i> &nbsp; Blog</a></li>
-    <li class="list-item mt-3"><a href="dashboard.php?content=create" class="nav-link" data-menu-item-id="create"><i class="fa-regular fa-square-plus"></i> &nbsp; Create</a></li>
+    <li class="list-item mt-3">
+    <?php if(mysqli_num_rows(mysqli_query($GLOBALS['connect'],$check_status)) == 0): ?>
+    <a href="dashboard.php?content=create" class="nav-link" data-menu-item-id="create">
+        <i class="fa-regular fa-square-plus"></i> &nbsp; Create
+    </a>
+    <?php else: ?>
+    <a href="#" class="nav-link disabled text-secondary" aria-disabled="true" data-menu-item-id="create">
+      <i class="fa-solid fa-lock text-secondary"></i>
+        &nbsp; Create
+    </a>
+    <?php endif; ?>
+</li>
     <li class="list-item mt-3"><a href="#" class="nav-link" data-menu-item-id="search"><i class="fa-solid fa-magnifying-glass"></i> &nbsp; Search</a></li>
-    <li class="list-item mt-3"><a href="#" class="nav-link" data-menu-item-id="setting"><i class="fa-solid fa-gear"></i> &nbsp; Setting</a></li>
+   <li class="list-item mt-3">
+    <?php if(mysqli_num_rows(mysqli_query($GLOBALS['connect'],$check_status)) == 0): ?>
+    <a href="#" class="nav-link" data-menu-item-id="setting">
+        <i class="fa-solid fa-gear"></i> &nbsp; Setting
+    </a>
+    <?php else: ?>
+    <a href="#" class="nav-link disabled text-secondary" aria-disabled="true" data-menu-item-id="setting">
+      <i class="fa-solid fa-lock text-secondary"></i>
+       &nbsp; Setting
+    </a>
+    <?php endif; ?>
+</li>
     <li class="list-item mt-3"><a href="#" class="nav-link" data-menu-item-id="logout"><i class="fa-solid fa-right-from-bracket"></i> &nbsp; Logout</a></li>
 </ul>
 

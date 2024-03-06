@@ -1,7 +1,10 @@
 <?php
-        if(isset($_GET['request_id'])){
+        include "../../../includes/email_template/email_sending.php";
+        if((isset($_GET['request_id']) && isset($_GET['name']) && isset($_GET['business_name']) && isset($_GET['email']))){
             $request_id = $_GET['request_id'];
-
+            $name = $_GET['name'];
+            $email = $_GET['email'];
+            $business_name = $_GET['business_name'];
             if(isset($_GET['action'])){
               $action = $_GET['action'];
 
@@ -11,14 +14,70 @@
 
                       if(!$result){
                           echo "<script>alert('Request Not Updated')</script>";
+                      } else{
+                        $subject = "Business Request Approved - Connect2Local";
+                        $acceptance_template = "
+                        <div style='max-width: 600px; margin: 0 auto; padding: 20px; font-family: \"Arial\", sans-serif; background-color: #f8f8f8;'>
+                        
+                            <div style='text-align: center;'>
+                                <img src='https://live.staticflickr.com/65535/53417631216_2be8f41b9e_n.jpg' alt='Connect2local' style='max-width: 100px;'>
+                            </div>
+                        
+                            <div style='text-align: center;'>
+                                <h1 style='color: #333; margin-top: 10px;'>Connect2Local</h1>
+                            </div>
+                        
+                            <div>
+                                <p>Hello $name,</p>
+                        
+                                <p>We are thrilled to inform you that your business request for adding $business_name has been approved! Welcome aboard to Connect2Local.</p>
+                        
+                                <p>You can now enjoy the benefits of our platform. We'll be in touch with further instructions and details.</p>
+                        
+                                <p>If you have any questions or need assistance, please feel free to reach out to our support team.</p>
+                        
+                                <p style='color: #555; margin-top: 20px;'>Best regards,<br>Connect2Local Team</p>
+                            </div>
+                        
+                        </div>
+                        ";
+                        send_mail($name,$email,$subject,$acceptance_template);                        
                       }
               }
               if($action == "reject"){
                 $query = "UPDATE business_add_status SET approval_status = 0,approval_time=NOW() WHERE request_id = '$request_id'";
                 $result = mysqli_query($GLOBALS['connect'],$query);
 
-                if(!$result){
-                    echo "<script>alert('Request Not Updated')</script>";
+                if($result){
+                  $subject = "Business Request Denied - Connect2Local";
+                  $rejection_template = "
+                  <div style='max-width: 600px; margin: 0 auto; padding: 20px; font-family: \"Arial\", sans-serif; background-color: #f8f8f8;'>
+
+                      <div style='text-align: center;'>
+                          <img src='https://live.staticflickr.com/65535/53417631216_2be8f41b9e_n.jpg' alt='Connect2local' style='max-width: 100px;'>
+                      </div>
+
+                      <div style='text-align: center;'>
+                          <h1 style='color: #333; margin-top: 10px;'>Connect2Local</h1>
+                      </div>
+
+                      <div>
+                          <p>Hello $name,</p>
+
+                          <p>We regret to inform you that your business request for adding $business_name has been denied.</p>
+
+                          <p>We appreciate your interest in Connect2Local, but unfortunately, we are unable to proceed with your request at this time.</p>
+
+                          <p>If you have any questions or would like further clarification, please feel free to reach out to our support team.</p>
+
+                          <p style='color: #555; margin-top: 20px;'>Best regards,<br>Connect2Local Team</p>
+                      </div>
+
+                  </div>
+                  ";
+                  send_mail($name,$email,$subject,$acceptance_template); 
+                } else{
+                  echo "<script>alert('Request Not Updated')</script>";
                 }
               }
             }
@@ -119,8 +178,8 @@
         <td>".$email."</td>
         <td>".$contact."</td>
         <td>
-            <button class='accept-btn' onclick='location.href=\"?action=accept&request_id=".$row['request_id']."&content=request\"'><i class='fas fa-check'></i></button>
-            <button class='reject-btn' onclick='location.href=\"?action=reject&content=request&request_id=".$row['request_id']."\"'><i class='fas fa-times'></i></button>                  
+            <button class='accept-btn' onclick='location.href=\"?action=accept&request_id=".$row['request_id']."&content=request&email=$email&name=$name&business_name=$business_name\"'><i class='fas fa-check'></i></button>
+            <button class='reject-btn' onclick='location.href=\"?action=reject&content=request&&email=$email&name=$name&business_name=$business_name&request_id=".$row['request_id']."\"'><i class='fas fa-times'></i></button>                  
         </td>";
 
             }

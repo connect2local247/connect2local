@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (mysqli_num_rows($check_bp_username_result) > 0) {
             // Set error message if bp_username already exists
-            $_SESSION['error'] = "bp_username already exists.";
+            $_SESSION['error'] = "username already exists.";
             header("Location: /user/businessman/dashboard/form/edit-profile.php");
             exit;
         }

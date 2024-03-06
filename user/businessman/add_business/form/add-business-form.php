@@ -70,9 +70,23 @@
 </head>
 
 <body class="text-bg-dark d-flex flex-column align-items-center p-2" style="height:100vh;width:100%">
+        <?php
+            if((isset($_GET['source']) && isset($_GET['business_id']) && isset($_GET['user_id']))){
+        ?>
         <script>
             path = "/user/businessman/add_business/form/request_info.php";
+            $_SESSION['business_id'] = $_GET['business_id'];
+            $_SESSION['bp_user_id'] = $_GET['bp_user_id'];
         </script>
+        <?php
+            } else{
+        ?>
+        <script>
+            path = "/user/businessman/add_business/form/request_info.php?source=add_business";
+        </script>
+        <?php
+            }
+        ?>
         <?php 
 
                 include "../../../../component/form-alert.php";

@@ -18,6 +18,19 @@
 
     <h1 class="text-center fw-bold">Thank's For Submitting Your Request</h1>
     <p class="fs-5 text-center">Your request has been sent to us and we will check & verify your detail for correction and you will got reply from us within 48 hour in your mailbox.</p>
+    <?php
+            if(isset($_GET['source'])){
+    ?>
+    <a href="/user/businessman/dashboard/dashboard.php" class="btn btn-warning py-3 px-4 fs-5">Back to Dashboard</a>
+    <?php
+            } else{
+
+            
+    ?>
     <a href="/index.php" class="btn btn-warning py-3 px-4 fs-5">Back to Home</a>
+
+    <?php
+            }
+    ?>
 </body>
 </html>
