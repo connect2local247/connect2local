@@ -56,6 +56,8 @@
             send_code($email,$verification_code);
 
             $_SESSION['greet-message'] = "Congratulations !!! You are registered Successfully.";
+            $_SESSION['registered'] = 1;
+
             $_SESSION['message'] = "Verification Code Sent Successfully.";
             header("location:/user/businessman/register/form/business_register.php");
             exit;
@@ -117,7 +119,8 @@
         }
 
         function send_notification(){
-
+                    $query = "INSERT INTO notification(n_content,n_type,n_user_id,n_time) VALUES ('You are Registered Successfully','greeting','$business_id',NOW()";
+                    $result = mysqli_query($GLOBALS['connect'],$query);
         }
 
         function store_data(){

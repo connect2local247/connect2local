@@ -8,7 +8,7 @@
                         <li class="nav-item"><a href="#" class="nav-link text-white">About</a></li>
                         <li class="nav-item"><a href="#" class="nav-link text-white">Service</a></li>
                         <li class="nav-item"><a href="/webpage/contact/contact.php" class="nav-link text-white">Contact</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link text-white">Blog</a></li>
+                        <li class="nav-item"><a href="/webpage/blog/blog.php" class="nav-link text-white">Blog</a></li>
                         <li class="nav-item"><a href="#" class="nav-link text-white">Help</a></li>
                         <li class="nav-item"><a href="#" class="nav-link text-white">Term & Condition</a></li>
                         <li class="nav-item"><a href="#" class="nav-link text-white">Privacy Policy</a></li>
@@ -16,8 +16,18 @@
                 </div>
 
                 <div class="register d-flex align-items-center" style="gap:7px">
-                    <button class="btn px-4 py-2  text-white user-auth-btn d-xxl-block d-xl-block d-lg-block d-md-block d-sm-none d-none" onclick="location.href='/component/register-choice.php'">Sign Up</button>
-                    <button class="btn px-4 py-2  text-white user-auth-btn d-xxl-block d-xl-block d-lg-block d-md-block d-sm-none d-none" onclick="location.href='/component/login-choice.php'">Login</button>
+                <?php
+
+if(isset($_SESSION['registered'])) {
+    // If the user is logged in, show the Logout button
+    echo '<button class="btn px-4 py-2 text-white user-auth-btn d-xxl-block d-xl-block d-lg-block d-md-block d-sm-none d-none" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</button>';
+} else {
+    // If the user is not logged in, show the Sign Up and Login buttons
+    echo '<button class="btn px-4 py-2 text-white user-auth-btn d-xxl-block d-xl-block d-lg-block d-md-block d-sm-none d-none" onclick="location.href=\'/component/register-choice.php\'">Sign Up</button>';
+    echo '<button class="btn px-4 py-2 text-white user-auth-btn d-xxl-block d-xl-block d-lg-block d-md-block d-sm-none d-none" onclick="location.href=\'/component/login-choice.php\'">Login</button>';
+}
+?>
+
                     <button class="btn text-white py-2 px-3 mx-4 d-xxl-block d-xl-block d-lg-block d-md-block d-sm-block d-none" onclick="location.href='/user/businessman/add_business/form/add-business-form.php'" id="add-new-btn"><i class="fa-solid fa-plus shadow border rounded-circle p-1 "></i> Add Business</button>
                     <div class="menu-bar-icon">
                                 <i class="fa-solid fa-bars fs-4 text-white d-xxl-none d-xl-block d-lg-block d-md-block d-sm-block d-block" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"></i>
@@ -48,8 +58,18 @@
       </div>
       </div>
   <div class="register d-flex justify-content-center" style="gap:15px" >
-                    <button  class="btn text-white border border-light px-4 py-2 rounded-pill d-xxl-block d-xl-none d-lg-none d-md-none d-sm-block d-block user-auth-btn " onclick="location.href='/component/register-choice.php'" style="width:120px;height:45px">Sign Up</button>
-                    <button  class="btn text-white border border-light px-4 py-2 rounded-pill d-xxl-block d-xl-none d-lg-none d-md-none d-sm-block d-block user-auth-btn " onclick="location.href='/component/login-choice.php'" style="width:120px">Login</button>
+  <?php
+// Check if the user session is active
+if(isset($_SESSION['registered'])) {
+    // If active, display the logout button
+    echo '<button class="btn text-white border border-light px-4 py-2 rounded-pill d-xxl-block d-xl-none d-lg-none d-md-none d-sm-block d-block user-auth-btn" onclick="location.href=\'/component/logout.php\'" style="width:120px;height:45px">Logout</button>';
+} else {
+    // If not active, display the sign-up and login buttons
+    echo '<button class="btn text-white border border-light px-4 py-2 rounded-pill d-xxl-block d-xl-none d-lg-none d-md-none d-sm-block d-block user-auth-btn" onclick="location.href=\'/component/register-choice.php\'" style="width:120px;height:45px">Sign Up</button>';
+    echo '<button class="btn text-white border border-light px-4 py-2 rounded-pill d-xxl-block d-xl-none d-lg-none d-md-none d-sm-block d-block user-auth-btn" onclick="location.href=\'/component/login-choice.php\'" style="width:120px">Login</button>';
+}
+?>
+
                 </div>
                 <div class="menu d-flex justify-content-center  mt-5 ms-5">   
                     <ul class="list-unstyled d-flex flex-column" style="gap:15px;">
@@ -57,7 +77,7 @@
                         <li class="nav-item"><a href="#" class="nav-link text-white fs-5"><i class="fa-solid fa-address-card mx-1"></i> About</a></li>
                         <li class="nav-item"><a href="#" class="nav-link text-white fs-5"><i class="fas fa-cogs mx-1"></i> Service</a></li>
                         <li class="nav-item"><a href="/webpage/contact/contact.php" class="nav-link text-white fs-5"><i class="fas fa-phone mx-1"></i> Contact</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link text-white fs-5"><i class="fas fa-pencil-alt mx-1"></i> Blog</a></li>
+                        <li class="nav-item"><a href="/webpage/blog/blog.php" class="nav-link text-white fs-5"><i class="fas fa-pencil-alt mx-1"></i> Blog</a></li>
                         <li class="nav-item"><a href="#" class="nav-link text-white fs-5"><i class="fas fa-question-circle mx-1"></i> Help</a></li>
                         <li class="nav-item"><a href="#" class="nav-link text-white fs-5"><i class="fas fa-file-alt mx-1"></i> Term & Condition</a></li>
                         <li class="nav-item"><a href="#" class="nav-link text-white fs-5"><i class="fas fa-shield-alt mx-1"></i> Privacy Policy</a></li>

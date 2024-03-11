@@ -35,6 +35,8 @@
                         echo $business_id;
                         $_SESSION['bp_user_id'] = get_user_id("business_profile","$business_id","bp_user_id","b_id");;
                         $_SESSION['greet-message'] = "Login Successfully";
+                    $_SESSION['registered'] = 1;
+
                         return true;
                     } else{
                         $_SESSION['error'] = "Password doesn't matched";

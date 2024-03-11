@@ -2,6 +2,16 @@
     session_start();
     include "../../../includes/table_query/db_connection.php";
     include "../../../includes/security_function/secure_function.php";
+
+    $current_user_id = 1;
+
+    if(isset($current_user_id)){
+      $_SESSION['current_user'] = $current_user_id;
+    }
+
+    function determine_user_type($user_id) {
+      return 'Admin';
+  }
     
 ?>
 <!DOCTYPE html>
@@ -44,8 +54,9 @@
   
 </head>
 <body class="vertical-bar text-bg-dark">
+  <?php include "../../../modules/notification/admin-notification.php";?>
+  <?php include "../../../component/logout.php"; ?>
   <nav class="navbar text-bg-dark py-4 border-bottom">
-  <?php //include "../../../modules/notification/notification-modal.php"; echo "hello";?>
             <div class="container">
                 <div class="home-icon fs-5">
                     <i class="fa-solid fa-bars d-xxl-none d-xl-none d-lg-none d-inline" onclick="toggleOffcanvas()"></i>
@@ -53,7 +64,8 @@
                    
                 </div>
                 <div class="username fs-3 fw-semibold">
-                    Admin
+ 
+                    Admin 
                 </div>
             <div class="nav-menu fs-5 d-flex align-items-center" style="gap:15px">
                 <i class="fa-solid fa-bell fs-4 position-relative" data-bs-target="#notificationModal" data-bs-toggle="modal"><span class="position-absolute top-0 start-100 translate-middle badge border border-light rounded-circle bg-danger" style="padding:5px"><span class="visually-hidden">unread messages</span></span></i>
@@ -75,7 +87,7 @@
             <li class="list-item mt-3"><a href="dashboard.php?content=create" class="nav-link active" data-menu-item-id="create"><i class="fa-solid fa-user"></i> &nbsp; User</a></li>
             <li class="list-item mt-3"><a href="dashboard.php?content=request" class="nav-link active" data-menu-item-id="search"><img src="/asset/image/svg/add-business.svg" style="height:30px;">&nbsp; Request</a></li>
             <li class="list-item mt-3"><a href="#" class="nav-link active" data-menu-item-id="setting"><i class="fa-solid fa-gear"></i> &nbsp; Setting</a></li>
-            <li class="list-item mt-3"><a href="#" class="nav-link active" data-menu-item-id="logout"><i class="fa-solid fa-right-from-bracket"></i> &nbsp; Logout</a></li>
+            <li class="list-item mt-3"><a href="#" class="nav-link active" data-menu-item-id="logout" data-bs-target="#logoutModal" data-bs-toggle="modal"><i class="fa-solid fa-right-from-bracket"></i> &nbsp; Logout</a></li>
         </ul>
     </div>
 </div>

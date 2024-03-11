@@ -5,8 +5,52 @@
         include "../../includes/security_function/secure_function.php";
         include "../blog/blog-data.php";
         include "profile_function.php";
+        $fetch_user_id = "SELECT bp_user_id from business_profile WHERE b_id = '{$_SESSION['business_id']}'";
+        $result = mysqli_query($GLOBALS['connect'],$fetch_user_id);
+        
+        if(mysqli_num_rows($result) > 0){
+            $data = mysqli_fetch_assoc($result);
+            $bp_user_id = $data['bp_user_id'];
+        }
+        if(isset(($_GET['edit_blog_id']))){
+            $edit_blog_id = $_GET['edit_blog_id'];
+            
+            if(isset($_POST['edit-submit'])){
+                $query = "UPDATE blog_data SET blg_title = '{$_POST['title']}', blg_description = '{$_POST['description']}' WHERE blg_id = '$edit_blog_id' AND bp_user_id = '$bp_user_id'";
+                $result = mysqli_query($GLOBALS['connect'],$query);
+            }
+        }
         $connect = $GLOBALS['connect'];
-        $user_id = "C2LBU00001";
+        // $user_id = "C2LBU00001";
+        if(isset($_GET['profile_id'])){
+            // Sanitize input to prevent SQL injection
+            $profile_id = $_GET['profile_id'];
+            include "profile-share-modal.php";
+            if(isset($_GET['viewer_id'])){
+                $viewer_id = $_GET['viewer_id'];
+            }
+            $profile_id = mysqli_real_escape_string($GLOBALS['connect'], $_GET['profile_id']);
+        
+            // Query to fetch bp_user_id from business_profile
+            $query = "SELECT bp_user_id FROM business_profile WHERE b_id = '$profile_id'";
+            
+            // Execute the query
+            $result = mysqli_query($GLOBALS['connect'], $query);
+        
+            // Check if query was successful
+            if ($result) {
+                // Fetch the result row
+                $row = mysqli_fetch_assoc($result);
+                
+                // Extract bp_user_id
+                $bp_user_id = $row['bp_user_id'];
+        
+                // Now you can use $bp_user_id as needed
+            } else {
+                // Handle query error
+                echo "Error: " . mysqli_error($GLOBALS['connect']);
+            }
+       
         
 
                 $query = "SELECT 
@@ -40,7 +84,7 @@
             LEFT JOIN 
                 business_profile_interaction bpi ON bp.bp_user_id = bpi.bp_user_id
             WHERE
-                bp.bp_user_id = '$user_id';
+                bp.bp_user_id = '$bp_user_id';
             ";
 
         $result = mysqli_query($GLOBALS['connect'], $query);
@@ -67,7 +111,7 @@
             $profileId = $row['B_id'];
             $profileImg = $row['Profile_url'];
             $bio = $row['Bio'];
-            $blogCount = getBlogCount($user_id);
+            $blogCount = getBlogCount($bp_user_id);
             $followerCount = $row['Follower_count'];
             $followingCount = $row['Following_count'];
 
@@ -75,7 +119,7 @@
         }
 
         // return 0;
-        $blogQuery = "SELECT blg_id FROM blog_data WHERE bp_user_id = '$user_id'";
+        $blogQuery = "SELECT blg_id FROM blog_data WHERE bp_user_id = '$bp_user_id'";
         $blogResult = mysqli_query($connect,$blogQuery);
 
 ?>
@@ -111,10 +155,14 @@
 </head>
 
 <body class="text-bg-light">
+    <?php include "contact-drawer.php"; ?>
     <div class="container">
     <div class="row border p-4 mt-5 rounded-2">
+    <div class="back text-start">
+        <i class="fa-solid fa-arrow-left" onclick='window.history.back();'></i>
+    </div>
     <div class="menu-dots text-end">
-            <i class="fa-solid fa-ellipsis-vertical"></i>
+            <!-- <i class="fa-solid fa-ellipsis-vertical" ></i> -->
         </div>
             <div class="row mt-2 d-flex align-items-center">
                     <div class="col-3 d-flex justify-content-lg-end ">
@@ -141,13 +189,17 @@
             </div>
             <div class="row mt-2 d-flex justify-content-around">
     <div class="col-4 d-flex">
-        <button class="btn btn-block mx-auto btn-outline-info text-center" style="width:110px">Edit</button>
+        <?php if(!isset($viewer_id)){?>
+        <button class="btn btn-block mx-auto btn-outline-info text-center" style="width:110px" onclick="location.href='/user/businessman/dashboard/form/edit-profile.php'">Edit</button>
+        <?php }else{?>
+        <button class="btn btn-block mx-auto btn-outline-info text-center" style="width:110px">Follow</button>
+        <?php } ?>
     </div>
     <div class="col-4 d-flex">
-        <button class="btn btn-block mx-auto btn-outline-info text-center" style="width:110px">Share</button>
+        <button class="btn btn-block mx-auto btn-outline-info text-center" style="width:110px" data-bs-target="#shareProfileModal" data-bs-toggle="modal">Share</button>
     </div>
     <div class="col-4 d-flex">
-        <button class="btn btn-block mx-auto btn-outline-info text-center" style="width:110px">Contact</button>
+        <button class="btn btn-block mx-auto btn-outline-info text-center" style="width:110px" data-bs-target="#contactInfo" data-bs-toggle="offcanvas">Contact</button>
     </div>
 </div>
 
@@ -186,11 +238,20 @@
 
                                             ?>
                                             <div class="col-lg-4 col-md-6 col-12 g-3">
-                                                <?php fetch_blog($blog_id) ?>
+                                                <?php fetch_blog($blog_id,$_SESSION['current_user']) ?>
                                             </div>
                                             <?php
                                      }
-                                }
+                                }else{
+                        ?>
+                            <div class="col-12 py-1">
+                                <div class="default-info d-flex flex-column m-auto text-center py-2 text-info">
+                                    <i class="fa-solid fa-camera" style="font-size:8rem;"></i>
+                                    <span class="fs-1 fw-bold">No Blog</span> 
+                                </div>
+                            </div>
+                        <?php
+                                }   
                         ?>
                     </div>
         </div>
@@ -266,6 +327,18 @@
                 </div>
             </li>
         <?php endif; ?>
+        <?php
+            if((empty($webUrl) && empty($igUrl) && empty($fbUrl) && empty($xUrl) && empty($linkedinUrl))){
+                ?>
+                    <div class="col-12 py-4">
+                        <div class="default-info d-flex flex-column m-auto text-center py-2 text-info">
+                            <i class="fa-solid fa-icons" style="font-size:7rem;"></i>
+                            <span class="fs-1 fw-bold">No Link's Available</span> 
+                        </div>
+                    </div>
+                <?php
+                        }   
+                ?>
     </ul>
         </div>
 </div>
@@ -291,7 +364,7 @@
   }
 </script>
 <?php 
-        
+        }    
 ?>
 </body>
 </html>

@@ -1,17 +1,5 @@
-<div class="card"  onclick="activateCard(this)">
+<div class="card"  onclick="activateCard(this)"  id="blog-card">
 <?php
-      if(isset($_GET['block_blog_id'])){
-        $block_blog_id = $_GET['block_blog_id'];
-
-        $query = "DELETE from blog_data WHERE blg_id = '$block_blog_id' AND bp_user_id = '$user_id'";
-        $result = mysqli_query($GLOBALS['connect'],$query);
-
-
-          $query = "DELETE from blog_link_data WHERE blg_id = '$block_blog_id'";
-          $result = mysqli_query($GLOBALS['connect'],$query);
-    
-      }
-
       if(isset(($_GET['edit_blog_id']))){
             $edit_blog_id = $_GET['edit_blog_id'];
 
@@ -53,6 +41,9 @@
 ?>
                   <?php include "delete-blog.php"; ?>
                   <?php include "edit-blog.php"; ?>  
+                  <?php include "share-modal.php"; ?>
+                  <?php include "block-user.php"; ?>
+                  <?php include "report-blog.php"; ?>
             <div class="card-content text-bg-light border border-dark rounded shadow position-relative p-2">
                     <?php include "blog-header.php" ?>
                     <?php include "blog-body.php" ?>

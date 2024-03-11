@@ -1,7 +1,9 @@
 <?php 
+            session_start();
             include "includes/table_query/db_connection.php";
             include "modules/blog/blog-data.php";
-            $user_id = "C2LB000003";
+            include "component/logout.php";
+            // $user_id = "C2LB000003";
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -3,10 +3,15 @@
 
     include "../../../includes/table_query/db_connection.php";
     include "../../../includes/security_function/secure_function.php";
+    require "../../../modules/blog/blog-data.php";
+
     // include "../../../testblog.php";
     if(isset($_SESSION['bp_user_id'])){
       $bp_user_id = $_SESSION['bp_user_id'];
       $current_user_id = $_SESSION['business_id'];
+      if(isset($current_user_id)){
+        $_SESSION['current_user'] = $current_user_id;
+      }
       $query = "SELECT * FROM business_profile WHERE bp_user_id = '$bp_user_id'";
       $result = mysqli_query($GLOBALS['connect'],$query);
 
@@ -16,6 +21,17 @@
           $name = $row['bp_fname']." ".$row['bp_lname'];
           $profile_img = $row['bp_profile_img_url'];
       }
+    }
+
+    if(isset($_GET['block_user_id'])){
+      $block_user_id = $_GET['block_user_id'];
+      $insert_blocked_user = "INSERT INTO blocked_user_data(bu_business_id,bu_user_id,bu_status) VALUES ('$block_user_id','$current_user_id',1)";
+      $result = mysqli_query($GLOBALS['connect'],$insert_blocked_user);
+      // die($insert_blocked_user);
+      if($result){
+          header("location:?block_status=yes");
+      }
+  
     }
 ?>
 <!DOCTYPE html>
@@ -43,19 +59,21 @@
       overflow-y: auto; /* Display scrollbar when content exceeds height */
     }
     /* Offcanvas styling */
-   
-  .vertical-bar::-webkit-scrollbar {
-  width: 0px;  /* Remove scrollbar space */
-  background: transparent;  /* Optional: just make scrollbar invisible */
-}
-.blog-overflow::-webkit-scrollbar{
-  width:0;
-  background:transparent;
-}
-  </style>
+    
+    .vertical-bar::-webkit-scrollbar {
+      width: 0px;  /* Remove scrollbar space */
+      background: transparent;  /* Optional: just make scrollbar invisible */
+    }
+    .blog-overflow::-webkit-scrollbar{
+      width:0;
+      background:transparent;
+    }
+    </style>
   
 </head>
 <body class="vertical-bar text-bg-dark">
+  <?php include "../../../component/logout.php" ?>
+  <?php include "../../../component/username-modal.php"; ?>
 <nav class="navbar text-bg-dark py-4 border-bottom">
             <div class="container">
                 <div class="home-icon fs-5">
@@ -102,8 +120,35 @@
                        }
                       }
               ?>
-              <img src="<?php if(isset($profile_img)) echo $profile_img; else echo "/asset/image/user/profile.png"?>" alt="" class="rounded-circle" style="height:35px;width:35px">
-              
+              <!-- HTML -->
+<div class="dropdown">
+    <div class="d-inline-block position-relative">
+        <img src="<?php if(isset($profile_img)) echo $profile_img; else echo '/asset/image/user/profile.png'; ?>" alt="" class="rounded-circle" style="height:40px;width:40px" id="profileButton">
+        <div class="dropdown-menu position-absolute" aria-labelledby="profileDropdown" id="profileDropdownMenu" style="left: 50%; transform: translateX(-50%);">
+            <a class="dropdown-item" href="/modules/user-profile/profile.php?profile_id=<?php echo $current_user_id ?>">View Profile</a>
+            <button class="dropdown-item" id="logoutButton" type="button" data-bs-target="#logoutModal" data-bs-toggle="modal">Logout</button>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery -->
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+<!-- JavaScript -->
+<script>
+$(document).ready(function () {
+    // Hide the dropdown menu initially
+    $('#profileDropdownMenu').hide();
+
+    // Show the dropdown menu when profile image is clicked
+    $('#profileButton').click(function() {
+        $('#profileDropdownMenu').toggle();
+    });
+
+  
+});
+</script>
                 <!-- <i class="fa-solid fa-square-plus" data-bs-target="#setUserNamePromptModal" data-bs-toggle="modal"></i> -->
                 
             </div>
@@ -136,20 +181,31 @@
     <?php endif; ?>
 </li>
     <li class="list-item mt-3"><a href="#" class="nav-link" data-menu-item-id="notification"><i class="fa-solid fa-bell"></i> &nbsp; Notification</a></li>
-    <li class="list-item mt-3"><a href="#" class="nav-link" data-menu-item-id="blog"><i class="fa-solid fa-camera-retro"></i> &nbsp; Blog</a></li>
+    <li class="list-item mt-3"><a href="?content=view" class="nav-link" data-menu-item-id="blog"><i class="fa-solid fa-camera-retro"></i> &nbsp; Blog</a></li>
     <li class="list-item mt-3">
-    <?php if(mysqli_num_rows(mysqli_query($GLOBALS['connect'],$check_status)) == 0): ?>
+    <?php
+      $query = "SELECT bp_username FROM business_profile WHERE b_id = '$current_user_id' AND bp_username IS NOT NULL LIMIT 1";
+
+
+    if((mysqli_query($GLOBALS['connect'],$query) && mysqli_num_rows(mysqli_query($GLOBALS['connect'],$query)) > 0)){
+    ?>
+    <?php if(mysqli_num_rows(mysqli_query($GLOBALS['connect'],$check_status)) == 0){ ?>
     <a href="dashboard.php?content=create" class="nav-link" data-menu-item-id="create">
         <i class="fa-regular fa-square-plus"></i> &nbsp; Create
     </a>
-    <?php else: ?>
+    
+    <?php } else{?>
     <a href="#" class="nav-link disabled text-secondary" aria-disabled="true" data-menu-item-id="create">
       <i class="fa-solid fa-lock text-secondary"></i>
         &nbsp; Create
     </a>
-    <?php endif; ?>
+    <?php }}else{ ?>
+      <span class="nav-link" data-bs-target="#setUserNameModal" data-bs-toggle="modal" data-menu-item-id="create">
+        <i class="fa-regular fa-square-plus"></i> &nbsp; Create
+      </span>
+      <?php } ?>
 </li>
-    <li class="list-item mt-3"><a href="#" class="nav-link" data-menu-item-id="search"><i class="fa-solid fa-magnifying-glass"></i> &nbsp; Search</a></li>
+    <li class="list-item mt-3"><a href="?content=search" class="nav-link" data-menu-item-id="search"><i class="fa-solid fa-magnifying-glass"></i> &nbsp; Search</a></li>
    <li class="list-item mt-3">
     <?php if(mysqli_num_rows(mysqli_query($GLOBALS['connect'],$check_status)) == 0): ?>
     <a href="#" class="nav-link" data-menu-item-id="setting">
@@ -162,7 +218,7 @@
     </a>
     <?php endif; ?>
 </li>
-    <li class="list-item mt-3"><a href="#" class="nav-link" data-menu-item-id="logout"><i class="fa-solid fa-right-from-bracket"></i> &nbsp; Logout</a></li>
+    <li class="list-item mt-3"><a href="#" class="nav-link" data-menu-item-id="logout" data-bs-target="#logoutModal" data-bs-toggle="modal"><i class="fa-solid fa-right-from-bracket"></i> &nbsp; Logout</a></li>
 </ul>
 
                     </div>
@@ -183,6 +239,12 @@
                                         break;
 
                                         case "create": include "form/add-blog.php";
+                                        break;
+
+                                        case "search" : include "../../../modules/search/search-business.php";
+                                        break;
+
+                                        case "view" : include "../../../modules/blog/view-blog.php";
                                         break;
                                     }
                                 } else{

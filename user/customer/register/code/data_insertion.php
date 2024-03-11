@@ -49,6 +49,7 @@
             $_SESSION['c_id'] = $customer_id;     
             $_SESSION['cp_user_id'] = $cp_user_id;  
             $_SESSION['greet-message'] = "Congratulations !!! You are registered Successfully.";
+            send_notification($customer_id);
             $_SESSION['message'] = "Verification Code Sent Successfully.";
             header("location:/user/customer/register/form/customer_register.php");
             return true;
@@ -104,8 +105,11 @@
                         send_mail($name,$email,$subject,$template);
         }
 
-        function send_notification(){
+        function send_notification($customer_id){
+                    $query = "INSERT INTO notification(n_content,n_type,n_user_id,n_time) VALUES ('You are registered Successfully','greeting','$customer_id',NOW()";
+                    $result = mysqli_query($GLOBALS['connect'],$query);
 
+                    $_SESSION['registered'] = 1;
         }
 
         function store_data(){

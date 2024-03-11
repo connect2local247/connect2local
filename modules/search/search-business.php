@@ -2,7 +2,7 @@
         <div class="search-bar  mt-1 position-relative">
             <form id="searchForm"  method="post" class="p-2">
                 <div class="search-bar-container position-relative p-2 rounded-top d-flex justify-content-center">
-                    <div class="search-container position-relative w-100">
+                    <div class="search-container position-relative w-100" style="max-width:90vw">
                         <input type="text" class="form-control border border-dark rounded-pill p-2 pe-3 ps-2" name="search-business" id="search-business" placeholder="Search here...">
                         <button type="submit" class="btn py-2 px-3 position-absolute top-0 end-0" style="z-index:5" name="search"><i class="fa-solid fa-magnifying-glass text-bg-light"></i></button>
                     </div>

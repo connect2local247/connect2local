@@ -26,7 +26,9 @@
             </div>
         </div>
     </div>
-
+    <script>
+        path="/user/businessman/dashboard/dashboard.php";    
+    </script>
     <?php
     // unset($_SESSION['linkDataArray']);
 if(!isset($_SESSION['linkDataArray'])){

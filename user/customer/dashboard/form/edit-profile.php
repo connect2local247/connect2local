@@ -5,6 +5,7 @@ include "../../../../includes/table_query/db_connection.php";
 
 if (isset($_SESSION['cp_user_id'])) {
     $customer_id = $_SESSION['cp_user_id'];
+   
     $get_data_query = "SELECT * FROM customer_profile WHERE cp_user_id = '$customer_id'";
     $result = mysqli_query($GLOBALS['connect'], $get_data_query);
 
@@ -55,6 +56,7 @@ if (isset($_SESSION['cp_user_id'])) {
             <div class="card-content">
                 <div class="card-header border-bottom text-center">
                     <h1>Edit Profile</h1>
+                    
                     <?php if(isset($cp_username)): ?>
                         <p><?php echo $cp_username; ?></p>
                     <?php endif; ?>

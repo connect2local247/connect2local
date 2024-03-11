@@ -3,11 +3,11 @@
     <div class="modal-content text-bg-dark">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="editBlogModalLabel<?php echo $unique_identifier; ?>">Edit</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <i class="fa-solid fa-xmark fs-5 text-white" data-bs-dismiss="modal" aria-label="Close"></i>
       </div>
       <div class="modal-body">
-        <?php echo $blog_id; ?>
-        <form action="?edit_blog_id=<?php echo $blog_id ?>&edit_user_id=<?php echo $user_id ?>" method="POST">
+        
+        <form action="?edit_blog_id=<?php echo $blog_id ?>&edit_user_id=<?php echo $user_id ?>&profile_id=<?php echo $_SESSION['current_user']?>" method="POST">
           <div class="content d-flex" id="existingContent">
             <?php
               // Check if content is an image

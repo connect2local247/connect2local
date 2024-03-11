@@ -132,6 +132,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+  <div class="table-container w-100 overflow-auto vertical-bar">
+
+  
   <h2>New Requests</h2>
 <?php
 
@@ -141,7 +144,7 @@
     // die($getNewRequestQuery);
     if(mysqli_num_rows($result) > 0){
       echo "<div class='table-container'>
-              <table>
+              <table class=' w-100 overflow-auto vertical-bar'>
                 <tr>
                   <th>Business Code</th>
                   <th>Name</th>
@@ -204,7 +207,7 @@
       if(mysqli_num_rows($result) > 0){
         echo "<div class='table-container'>
                 <h2>Accepted Requests</h2>
-                <table>
+                <table class=' w-100 overflow-auto vertical-bar'>
                   <tr>
                     <th>Business Code</th>
                     <th>Name</th>
@@ -265,7 +268,7 @@
       if(mysqli_num_rows($result) > 0){
         echo "<div class='table-container'>
                 <h2>Rejected Requests</h2>
-                <table>
+                <table class=' w-100 overflow-auto vertical-bar'>
                   <tr>
                     <th>Business Code</th>
                     <th>Name</th>
@@ -319,7 +322,7 @@
       }
 ?>
 
-
+</div>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
   // Function to handle accepting or rejecting a request
