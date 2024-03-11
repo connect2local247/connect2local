@@ -29,6 +29,9 @@
                                     <button onclick="location.href='?save_blog_id=<?php echo $blog_id ?>&save_user_id=<?php echo $user_id ?>'" class="saveButton btn fs-4">Save</button>
                                 </li> -->
                                 <?php
+                                        if(!isset($bp_user_id)){
+
+                                        
                                     $query = "SELECT bp_user_id from blog_data where blg_id = '$blog_id' and bp_user_id != '$current_user_id' ";
                                     $result = mysqli_query($GLOBALS['connect'],$query);
 
@@ -40,5 +43,6 @@
                             </ul>
                             <?php
                                     }
+                                }
                                 ?>
                         </div>

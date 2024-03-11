@@ -79,7 +79,7 @@
                             <span class="business-name" style="font-size:13px;">${business.business_name}</span>
                         </div>
                         <div class="col-lg-2 col-3 d-flex align-items-center">
-                        <button class="btn border border-info text-primary rounded-pill">View <span class='d-none d-sm-inline'>Profile</span></button>
+                        <button class="btn border border-info text-primary rounded-pill" onclick="location.href='/modules/user-profile/profile.php?profile_id=${business.b_id}&viewer_id=1'">View <span class='d-none d-sm-inline'>Profile</span></button>
                         </div>
                     </div>
                 </div>

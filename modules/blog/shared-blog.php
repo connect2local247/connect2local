@@ -2,7 +2,10 @@
 include "../../includes/table_query/db_connection.php";
 include "blog-data.php";
 session_start();
-
+if(isset($_GET['shared_blog_id']))
+{
+    $shared_blog_id = $_GET['shared_blog_id'];
+}
 // Function to get the appropriate user ID based on the user type
 function getCurrentUserID() {
     if (isset($_SESSION['business_id'])) {
@@ -104,12 +107,13 @@ $current_user_id = getCurrentUserID();
     <div class="col-lg-6 border  m-auto text-bg-dark overflow-auto vertical-bar position-relative" style="height:100vh;max-height:100vh;">
     <div class="back text-start position-absolute top-0 text-white ms-3 fs-4 mt-3">
         <i class="fa-solid fa-arrow-left" onclick='window.history.back();'></i>
+        
     </div>
             <?php
                         if(isset($_SESSION['blocked_blog'])){
                             echo "<div class='blog-container p-5 h-100 d-flex align-items-center justify-content-center w-100 fs-3 fw-bold'>
                             This User is Blocked By You</div>";
-                        }else{
+                        }
 
                         
             ?>
@@ -117,13 +121,17 @@ $current_user_id = getCurrentUserID();
             <?php
             // Display the shared blog if available
             if ($shared_blog_id && $current_user_id) {
+                
                 // Check if the shared blog is blocked by the current user
                 if (!isBlockedByCurrentUser($shared_blog_id, $current_user_id)) {
                     // Get random blog IDs excluding the shared blog and blocked blogs
                     $random_blog_ids = getRandomBlogIDs($shared_blog_id, $current_user_id);
-                    if (!empty($random_blog_ids)) {
-                        fetch_blog($shared_blog_id, $current_user_id);
-                    }
+                    fetch_blog($shared_blog_id, $current_user_id);
+                    
+                    // if (empty($random_blog_ids)) {
+                        
+                    //     fetch_blog($shared_blog_id, $current_user_id);
+                    // }
                 }
             } else {
                 echo "<div class='alert alert-danger' role='alert'>Invalid shared blog ID.</div>";
@@ -135,7 +143,7 @@ $current_user_id = getCurrentUserID();
 
             // Display random blogs
             displayBlogs($random_blog_ids, $current_user_id);
-        }
+        
             ?>
 
           

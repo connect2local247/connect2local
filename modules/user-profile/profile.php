@@ -5,13 +5,16 @@
         include "../../includes/security_function/secure_function.php";
         include "../blog/blog-data.php";
         include "profile_function.php";
-        $fetch_user_id = "SELECT bp_user_id from business_profile WHERE b_id = '{$_SESSION['business_id']}'";
-        $result = mysqli_query($GLOBALS['connect'],$fetch_user_id);
+        if(isset($_SESSION['business_id'])){
+
+            $fetch_user_id = "SELECT bp_user_id from business_profile WHERE b_id = '{$_SESSION['business_id']}'";
+            $result = mysqli_query($GLOBALS['connect'],$fetch_user_id);
         
         if(mysqli_num_rows($result) > 0){
             $data = mysqli_fetch_assoc($result);
             $bp_user_id = $data['bp_user_id'];
         }
+    }
         if(isset(($_GET['edit_blog_id']))){
             $edit_blog_id = $_GET['edit_blog_id'];
             

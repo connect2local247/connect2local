@@ -211,7 +211,7 @@ $topBlogs = fetchTopBlogs($current_user_id, 3);
                 <div class="swiper-pagination"></div>
             </div>
             <!-- Display suggested blogs -->
-            <span class="fs-4 fw-semibold d-block my-3 ps-3">Suggested Blogs</span>
+            <!-- <span class="fs-4 fw-semibold d-block my-3 ps-3">Suggested Blogs</span>
             <div class="swiper-container overflow-scroll vertical-bar" style="max-width:90vw">
                 <div class="swiper-wrapper">
                     <?php foreach ($suggestedBlogs as $blog): ?>
@@ -237,7 +237,7 @@ $topBlogs = fetchTopBlogs($current_user_id, 3);
                 </div>
                 <div class="swiper-pagination"></div>
             </div>
-            
+             -->
             
             <!-- Display top blogs based on like count -->
             <span class="fs-4 fw-semibold d-block my-3 ps-3">Top Blogs</span>

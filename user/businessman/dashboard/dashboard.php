@@ -169,6 +169,7 @@ $(document).ready(function () {
                         <ul class="verticle-menu list-unstyled fs-5 mt-5">
     <li class="list-item mt-3"><a href="dashboard.php?content=dashboard" class="nav-link" data-menu-item-id="dashboard"><i class="fas fa-tachometer-alt"></i> &nbsp; Dashboard</a></li>
     <li class="list-item mt-3">
+      <?php if(isset($check_status)): ?>
     <?php if(mysqli_num_rows(mysqli_query($GLOBALS['connect'],$check_status)) == 0): ?>
     <a href="dashboard.php?content=account" class="nav-link" data-menu-item-id="account">
         <i class="fa-regular fa-address-card"></i> &nbsp; Account
@@ -179,6 +180,7 @@ $(document).ready(function () {
         &nbsp; Account
     </a>
     <?php endif; ?>
+    <?php endif; ?>
 </li>
     <li class="list-item mt-3"><a href="#" class="nav-link" data-menu-item-id="notification"><i class="fa-solid fa-bell"></i> &nbsp; Notification</a></li>
     <li class="list-item mt-3"><a href="?content=view" class="nav-link" data-menu-item-id="blog"><i class="fa-solid fa-camera-retro"></i> &nbsp; Blog</a></li>
@@ -186,7 +188,7 @@ $(document).ready(function () {
     <?php
       $query = "SELECT bp_username FROM business_profile WHERE b_id = '$current_user_id' AND bp_username IS NOT NULL LIMIT 1";
 
-
+     if(isset($check_status)){ 
     if((mysqli_query($GLOBALS['connect'],$query) && mysqli_num_rows(mysqli_query($GLOBALS['connect'],$query)) > 0)){
     ?>
     <?php if(mysqli_num_rows(mysqli_query($GLOBALS['connect'],$check_status)) == 0){ ?>
@@ -203,10 +205,11 @@ $(document).ready(function () {
       <span class="nav-link" data-bs-target="#setUserNameModal" data-bs-toggle="modal" data-menu-item-id="create">
         <i class="fa-regular fa-square-plus"></i> &nbsp; Create
       </span>
-      <?php } ?>
+      <?php }} ?>
 </li>
     <li class="list-item mt-3"><a href="?content=search" class="nav-link" data-menu-item-id="search"><i class="fa-solid fa-magnifying-glass"></i> &nbsp; Search</a></li>
    <li class="list-item mt-3">
+    <?php if(isset($check_status)): ?>
     <?php if(mysqli_num_rows(mysqli_query($GLOBALS['connect'],$check_status)) == 0): ?>
     <a href="#" class="nav-link" data-menu-item-id="setting">
         <i class="fa-solid fa-gear"></i> &nbsp; Setting
@@ -217,6 +220,7 @@ $(document).ready(function () {
        &nbsp; Setting
     </a>
     <?php endif; ?>
+    <?php endif;?>
 </li>
     <li class="list-item mt-3"><a href="#" class="nav-link" data-menu-item-id="logout" data-bs-target="#logoutModal" data-bs-toggle="modal"><i class="fa-solid fa-right-from-bracket"></i> &nbsp; Logout</a></li>
 </ul>

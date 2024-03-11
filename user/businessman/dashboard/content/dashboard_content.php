@@ -178,7 +178,7 @@ $topBlogs = fetchTopBlogs($current_user_id, 3);
 <div class="container">
     <div class="row">
         <div class="col">
-        <span class="fs-4 fw-semibold d-block my-3 ps-3">Your Blogs</span>
+        <!-- <span class="fs-4 fw-semibold d-block my-3 ps-3">Your Blogs</span>
 <div class="swiper-container overflow-scroll vertical-bar" style="max-width:90vw">
     <div class="swiper-wrapper border border-dark">
         <?php foreach ($userBlogs as $blog): ?>
@@ -204,7 +204,7 @@ $topBlogs = fetchTopBlogs($current_user_id, 3);
     </div>
     <div class="swiper-button-prev"></div>
     <div class="swiper-button-next"></div>
-</div>
+</div> -->
             <!-- Display new blogs from other users -->
             <span class="fs-4 fw-semibold d-block my-3 ps-3">New Blogs</span>
             <div class="swiper-container overflow-scroll vertical-bar" style="max-width:90vw">
@@ -233,7 +233,7 @@ $topBlogs = fetchTopBlogs($current_user_id, 3);
                 <div class="swiper-pagination"></div>
             </div>
             <!-- Display suggested blogs -->
-            <span class="fs-4 fw-semibold d-block my-3 ps-3">Suggested Blogs</span>
+            <!-- <span class="fs-4 fw-semibold d-block my-3 ps-3">Suggested Blogs</span>
             <div class="swiper-container overflow-scroll vertical-bar" style="max-width:90vw">
                 <div class="swiper-wrapper border border-dark">
                     <?php foreach ($suggestedBlogs as $blog): ?>
@@ -259,7 +259,7 @@ $topBlogs = fetchTopBlogs($current_user_id, 3);
                 </div>
                 <div class="swiper-pagination"></div>
             </div>
-            
+             -->
             <!-- Display user's blogs -->
             <?php if (!empty($userBlogs)): ?>
             <span class="fs-4 fw-semibold d-block my-3 ps-3">Your Blogs</span>
