@@ -29,11 +29,15 @@ if ($row = mysqli_fetch_assoc($result)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account</title>
     <?php include "../../../asset/link/cdn-link.html"; ?>
+    <link rel="stylesheet" href="/asset/css/style.css">
+    <link rel="stylesheet" href="/asset/css/form.css">
 </head>
 <body class="p-3">
+   
+    
     <div class="container py-4 px-2 border text-bg-light shadow mt-4 rounded-2 col-xxl-6 col-xl-6 col-lg-7 col-md-10">
         <div class="heading text-center">
-            <h1 class="h1 fw-bold">Account</h1>
+            <h1 class="h1 fw-bold text-center">Account</h1>
             <form action="update_account.php" method="POST" id="updateForm" class="px-3">
                 <div class="mt-4">
                     <div class="input-group position-relative">
@@ -45,22 +49,22 @@ if ($row = mysqli_fetch_assoc($result)) {
 
                 <div class="mt-2">
                     <div class="input-group position-relative">
-                        <input type="text" name="operate-time" id="operate-time" class="form-control border-0 border-bottom rounded-0 border-dark ps-5 z-1" placeholder="Operate Time" value="<?php echo $operate_time ?>" required>
+                        <input type="text" name="operate-time" id="operate-time" class="form-control border-0 border-bottom rounded-0 border-dark ps-5 z-1" placeholder="Operate Time" value="<?php echo $operate_time ?>">
                         <span class="input-group-text border-0 position-absolute start-0 me-2 z-3"><i class="fa-solid fa-business-time"></i></span>
                     </div>
                 </div>
                 <div class="mt-2">
     <div class="input-group position-relative">
-        <input type="email" name="email" id="email" class="form-control border-0 border-bottom rounded-0 border-dark ps-5 z-1" placeholder="Email" value="<?php echo decryptData($email,$bKey) ?>" required>
+        <input type="email" name="email" id="email" class="form-control border-0 border-bottom rounded-0 border-dark ps-5 z-1" placeholder="Email" value="<?php echo decryptData($email,$bKey) ?>" pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$" required>
         <span class="input-group-text border-0 position-absolute start-0 me-2 z-3"><i class="fa-solid fa-envelope"></i></span>
-        <button class="btn border-0 position-absolute end-0 text-info me-2 z-3" onclick="updateCredential('email', $('#email').val())">Change</button>
+        <button class="btn border-0 position-absolute end-0 text-info me-2 z-3" onclick="changeCredential('email',event)">Change</button>
     </div>
 </div>
 <div class="mt-2">
     <div class="input-group position-relative">
-        <input type="tel" name="phone" id="phone" class="form-control border-0 border-bottom rounded-0 border-dark ps-5 z-1" placeholder="Phone Number" value="<?php echo decryptData($phone,$bKey) ?>" required>
+        <input type="tel" name="phone" id="phone" class="form-control border-0 border-bottom rounded-0 border-dark ps-5 z-1" placeholder="Phone Number" value="<?php echo decryptData($phone,$bKey) ?>" pattern="^\d{10}$" required>
         <span class="input-group-text border-0 position-absolute start-0 me-2 z-3"><i class="fa-solid fa-phone"></i></span>
-        <button class="btn border-0 position-absolute end-0 text-info me-2 z-3" onclick="updateCredential('contact', $('#phone').val())">Change</button>
+        <button class="btn border-0 position-absolute end-0 text-info me-2 z-3" onclick="changeCredential('phone',event)">Change</button>
     </div>
 </div>
                 <div class="mt-2">
@@ -71,39 +75,39 @@ if ($row = mysqli_fetch_assoc($result)) {
                 </div>
                 <div class="mt-2">
                     <div class="input-group position-relative">
-                        <input type="text" name="web-url" id="web-url" class="form-control border-0 border-bottom rounded-0 border-dark ps-5 z-1" placeholder="Web URL" value="<?php echo $web_url ?>" required>
+                        <input type="text" name="web-url" id="web-url" class="form-control border-0 border-bottom rounded-0 border-dark ps-5 z-1" placeholder="Web URL" value="<?php echo $web_url ?>">
                         <span class="input-group-text border-0 position-absolute start-0 me-2 z-3"><i class="fa-solid fa-link"></i></span>
                     </div>
                 </div>
                 <div class="mt-2">
                     <div class="input-group position-relative">
-                        <input type="text" name="insta-link" id="insta-link" class="form-control border-0 border-bottom rounded-0 border-dark ps-5 z-1" placeholder="Instagram Link" value="<?php echo $insta_url ?>" required>
+                        <input type="text" name="insta-link" id="insta-link" class="form-control border-0 border-bottom rounded-0 border-dark ps-5 z-1" placeholder="Instagram Link" value="<?php echo $insta_url ?>">
                         <span class="input-group-text border-0 position-absolute start-0 me-2 z-3"><i class="fab fa-instagram"></i></span>
                     </div>
                 </div>
                 <div class="mt-2">
                     <div class="input-group position-relative">
-                        <input type="text" name="fb-link" id="fb-link" class="form-control border-0 border-bottom rounded-0 border-dark ps-5 z-1" placeholder="Facebook Link" value="<?php echo $fb_url ?>" required>
+                        <input type="text" name="fb-link" id="fb-link" class="form-control border-0 border-bottom rounded-0 border-dark ps-5 z-1" placeholder="Facebook Link" value="<?php echo $fb_url ?>">
                         <span class="input-group-text border-0 position-absolute start-0 me-2 z-3"><i class="fab fa-facebook"></i></span>
                     </div>
                 </div>
                 <div class="mt-2">
                     <div class="input-group position-relative">
-                        <input type="text" name="twitter-link" id="twitter-link" class="form-control border-0 border-bottom rounded-0 border-dark ps-5 z-1" placeholder="Twitter Link" value="<?php echo $twitter_url ?>" required>
+                        <input type="text" name="twitter-link" id="twitter-link" class="form-control border-0 border-bottom rounded-0 border-dark ps-5 z-1" placeholder="Twitter Link" value="<?php echo $twitter_url ?>">
                         <span class="input-group-text border-0 position-absolute start-0 me-2 z-3"><i class="fab fa-twitter"></i></span>
                     </div>
                 </div>
                 <div class="mt-2">
                     <div class="input-group position-relative">
-                        <input type="text" name="linkedin-link" id="linkedin-link" class="form-control border-0 border-bottom rounded-0 border-dark ps-5 z-1" placeholder="LinkedIn Link" value="<?php echo $linkedin_url ?>" required>
+                        <input type="text" name="linkedin-link" id="linkedin-link" class="form-control border-0 border-bottom rounded-0 border-dark ps-5 z-1" placeholder="LinkedIn Link" value="<?php echo $linkedin_url ?>">
                         <span class="input-group-text border-0 position-absolute start-0 me-2 z-3"><i class="fab fa-linkedin"></i></span>
                     </div>
                 </div>
                 <div class="mt-2">
     <div class="input-group position-relative">
-        <input type="password" name="password" id="password" class="form-control border-0 border-bottom rounded-0 border-dark ps-5 z-1" placeholder="Password" value="<?php echo decryptData($password,$bKey) ?>" required>
+        <input type="password" name="password" id="password" class="form-control border-0 border-bottom rounded-0 border-dark ps-5 z-1" placeholder="Password" value="<?php echo decryptData($password,$bKey) ?>" pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#_$])[\w@#_$]{8,16}" required>
         <span class="input-group-text border-0 position-absolute start-0 me-2 z-3"><i class="fa-solid fa-lock"></i></span>
-        <button class="btn border-0 position-absolute end-0 text-info me-2 z-3" onclick="updateCredential('password', $('#password').val())">Change</button>
+        <button class="btn border-0 position-absolute end-0 text-info me-2 z-3" onclick="changeCredential('password',event)">Change</button>
     </div>
 </div>
 <div class="mt-4 d-flex justify-content-center">
@@ -120,13 +124,54 @@ if ($row = mysqli_fetch_assoc($result)) {
             <i class="fa-solid fa-xmark text-light" data-bs-dismiss="toast" aria-label="Close"></i>
         </div>
         <div class="toast-body bg-dark text-white fs-5">
-            <!-- Error message will be displayed here -->
+        
         </div>
     </div>
 </div>
+<script>
+    function changeCredential(type, event) {
+        // Prevent default form submission behavior
+        event.preventDefault();
+
+        var value = '';
+        var inputField;
+        var pattern;
+
+        if (type === 'email') {
+            inputField = document.getElementById('email');
+            pattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
+        } else if (type === 'phone') {
+            inputField = document.getElementById('phone');
+            pattern = /^\d{10}$/;
+        } else if (type === 'password') {
+            inputField = document.getElementById('password');
+            pattern = /(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#_$])[\w@#_$]{8,16}/;
+        }
+
+        value = inputField.value;
+
+        // Validate input against pattern
+        if (!pattern.test(value)) {
+            alert('Invalid ' + type);
+            return;
+        }
+
+        // Construct the redirect URL based on the type of change
+        var redirectUrl = '/user/businessman/dashboard/account/update_credential.php?';
+
+        if (type === 'email' || type === 'phone') {
+            redirectUrl += 'business_id=<?php echo $business_id ?>&key=<?php echo $bKey ?>&' + type + '=' + encodeURIComponent(value);
+        } else if (type === 'password') {
+            redirectUrl += 'business_id=<?php echo $business_id ?>&key=<?php echo $bKey ?>&password=' + encodeURIComponent(value);
+        }
+
+        // Redirect to the specified URL
+        window.location.href = redirectUrl;
+    }
+</script>
 
 
-    <script>
+    <!-- <script>
 $(document).ready(function() {
     $('#updateForm').submit(function(e) {
         e.preventDefault(); // Prevent default form submission
@@ -185,8 +230,16 @@ $(document).ready(function() {
             }
         });
     }
-</script>
-
+</script> -->
+<script>
+                path = "/user/customer/dashboard/dashboard.php?content=account";
+    </script>
+        <?php
+                if(isset($_SESSION['error'])){
+                    include "../../../component/form-alert.php"; 
+                    unset($_SESSION['error']);
+                }
+        ?>
 </body>
 </html>
 <?php

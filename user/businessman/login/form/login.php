@@ -1,5 +1,9 @@
 <?php
         session_start();
+        require "/connect2local/includes/table_query/db_connection.php";
+        require "/connect2local/includes/code_generator/primary_key_generator.php";
+        require "/connect2local/includes/email_template/email_sending.php";
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,12 +15,86 @@
     <?php include "/connect2local/asset/link/cdn-link.html"; ?>
 </head>
 <body id="form-body">
+    <?php
+    if(isset($_SESSION['business_id'])):
+     $query = "SELECT b_fname,b_lname FROM business_register WHERE b_id = '{$_SESSION['business_id']}'";
+     $result = mysqli_query($GLOBALS['connect'],$query);
+     if(mysqli_num_rows($result) > 0){
+         $data = mysqli_fetch_assoc($result);
+         
+         $name = $data['b_fname']." ".$data['b_lname'];
+        }
+        // echo $name;
+    endif;
+        $verification_code = generateVerificationCode();
+        function send_code($name,$email,$verification_code){
+            $subject = "Verification Code From Connect2Local";
+            
+            $_SESSION['verify-code'] = $verification_code;
+            $template = "
+            <div style='max-width: 600px; margin: 0 auto; padding: 20px; font-family: \"Arial\", sans-serif;'>
+            
+            <div style='text-align: center;'>
+            <img src='https://live.staticflickr.com/65535/53417631216_2be8f41b9e_n.jpg' alt='Connect2local' style='max-width: 100px;'>
+            <h1 style='color: #333;'>Connect2Local</h1>
+            </div>
+            
+            <div>
+            <p>Hello $name,</p>
+            
+            <p>Thank you for registering with Connect2Local. You're just a step away from completing the process.</p>
+            
+            <div style='background-color: #f4f4f4; padding: 10px; text-align: center;'>
+            <p>Your verification code is:</p>
+            <h2 style='color: #333; margin: 10px 0;'>$verification_code</h2>
+            </div>
+            
+            <p>Enter this code on our website to complete your registration.</p>
+            
+    <p>If you did not initiate this registration, please ignore this email.</p>
 
-<script>
+    <p>Best regards,<br>Connect2Local</p>
+</div>
+
+</div>
+";
+
+
+
+                send_mail($name,$email,$subject,$template);
+
+}
+
+    if(isset($_SESSION['business_id'])){
+        $get_verification_status = "SELECT two_step_status FROM business_verification WHERE b_id = '{$_SESSION['business_id']}'";
+        $result = mysqli_query($GLOBALS['connect'], $get_verification_status);
+        if(mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);
+            $two_step_enabled = $row['two_step_status']; // Convert to boolean
+        }
+  
+
+    ?>
+    <?php if($two_step_enabled == 1){
+            $update = "UPDATE business_verification SET b_verification_code = '$verification_code' WHERE b_id = '{$_SESSION['business_id']}'";
+            if(mysqli_query($GLOBALS['connect'],$update)){
+
+                send_code($name,$_SESSION['email'],$verification_code);
+            }
+       
+    
+    ?>
+    
+        <script>
+            path = "/user/businessman/login/form/email_verification.php";
+        </script>
+    <?php }else{ ?>
+        <script>
             path = "/user/businessman/dashboard/dashboard.php";
         </script>
-        <?php 
-
+    <?php 
+            }
+    }
                 include "../../../../component/form-alert.php";
                 unset($_SESSION['error']);
         ?>

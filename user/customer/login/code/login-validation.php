@@ -37,8 +37,8 @@
                             $_SESSION['cp_user_id'] = $row['cp_user_id'];
                             echo $_SESSION['cp_user_id'];
 
-                            $query = "INSERT INTO notification(n_type,n_content,n_time,n_user_id) VALUES('greeting','successfully login',NOW(),'$customer_id')";
-                            $result = mysqli_query($GLOBALS['connect'],$query);
+                            // $query = "INSERT INTO notification(n_type,n_content,n_time,n_user_id) VALUES('greeting','successfully login',NOW(),'$customer_id')";
+                            // $result = mysqli_query($GLOBALS['connect'],$query);
                             // die($query);
                             // die();
                         }

@@ -1,21 +1,37 @@
 <?php
-// Include your database connection here
 session_start();
 include "../../includes/table_query/db_connection.php";
 include "blog-data.php";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Sanitize the input
     $connection = $GLOBALS['connect'];
     $current_user_id = $_SESSION['current_user'];
     $searchQuery = filter_input(INPUT_POST, 'search-blog', FILTER_SANITIZE_STRING);
+
+    // Fetch the bp_user_id if the current user is a business user
+    $bp_user_id = null;
+    if ($current_user_id) {
+        $query_fetch_bp_user_id = "SELECT bp_user_id FROM business_profile WHERE b_id = '$current_user_id'";
+        $result_fetch_bp_user_id = mysqli_query($connection, $query_fetch_bp_user_id);
+        $bp_user_id_row = mysqli_fetch_assoc($result_fetch_bp_user_id);
+        $bp_user_id = isset($bp_user_id_row['bp_user_id']) ? $bp_user_id_row['bp_user_id'] : null;
+    }
+
     // Perform database query to search for blogs based on the title
-    // Replace with your actual database query
-    $query = "SELECT bd.blg_id, bd.blg_title 
+    // Exclude blogs owned by blocked users and the current user
+    $query = "SELECT DISTINCT bd.blg_id 
               FROM blog_data bd
-              LEFT JOIN blocked_user_data bu ON bd.bp_user_id = bu.bu_business_id
               WHERE bd.blg_title LIKE '%$searchQuery%'
-              AND (bu.bu_user_id != '$current_user_id' OR bu.bu_user_id IS NULL)";
+              AND bd.bp_user_id != '$bp_user_id'
+              AND bd.bp_user_id NOT IN (
+                  SELECT bu_business_id
+                  FROM blocked_user_data
+                  WHERE bu_user_id = '$current_user_id'
+              )";
+    
     $result = mysqli_query($connection, $query);
+    $_SESSION['query'] = "$query";
 
     $blogs = [];
     if ($result) {

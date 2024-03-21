@@ -55,6 +55,7 @@ if (isset($_POST['submit'])) {
 
     if ($user_code == $admin_otp) {
         $_SESSION['greet-message'] = "Security Key Has been Matched.";
+        $_SESSION['registered'] = 1;
         updateDataAdmin();
         unset($_SESSION['error']);
         if (isset($_SESSION['code_attempts'])) {

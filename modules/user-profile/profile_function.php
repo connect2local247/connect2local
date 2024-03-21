@@ -38,7 +38,7 @@ function getFollowerCount($user_id) {
     $user_id = mysqli_real_escape_string($conn, $user_id);
 
     // Construct the SQL query
-    $sql = "SELECT COUNT(*) AS count FROM followers WHERE user_id = '$user_id'";
+    $sql = "SELECT COUNT(*) AS count FROM follower_data WHERE fd_user_id = '$user_id' and block_status = 0";
 
     // Execute the SQL query
     $result = mysqli_query($conn, $sql);
@@ -69,7 +69,7 @@ function getFollowingCount($user_id) {
     $user_id = mysqli_real_escape_string($conn, $user_id);
 
     // Construct the SQL query
-    $sql = "SELECT COUNT(*) AS count FROM following WHERE user_id = '$user_id'";
+    $sql = "SELECT COUNT(*) AS count FROM follower_data WHERE fd_follower_id = '$user_id' and block_status = 0";
 
     // Execute the SQL query
     $result = mysqli_query($conn, $sql);
@@ -90,5 +90,33 @@ function getFollowingCount($user_id) {
 
     // Return the count of following
     return $following_count;
+}
+
+function send_notification($business_id,$username,$is_following){
+    $check_exist = "SELECT * FROM notification WHERE n_user_id = '$business_id' and n_type = 'interact' and n_content='{$username} started following you'";
+    $result = mysqli_query($GLOBALS['connect'],$check_exist);
+    
+    // die($check_exist);
+    if(mysqli_num_rows($result) > 0){
+        echo "<script>console.log('$is_following')</script>";
+        if($is_following == 'Follow'){
+            $delete_query = "DELETE FROM notification WHERE n_user_id = '$business_id' and n_type = 'interact' and n_content='{$username} started following you'";
+            
+            $result = mysqli_query($GLOBALS['connect'],$delete_query);
+
+        }
+        return 1;
+
+    } else{
+        if($is_following == 'Following'):
+        $query = "INSERT INTO notification(n_content,n_type,n_user_id,n_time) VALUES ('{$username} started following you','interact','$business_id',NOW())";
+        // die($query);
+        $result = mysqli_query($GLOBALS['connect'],$query);
+
+        if($result){
+            return 0;
+        }
+    endif;
+    }
 }
 ?>

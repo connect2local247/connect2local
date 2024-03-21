@@ -14,7 +14,7 @@ function getRandomBlogIDs($minCount = 5, $maxCount = 10) {
 
     // Query to select random blog IDs from the blog_data table excluding the current user's blogs
     // and blogs blocked by the current user
-    $query = "SELECT bd.blg_id 
+    $query = "SELECT DISTINCT bd.blg_id 
               FROM blog_data bd
               LEFT JOIN blocked_user_data bu ON bd.bp_user_id = bu.bu_business_id
               WHERE bd.bp_user_id != '$bp_user_id' 

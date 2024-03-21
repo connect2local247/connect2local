@@ -14,6 +14,8 @@ function getCurrentUserID() {
     } elseif (isset($_SESSION['c_id'])) {
         // If the current user is a customer, fetch the c_id
         return $_SESSION['c_id'];
+    } else if(isset($_GET['current_user_id'])){
+        return $_GET['current_user_id'];
     }
     return null;
 }

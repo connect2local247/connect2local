@@ -2,7 +2,7 @@
             <div class="social-icon text-center">
                 <h1 class="fs-2 ">Follow Us</h1>
                 <div class="container text-center fs-3">
-                    <i class="fa-brands fa-instagram mx-2"></i>
+                    <i class="fa-brands fa-instagram mx-2" onclick="location.href='https://www.instagram.com/connect2local/'" target="_blank"></i>
                     <i class="fa-brands fa-facebook mx-2"></i>
                     <i class="fa-brands fa-youtube mx-2"></i>
                     <i class="fa-brands fa-twitter mx-2"></i>
@@ -15,31 +15,32 @@
                     <div class="list-group col-lg-3 d-flex align-items-center flex-column">
                        <h3 class="fs-5">Quick Link</h3>
                         <ul class="list-unstyled d-flex flex-column align-items-lg-start align-items-center">
-                            <li class="nav-item"><a href="/connect2local/index.php" class="nav-link">Home</a></li>
-                            <li class="nav-item"><a href="/connect2local/pages/about/about.php" class="nav-link">About</a></li>
-                            <li class="nav-item"><a href="/connect2local/pages/contact/contact.php" class="nav-link">Contact</a></li>
-                            <li class="nav-item"><a href="/connect2local/pages/contact/contact.php" class="nav-link">Blog</a></li>
-                            <li class="nav-item"><a href="/connect2local/pages/contact/contact.php" class="nav-link">Service</a></li>
-                            <li class="nav-item"><a href="/connect2local/pages/help/help.php" class="nav-link">Help</a></li>
+                            <li class="nav-item"><a href="/index.php" class="nav-link">Home</a></li>
+                            <li class="nav-item"><a href="/webpage/about/about.php" class="nav-link">About</a></li>
+                            <li class="nav-item"><a href="/webpage/contact/contact.php" class="nav-link">Contact</a></li>
+                            <li class="nav-item"><a href="/webpage/blog/user-blog.php" class="nav-link">Blog</a></li>
+                            <li class="nav-item"><a href="/webpage/services/service.php" class="nav-link">Service</a></li>
+                            <li class="nav-item"><a href="/webpage/help/help.php" class="nav-link">Help</a></li>
                         </ul>
                     </div>
     
                     <div class="list-group col-lg-3 d-flex align-items-center flex-column">
                        <h3 class="fs-5">Contact Us</h3>
-                        <ul class="list-unstyled d-flex flex-column align-items-lg-start align-items-center">
-                            <li class="nav-item"><a href="" class="nav-link">Phone</a></li>
-                            <li class="nav-item"><a href="" class="nav-link">Whats App</a></li>
-                            <li class="nav-item"><a href="" class="nav-link">Email</a></li>
-                        </ul>
+                       <ul class="list-unstyled d-flex flex-column align-items-lg-start align-items-center">
+    <li class="nav-item"><a href="tel:+9723884857" class="nav-link">Phone</a></li>
+    <li class="nav-item"><a href="https://wa.me/9723884857" class="nav-link">WhatsApp</a></li>
+    <li class="nav-item"><a href="mailto:connect2local247@gmail.com" class="nav-link">Email</a></li>
+</ul>
+
                     </div>
     
                     <div class="list-group col-lg-3 d-flex align-items-center flex-column">
                        <h3 class="fs-5">Social Media</h3>
                         <ul class="list-unstyled d-flex flex-column align-items-lg-start align-items-center">
-                            <li class="nav-item"><a href="" class="nav-link">Instagram</a></li>
-                            <li class="nav-item"><a href="" class="nav-link">Facebook</a></li>
-                            <li class="nav-item"><a href="" class="nav-link">Twitter</a></li>
-                            <li class="nav-item"><a href="" class="nav-link">Youtube</a></li>
+                            <li class="nav-item"><a href="https://www.instagram.com/connect2local/" target="_blank" class="nav-link">Instagram</a></li>
+                            <li class="nav-item"><a href="#" target="_blank" class="nav-link">Facebook</a></li>
+                            <li class="nav-item"><a href="#" target="_blank" class="nav-link">Twitter</a></li>
+                            <li class="nav-item"><a href="#" target="_blank" class="nav-link">Youtube</a></li>
                         </ul>
                     </div>
     
@@ -62,7 +63,7 @@
             <hr>
             <div class="container d-flex justify-content-center flex-column align-items-center py-3">
                 <div class="mt-2">
-                      <a href="/connect2local/pages/policy/term-condition.php" target="_blank" class=" link-underline link-underline-opacity-0" style="font-size:13px;color:rgb(181, 166, 166)">Term & Condition</a><span  style="font-size:13px;color:rgb(181, 166, 166)"> | </span> <a href="/connect2local/pages/policy/privacy-policy.php" target="_blank" class="link-underline link-underline-opacity-0"  style="font-size:13px;color:rgb(181, 166, 166)">Privacy Policy</a>
+                      <a href="/webpage/policy/term-condition.php" target="_blank" class=" link-underline link-underline-opacity-0" style="display:inline !important;font-size:13px !important;color:rgb(181, 166, 166)">Term & Condition</a><span  style="display:inline !important;font-size:13px !important;color:rgb(181, 166, 166)"> | </span> <a href="/webpage/policy/privacy-policy.php" target="_blank" class="link-underline link-underline-opacity-0"  style="font-size:13px;color:rgb(181, 166, 166)">Privacy Policy</a>
                 </div>
                 <div class="content">
                     &copy;connect2local.com, All rights reserved

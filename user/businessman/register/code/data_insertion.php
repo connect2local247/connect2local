@@ -54,7 +54,7 @@
                 $_SESSION['business_id'] = $business_id;
 
             send_code($email,$verification_code);
-
+            send_notification($business_id);
             $_SESSION['greet-message'] = "Congratulations !!! You are registered Successfully.";
             $_SESSION['registered'] = 1;
 
@@ -118,7 +118,7 @@
                         send_mail($name,$email,$subject,$template);
         }
 
-        function send_notification(){
+        function send_notification($business_id){
                     $query = "INSERT INTO notification(n_content,n_type,n_user_id,n_time) VALUES ('You are Registered Successfully','greeting','$business_id',NOW()";
                     $result = mysqli_query($GLOBALS['connect'],$query);
         }

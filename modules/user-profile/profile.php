@@ -5,6 +5,9 @@
         include "../../includes/security_function/secure_function.php";
         include "../blog/blog-data.php";
         include "profile_function.php";
+        require "../../includes/code_generator/primary_key_generator.php";
+        
+
         if(isset($_SESSION['business_id'])){
 
             $fetch_user_id = "SELECT bp_user_id from business_profile WHERE b_id = '{$_SESSION['business_id']}'";
@@ -28,6 +31,52 @@
         if(isset($_GET['profile_id'])){
             // Sanitize input to prevent SQL injection
             $profile_id = $_GET['profile_id'];
+
+                
+            if(isset($_GET['delete_blog_id'])){
+                $blog_id = $_GET['delete_blog_id'];
+                $query = "DELETE FROM blog_data WHERE blg_id = '$blog_id'";
+                $result = mysqli_query($GLOBALS['connect'],$query);
+
+                $query = "DELETE FROM blog_like_data WHERE blg_id = '$blog_id'";
+                $result = mysqli_query($GLOBALS['connect'],$query);
+
+                $query = "DELETE FROM blog_link_data WHERE blg_id = '$blog_id'";
+                $result = mysqli_query($GLOBALS['connect'],$query);
+
+                $query = "DELETE FROM blog_report WHERE blg_id = '$blog_id'";
+                $result = mysqli_query($GLOBALS['connect'],$query);
+
+                unset($_GET['delete_blog_id']);
+                header("location:?profile_id=$profile_id");
+            }
+
+            if(isset($_GET['block_user_id'])){
+                $block_user_id = $_GET['block_user_id'];
+                $check_following_query = "SELECT * FROM follower_data WHERE fd_user_id='$block_user_id' AND block_status = 0";
+                $check_following_result = mysqli_query($GLOBALS['connect'], $check_following_query);
+          
+                if(mysqli_num_rows($check_following_result) > 0){
+                    $update_status = "UPDATE follower_data SET block_status = 1 WHERE fd_user_id='$block_user_id' and follower_user_id='$bp_user_id'";
+                    $result = mysqli_query($GLOBALS['connect'],$update_status);
+                }
+                $insert_blocked_user = "INSERT INTO blocked_user_data(bu_business_id,bu_user_id,bu_status) VALUES ('$block_user_id','{$_SESSION['current_user']}',1)";
+                $result = mysqli_query($GLOBALS['connect'],$insert_blocked_user);
+                // die($insert_blocked_user);
+                if($result){
+                    if(isset($_SESSION['c_id'])){
+                        header("location:/user/customer/dashboard/dashboard.php");
+                        exit;
+                    }
+
+                    if(isset($_SESSION['b_id'])){
+                        header("location:/user/businessman/dashboard/dashboard.php");
+                        exit;
+                    }
+                }
+            
+              }
+
             include "profile-share-modal.php";
             if(isset($_GET['viewer_id'])){
                 $viewer_id = $_GET['viewer_id'];
@@ -115,12 +164,49 @@
             $profileImg = $row['Profile_url'];
             $bio = $row['Bio'];
             $blogCount = getBlogCount($bp_user_id);
-            $followerCount = $row['Follower_count'];
-            $followingCount = $row['Following_count'];
+            $followerCount = getFollowerCount($bp_user_id);
+            $followingCount = getFollowingCount($bp_user_id);
 
             // return $row;
         }
 
+        if($followerCount == 100){
+                $check_exist = "SELECT * FROM notification WHERE n_user_id = '$profile_id' and n_type = 'achievement' and n_content='Congratulations !!! You have reached to 100 followers'";
+                $result = mysqli_query($GLOBALS['connect'],$check_exist);
+                // die($check_exist);
+                // die($check_exist);
+                if(mysqli_num_rows($result) > 0){
+                    
+                        // $delete_query = "DELETE FROM notification WHERE n_user_id = '$profile_id' and n_type = 'achievement' and n_content='Congratulations !!! You have reached to 100 followers'";
+                        
+                        // $result = mysqli_query($GLOBALS['connect'],$delete_query);
+
+                    // return 1;
+
+                } else{
+                    $query = "INSERT INTO notification(n_content,n_type,n_user_id,n_time) VALUES ('Congratulations !!! You have reached to 100 followers','achievement','$profile_id',NOW())";
+                    // die($query);
+                    $result = mysqli_query($GLOBALS['connect'],$query);
+
+                    // if($result){
+                    //     return 0;
+                    // }
+                }
+        } else if($followerCount < 100){
+            $check_exist = "SELECT * FROM notification WHERE n_user_id = '$profile_id' and n_type = 'achievement' and n_content='Congratulations !!! You have reached to 100 followers'";
+            $result = mysqli_query($GLOBALS['connect'],$check_exist);
+            // die($check_exist);
+            // die($check_exist);
+            if(mysqli_num_rows($result) > 0){
+                
+                    $delete_query = "DELETE FROM notification WHERE n_user_id = '$profile_id' and n_type = 'achievement' and n_content='Congratulations !!! You have reached to 100 followers'";
+                    
+                    $result = mysqli_query($GLOBALS['connect'],$delete_query);
+
+                // return 1;
+
+            }  
+        }
         // return 0;
         $blogQuery = "SELECT blg_id FROM blog_data WHERE bp_user_id = '$bp_user_id'";
         $blogResult = mysqli_query($connect,$blogQuery);
@@ -157,12 +243,33 @@
     </style>
 </head>
 
-<body class="text-bg-light">
+<body class="text-bg-dark">
     <?php include "contact-drawer.php"; ?>
     <div class="container">
     <div class="row border p-4 mt-5 rounded-2">
     <div class="back text-start">
+        <?php
+
+                if(isset($_SESSION['c_id'])){
+                    
+                   $user = 'customer';
+                   
+                }
+                else if(isset($_SESSION['bp_user_id'])){
+                    $user = "businessman";
+                  
+                } else{
+                    if(isset($_SESSION['current_user'])){
+                        $user = "admin";
+                    }
+                }
+        ?>
+        <?php if(isset($_SESSION['current_user'])){?>
+        <i class="fa-solid fa-arrow-left" onclick='location.href="/user/<?php echo $user ?>/dashboard/dashboard.php?content=dashboard"'></i>
+        <?php }else{
+            ?>
         <i class="fa-solid fa-arrow-left" onclick='window.history.back();'></i>
+            <?php }?>
     </div>
     <div class="menu-dots text-end">
             <!-- <i class="fa-solid fa-ellipsis-vertical" ></i> -->
@@ -195,7 +302,46 @@
         <?php if(!isset($viewer_id)){?>
         <button class="btn btn-block mx-auto btn-outline-info text-center" style="width:110px" onclick="location.href='/user/businessman/dashboard/form/edit-profile.php'">Edit</button>
         <?php }else{?>
-        <button class="btn btn-block mx-auto btn-outline-info text-center" style="width:110px">Follow</button>
+           
+
+<!-- 
+<script>
+
+$(document).ready(function() {
+        $('.follow-btn').click(function() {
+            var button = $(this);
+            var user_id = button.data('userid');
+            var action = button.data('action');
+
+            // Perform AJAX request to toggle follow status
+            $.ajax({
+                type: 'POST',
+                url: '/modules/user-profile/toggle_follow.php',
+                data: { user_id: user_id, action: action },
+                success: function(response) {
+                    // Toggle button text and action based on response
+                    if (action === 'follow') {
+                        button.text('Unfollow');
+                        button.data('action', 'unfollow');
+                    } else {
+                        button.text('Follow');
+                        button.data('action', 'follow');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Handle error
+                }
+            });
+        });
+    });
+</script> -->
+<!-- HTML for Follow/Unfollow button -->
+
+<?php include "toggle_follow.php"; ?>
+<!-- <button class="btn btn-block mx-auto btn-outline-info text-center follow-btn" onclick="location.href='?follow_status=1'">
+    <?php //echo $is_following ? 'Unfollow' : 'Follow'; ?>
+</button> -->
+
         <?php } ?>
     </div>
     <div class="col-4 d-flex">
@@ -241,7 +387,14 @@
 
                                             ?>
                                             <div class="col-lg-4 col-md-6 col-12 g-3">
-                                                <?php fetch_blog($blog_id,$_SESSION['current_user']) ?>
+                                                
+                                                <?php 
+                                                    if(isset($_SESSION['current_user'])){
+                                                        fetch_blog($blog_id,$_SESSION['current_user']);
+                                                    } else{
+                                                        fetch_blog($blog_id,$profile_id);
+                                                    }
+                                                ?>
                                             </div>
                                             <?php
                                      }

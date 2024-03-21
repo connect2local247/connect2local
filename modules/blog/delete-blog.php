@@ -12,7 +12,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-danger" onclick="location.href='?delete_blog_id=<?php echo $blog_id ?>&user_id=<?php echo $user_id?>'">Delete</button>
+        <button type="button" class="btn btn-danger" onclick="location.href='?delete_blog_id=<?php echo $blog_id ?>&profile_id=<?php echo $current_user_id?>'">Delete</button>
       </div>
     </div>
   </div>

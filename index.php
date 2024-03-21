@@ -40,28 +40,30 @@
         <section class="about-us my-4">
             <h1 class="text-center text-white my-5 h2 fw-bold">About Us</h1>
 
-            <div class="row my-4">
-                <div class="col-6 g-3" style="">
-                        <img src="/asset/image/webpage/home-content2.jpg" class="border rounded-2 shadow body-teriatory" style="background:linear-gradient(rgba(0, 98, 255, 0.469), rgba(0, 27, 159, 0.469))!important;height:100%;width:90%;">
+            <div class="row my-4 d-xs-flex d-xs-row-reverse">
+                <div class="col-lg-6 col-md-6 col-12 g-3" style="">
+                        <img src="/asset/image/webpage/home-content2.jpg" class="d-flex m-auto border rounded-2 shadow body-teriatory" style="background:linear-gradient(rgba(0, 98, 255, 0.469), rgba(0, 27, 159, 0.469))!important;height:100%;width:90%;">
                 </div>
-                <div class="col-6 g-3">
+                <div class="col-lg-6 col-md-6 col-12 g-3">
                         <h1 class="h4 fw-bold text-white my-2">What is Connect2Local ?</h1>
                         <p class="text-white fs-5" style="text-align:justify">Welcome to Connect2Local, your go-to hub for discovering and supporting businesses in Kadi, India. We've crafted a user-friendly business directory where local establishments can connect with residents effortlessly. With features like blogging and social media integration, businesses can effortlessly showcase what they offer. Join us in building a stronger local community where businesses thrive and customers discover the best of what Kadi has to offer. Explore, connect, and support local with Connect2Local!</p>
                 </div>
             </div>
 
-            <div class="row my-5">
-                <div class="col-6 g-3">
-                <h1 class="h4 fw-bold text-white my-2" >What is Connect2Local ?</h1>
-                        <p class="text-white fs-5" style="text-align:justify;width:90%">Welcome to Connect2Local, your go-to hub for discovering and supporting businesses in Kadi, India. We've crafted a user-friendly business directory where local establishments can connect with residents effortlessly. With features like blogging and social media integration, businesses can effortlessly showcase what they offer. Join us in building a stronger local community where businesses thrive and customers discover the best of what Kadi has to offer. Explore, connect, and support local with Connect2Local!</p>
-                </div>
-                <div class="col-6 g-3">
-                <img src="/asset/image/webpage/home-content1.jpg" class="border rounded-2 shadow body-teriatory" style="background:linear-gradient(rgba(0, 98, 255, 0.469), rgba(0, 27, 159, 0.469))!important;height:100%;width:90%;">
-                </div>
-            </div>
+            <div class="row my-5 d-flex flex-lg-reverse">
+    <!-- Image first on small screens, content second on small screens -->
+    <div class="col-lg-6 col-md-6 col-12 order-lg-last g-3">
+        <img src="/asset/image/webpage/home-content1.jpg" class="d-flex m-auto border rounded-2 shadow body-teriatory" style="background:linear-gradient(rgba(0, 98, 255, 0.469), rgba(0, 27, 159, 0.469))!important;height:100%;width:90%;">
+    </div>
+    <div class="col-lg-6 col-md-6 col-12 order-lg-first g-3">
+        <h1 class="h4 fw-bold text-white my-2">Why choose Connect2Local?</h1>
+        <p class="text-white fs-5" style="text-align:justify;width:100%">Connect2Local offers a unique solution to the problem faced by digital marketers and businesses: providing clickable and shareable links to their products within blog posts. With Connect2Local, businesses can seamlessly integrate links to their products or services directly into their blog posts, making it easier for potential customers to discover and purchase their offerings. This innovative feature sets Connect2Local apart from other platforms and empowers businesses to effectively promote their products while engaging with their audience through valuable content.</p>
+    </div>
+</div>
+
 
             <div class="d-flex mt-4">
-                <button class="m-auto btn text-white border px-5 py-3" id="modal-btn">Read More</button>
+                <button class="m-auto btn text-white border px-5 py-3" id="modal-btn" onclick="location.href='/webpage/about/about.php'">Read More</button>
             </div>
         </section>
         </div>
@@ -191,7 +193,7 @@
 
         <section class="blog-overview p-3">
     <h1 class="fs-2 fw-bold text-center text-white">Our Blog</h1>
-    <div class="container">
+  
         <div class="row">
             <?php
             $query = "SELECT * FROM blog_data ORDER BY RAND() LIMIT 3";
@@ -205,7 +207,7 @@
                 }
             }
             ?>
-        </div>
+        
     </div>
 </section>
 

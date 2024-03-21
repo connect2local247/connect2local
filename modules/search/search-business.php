@@ -1,6 +1,6 @@
 <div class="container">
         <div class="search-bar  mt-1 position-relative">
-            <form id="searchForm"  method="post" class="p-2">
+                       <form id="searchForm"  method="post" class="p-2">
                 <div class="search-bar-container position-relative p-2 rounded-top d-flex justify-content-center">
                     <div class="search-container position-relative w-100" style="max-width:90vw">
                         <input type="text" class="form-control border border-dark rounded-pill p-2 pe-3 ps-2" name="search-business" id="search-business" placeholder="Search here...">
@@ -66,8 +66,11 @@
 
             if (results.length > 0) {
                 results.forEach(function (business) {
-                    const profileImgUrl = business.hasOwnProperty('bp_profile_img_url') ? business.bp_profile_img_url : '/asset/image/user/profile.png';
-
+                    var profileImgUrl = business.hasOwnProperty('bp_profile_img_url') ? business.bp_profile_img_url : '/asset/image/user/profile.png';
+                    console.log(profileImgUrl);
+                    if(profileImgUrl === null){
+                        profileImgUrl = "/asset/image/user/profile.png";
+                    }
                     const resultHtml = `
                 <div class="business-search-card border shadow p-3 mt-1 rounded">
                     <div class="row">   

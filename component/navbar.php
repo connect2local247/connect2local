@@ -5,13 +5,13 @@
                 <div class="menu d-xxl-block d-xl-none d-lg-none d-md-none d-none">   
                     <ul class="nav">
                         <li class="nav-item"><a href="/index.php" class="nav-link text-white">Home</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link text-white">About</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link text-white">Service</a></li>
+                        <li class="nav-item"><a href="/webpage/about/about.php" class="nav-link text-white">About</a></li>
+                        <li class="nav-item"><a href="/webpage/services/service.php" class="nav-link text-white">Service</a></li>
                         <li class="nav-item"><a href="/webpage/contact/contact.php" class="nav-link text-white">Contact</a></li>
-                        <li class="nav-item"><a href="/webpage/blog/blog.php" class="nav-link text-white">Blog</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link text-white">Help</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link text-white">Term & Condition</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link text-white">Privacy Policy</a></li>
+                        <li class="nav-item"><a href="/webpage/blog/user-blog.php" class="nav-link text-white">Blog</a></li>
+                        <li class="nav-item"><a href="/webpage/help/help.php" class="nav-link text-white">Help</a></li>
+                        <li class="nav-item"><a href="/webpage/policy/term-condition.php" class="nav-link text-white">Term & Condition</a></li>
+                        <li class="nav-item"><a href="/webpage/policy/privacy-policy.php" class="nav-link text-white">Privacy Policy</a></li>
                     </ul>
                 </div>
 
@@ -73,14 +73,14 @@ if(isset($_SESSION['registered'])) {
                 </div>
                 <div class="menu d-flex justify-content-center  mt-5 ms-5">   
                     <ul class="list-unstyled d-flex flex-column" style="gap:15px;">
-                        <li class="nav-item"><a href="#" class="nav-link text-white fs-5"><i class="fa-solid fa-house mx-1"></i> Home</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link text-white fs-5"><i class="fa-solid fa-address-card mx-1"></i> About</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link text-white fs-5"><i class="fas fa-cogs mx-1"></i> Service</a></li>
+                        <li class="nav-item"><a href="/index.php" class="nav-link text-white fs-5"><i class="fa-solid fa-house mx-1"></i> Home</a></li>
+                        <li class="nav-item"><a href="/webpage/about/about.php" class="nav-link text-white fs-5"><i class="fa-solid fa-address-card mx-1"></i> About</a></li>
+                        <li class="nav-item"><a href="/webpage/services/service.php" class="nav-link text-white fs-5"><i class="fas fa-cogs mx-1"></i> Service</a></li>
                         <li class="nav-item"><a href="/webpage/contact/contact.php" class="nav-link text-white fs-5"><i class="fas fa-phone mx-1"></i> Contact</a></li>
-                        <li class="nav-item"><a href="/webpage/blog/blog.php" class="nav-link text-white fs-5"><i class="fas fa-pencil-alt mx-1"></i> Blog</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link text-white fs-5"><i class="fas fa-question-circle mx-1"></i> Help</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link text-white fs-5"><i class="fas fa-file-alt mx-1"></i> Term & Condition</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link text-white fs-5"><i class="fas fa-shield-alt mx-1"></i> Privacy Policy</a></li>
+                        <li class="nav-item"><a href="/webpage/blog/user-blog.php" class="nav-link text-white fs-5"><i class="fas fa-pencil-alt mx-1"></i> Blog</a></li>
+                        <li class="nav-item"><a href="/webpage/help/help.php" class="nav-link text-white fs-5"><i class="fas fa-question-circle mx-1"></i> Help</a></li>
+                        <li class="nav-item"><a href="/webpage/policy/term-condition.php" class="nav-link text-white fs-5"><i class="fas fa-file-alt mx-1"></i> Term & Condition</a></li>
+                        <li class="nav-item"><a href="/webpage/policy/privacy-policy.php" class="nav-link text-white fs-5"><i class="fas fa-shield-alt mx-1"></i> Privacy Policy</a></li>
                     </ul>
                 </div>            
   </div>

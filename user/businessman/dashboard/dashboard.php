@@ -4,7 +4,20 @@
     include "../../../includes/table_query/db_connection.php";
     include "../../../includes/security_function/secure_function.php";
     require "../../../modules/blog/blog-data.php";
+    require "../../../includes/code_generator/primary_key_generator.php";
+    include "../../../modules/notification/business-notification.php";
+    include "../../../includes/table_query/delete_user.php";
 
+   
+    if(isset($_GET['delete_status'])){
+    
+      if(deleteBusinessUser($_GET['current_user_id'])){
+        mysqli_query($GLOBALS['connect'],"DELETE FROM business_register WHERE b_id = '{$_GET['current_user_id']}'");
+        session_destroy();
+        header("location:/index.php");
+        exit;
+      }
+    }
     // include "../../../testblog.php";
     if(isset($_SESSION['bp_user_id'])){
       $bp_user_id = $_SESSION['bp_user_id'];
@@ -25,6 +38,13 @@
 
     if(isset($_GET['block_user_id'])){
       $block_user_id = $_GET['block_user_id'];
+      $check_following_query = "SELECT * FROM follower_data WHERE fd_user_id='$block_user_id' AND block_status = 0";
+      $check_following_result = mysqli_query($GLOBALS['connect'], $check_following_query);
+
+      if(mysqli_num_rows($check_following_result) > 0){
+          $update_status = "UPDATE follower_data SET block_status = 1 WHERE fd_user_id='$block_user_id' and follower_user_id='{$_SESSION['bp_user_id']}'";
+          $result = mysqli_query($GLOBALS['connect'],$update_status);
+      }
       $insert_blocked_user = "INSERT INTO blocked_user_data(bu_business_id,bu_user_id,bu_status) VALUES ('$block_user_id','$current_user_id',1)";
       $result = mysqli_query($GLOBALS['connect'],$insert_blocked_user);
       // die($insert_blocked_user);
@@ -74,7 +94,8 @@
 <body class="vertical-bar text-bg-dark">
   <?php include "../../../component/logout.php" ?>
   <?php include "../../../component/username-modal.php"; ?>
-<nav class="navbar text-bg-dark py-4 border-bottom">
+  <?php include "../../../modules/notification/notification.php"; ?>
+<nav class="navbar text-bg-dark py-4 border-bottom" style="z-index:10">
             <div class="container">
                 <div class="home-icon fs-5">
                     <i class="fa-solid fa-bars d-xxl-none d-xl-none d-lg-none d-inline" onclick="toggleUserMenu()"></i>
@@ -82,8 +103,34 @@
                    
                 </div>
             <div class="nav-menu fs-5 d-flex align-items-center" style="gap:15px">
-              <i class="fa-solid fa-bell fs-4"></i>
+            <?php 
+                $get_notification = "SELECT n_user_id 
+                FROM notification 
+                WHERE n_user_id = '{$_SESSION['current_user']}' 
+                AND n_type IN ('interact', 'warning', 'greeting', 'achievement', 'response') 
+                AND n_status = 0;
+                ";
+                // echo $get_notification;
+                $result = mysqli_query($GLOBALS['connect'],$get_notification);
+
+                $_SESSION['n_status'] = 0;
+                if(mysqli_num_rows($result) > 0){
+            ?>  
+            <i class="fa-solid fa-bell fs-4 position-relative" data-bs-target="#notificationModal" data-bs-toggle="modal"><span class="position-absolute top-0 start-100 translate-middle badge border border-light rounded-circle bg-danger" style="padding:5px"><span class="visually-hidden">unread messages</span></span></i>
               <?php
+                }
+                else if(isset($_SESSION['n_status']) && $_SESSION['n_status'] == 1){
+                  
+                 ?>
+            <i class="fa-solid fa-bell fs-4 position-relative" data-bs-target="#notificationModal" data-bs-toggle="modal"></i>
+
+                 <?php
+                } else{
+                  ?>
+            <i class="fa-solid fa-bell fs-4 position-relative" data-bs-target="#notificationModal" data-bs-toggle="modal"></i>
+                
+                <?php }
+              
                    $get_business_code = "SELECT business_code FROM business_info WHERE b_id = '$current_user_id'";
                    $result = mysqli_query($GLOBALS['connect'],$get_business_code);
                     // die($get_business_code);
@@ -155,8 +202,8 @@ $(document).ready(function () {
             </div>
 </nav>
 <div class="d-flex">
-<div class="col-xxl-2 col-lg-3 col-md-5 col-sm-7 col-9 sidebar-container d-xxl-block d-xl-block d-lg-none d-none position-fixed vertical-bar"  style="min-height:calc(100vh - 102px);height:103vh;overflow:scroll;z-index:10" id="dashVertical">
-            <div class="bg-dark text-light col-12 border border-0 border-end vertical-bar" style="min-height:calc(100vh - 102px);height:103vh;margin-top:100px;overflow:scroll" data-bs-scroll="true" tabindex="-1" aria-labelledby="offcanvasWithBothOptionsLabel">
+<div class="col-xxl-2 col-lg-3 col-md-5 col-sm-7 col-9 sidebar-container d-xxl-block d-xl-block d-lg-none d-none position-fixed vertical-bar"  style="min-height:calc(100vh - 102px);height:103vh;overflow:scroll;z-index:10;margin-top:100px;" id="dashVertical">
+            <div class="bg-dark text-light col-12 border border-0 border-end vertical-bar" style="min-height:calc(100vh - 102px);height:103vh;overflow:scroll" data-bs-scroll="true" tabindex="-1" aria-labelledby="offcanvasWithBothOptionsLabel">
                 <div class="offcanvas-body pt-5">
                     <div class="sidebar d-flex flex-column align-items-center vertical-bar " style="overflow:scroll">
                         <div class="profile-container">
@@ -182,7 +229,7 @@ $(document).ready(function () {
     <?php endif; ?>
     <?php endif; ?>
 </li>
-    <li class="list-item mt-3"><a href="#" class="nav-link" data-menu-item-id="notification"><i class="fa-solid fa-bell"></i> &nbsp; Notification</a></li>
+    <li class="list-item mt-3"><a href="?content=notification" class="nav-link" data-menu-item-id="notification"><i class="fa-solid fa-bell"></i> &nbsp; Notification</a></li>
     <li class="list-item mt-3"><a href="?content=view" class="nav-link" data-menu-item-id="blog"><i class="fa-solid fa-camera-retro"></i> &nbsp; Blog</a></li>
     <li class="list-item mt-3">
     <?php
@@ -211,7 +258,7 @@ $(document).ready(function () {
    <li class="list-item mt-3">
     <?php if(isset($check_status)): ?>
     <?php if(mysqli_num_rows(mysqli_query($GLOBALS['connect'],$check_status)) == 0): ?>
-    <a href="#" class="nav-link" data-menu-item-id="setting">
+    <a href="dashboard.php?content=setting" class="nav-link" data-menu-item-id="setting">
         <i class="fa-solid fa-gear"></i> &nbsp; Setting
     </a>
     <?php else: ?>
@@ -250,6 +297,12 @@ $(document).ready(function () {
 
                                         case "view" : include "../../../modules/blog/view-blog.php";
                                         break;
+
+                                        case "notification":echo "<div class=' p-3'>".fetchAndDisplayNotifications($GLOBALS['connect'])."</div>";
+                                        break;
+
+                                        case "setting" : include "setting/setting.php";
+                                        break;
                                     }
                                 } else{
                                     include "content/dashboard_content.php";
@@ -264,7 +317,7 @@ $(document).ready(function () {
   function toggleUserMenu() {
     var offcanvas = document.getElementById('dashVertical');
     var isVisible = offcanvas.classList.contains('d-none');
-    console.log(offcanvas);
+    // console.log(offcanvas);
       offcanvas.classList.toggle('d-none');
     // if (isVisible) {
     //     offcanvas.classList.remove('d-none');

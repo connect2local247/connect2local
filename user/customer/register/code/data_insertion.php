@@ -109,6 +109,9 @@
                     $query = "INSERT INTO notification(n_content,n_type,n_user_id,n_time) VALUES ('You are registered Successfully','greeting','$customer_id',NOW()";
                     $result = mysqli_query($GLOBALS['connect'],$query);
 
+                    echo "<script> requestNotificationPermission('Connect2Local','You are registered Successfully')</script>";
+                    echo "<script src='/asset/script/sent-notification.js'></script>";
+
                     $_SESSION['registered'] = 1;
         }
 

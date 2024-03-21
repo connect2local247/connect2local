@@ -14,7 +14,7 @@
         var blogDescription = document.getElementById('blog-description<?php echo $unique_identifier; ?>');
         
         var paragraphText = blogDescription.textContent.trim();
-        var maxLength = 150;
+        var maxLength = 20;
 
         if (paragraphText.length > maxLength) {
             var shortText = paragraphText.substring(0, maxLength);

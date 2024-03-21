@@ -6,39 +6,43 @@
 
     // include "../../../includes/security_function/secure_function.php";
     include "../../../modules/blog/blog-data.php";
-
-    function determine_user_type($user_id) {
-      // Get the prefix of the user ID
-      $prefix = substr($user_id, 0, 3);
-      
-      // Check the prefix to determine the user type
-      if ($prefix === 'C2L' && ctype_digit(substr($user_id, 3))) {
-          return 'Customer';
-      } elseif ($prefix === 'C2LB' && ctype_digit(substr($user_id, 4))) {
-          return 'Business';
-      } else {
-          return 'Admin';
+    require "../../../includes/code_generator/primary_key_generator.php";
+    include "../../../modules/notification/customer-notification.php";
+    include "../../../includes/security_function/secure_function.php";
+    include "../../../includes/table_query/delete_user.php";
+   
+    if(isset($_GET['delete_status'])){
+    
+      if(deleteCustomerUser($_GET['current_user_id'])){
+        mysqli_query($GLOBALS['connect'],"DELETE FROM customer_register WHERE b_id = '{$_GET['current_user_id']}'");
+        session_destroy();
+        header("location:/index.php");
+        exit;
       }
-  }
+    }
     if(isset($_SESSION['c_id'])){
       $c_id = $_SESSION['c_id'];
       // $p_user_id = $c_id;
+     
       $current_user_id = $c_id;
       if(isset($current_user_id)){
         $_SESSION['current_user'] = $current_user_id;
       }
       $query = "SELECT * FROM customer_profile WHERE c_id = '$c_id'";
       $result = mysqli_query($GLOBALS['connect'],$query);
-
+      // die($query);
       if(mysqli_num_rows($result) > 0){
-          $row = mysqli_fetch_assoc($result);
-
-          $query = "SELECT * FROM customer_register WHERE c_id = '$c_id'";
-
-          $result = mysqli_query($GLOBALS['connect'],$query);
-          $_SESSION['cp_user_id'] = $row['cp_user_id'];
-          $profile_img = $row['cp_profile_img_url'];
-          $username = $row['cp_username'];
+        $row = mysqli_fetch_assoc($result);
+        
+        
+        // $_SESSION['cp_user_id'] = $row['cp_user_id'];
+        // echo $_SESSION['cp_user_id'];
+        // echo "<script>alert('{$row['cp_user_id']}')</script>";
+        $profile_img = $row['cp_profile_img_url'];
+        $username = $row['cp_username'];
+        $query = "SELECT * FROM customer_register WHERE c_id = '$c_id'";
+        
+        $result = mysqli_query($GLOBALS['connect'],$query);
           if(mysqli_num_rows($result) > 0){
             $row = mysqli_fetch_assoc($result);
             $name = $row['c_fname']." ".$row['c_lname'];
@@ -48,6 +52,13 @@
 
     if(isset($_GET['block_user_id'])){
       $block_user_id = $_GET['block_user_id'];
+      $check_following_query = "SELECT * FROM follower_data WHERE fd_user_id='$block_user_id' AND block_status = 0";
+      $check_following_result = mysqli_query($GLOBALS['connect'], $check_following_query);
+
+      if(mysqli_num_rows($check_following_result) > 0){
+          $update_status = "UPDATE follower_data SET block_status = 1 WHERE fd_user_id='$block_user_id' and follower_user_id='{$_SESSION['cp_user_id']}'";
+          $result = mysqli_query($GLOBALS['connect'],$update_status);
+      }
       $insert_blocked_user = "INSERT INTO blocked_user_data(bu_business_id,bu_user_id,bu_status) VALUES ('$block_user_id','$current_user_id',1)";
       $result = mysqli_query($GLOBALS['connect'],$insert_blocked_user);
       // die($insert_blocked_user);
@@ -96,7 +107,7 @@
   
 </head>
 <body class="vertical-bar" style="width:100%;box-sizing:border-box;">
-<?php include "../../../modules/notification/notification-modal.php"; ?>
+<?php include "../../../modules/notification/notification.php"; ?>
 <?php include "../../../component/logout.php"; ?>
 <nav class="navbar text-bg-dark py-4 border-bottom">
             <div class="container">
@@ -112,12 +123,39 @@
     <?php endif; ?>
 </div>
                 <div class="nav-menu fs-4 d-flex align-items-center" style="gap:15px">
-    <i class="fa-solid fa-bell" data-bs-toggle="modal" data-bs-target="#notificationModal"></i>
+                <?php 
+                $get_notification = "SELECT n_user_id 
+                FROM notification 
+                WHERE n_user_id = '{$_SESSION['current_user']}' 
+                AND n_type IN ('greeting','response') 
+                AND n_status = 0;
+                ";
+                // echo $get_notification;
+                $result = mysqli_query($GLOBALS['connect'],$get_notification);
+
+                $_SESSION['n_status'] = 0;
+                if(mysqli_num_rows($result) > 0){
+            ?>  
+            <i class="fa-solid fa-bell fs-4 position-relative" data-bs-target="#notificationModal" data-bs-toggle="modal"><span class="position-absolute top-0 start-100 translate-middle badge border border-light rounded-circle bg-danger" style="padding:5px"><span class="visually-hidden">unread messages</span></span></i>
+              <?php
+                }
+                else if(isset($_SESSION['n_status']) && $_SESSION['n_status'] == 1){
+                  
+                 ?>
+            <i class="fa-solid fa-bell fs-4 position-relative" data-bs-target="#notificationModal" data-bs-toggle="modal"></i>
+
+                 <?php
+                } else{
+                  ?>
+            <i class="fa-solid fa-bell fs-4 position-relative" data-bs-target="#notificationModal" data-bs-toggle="modal"></i>
+                
+                <?php }
+                ?>
     <i class="fa-solid fa-right-from-bracket" data-bs-target="#logoutModal" data-bs-toggle="modal"></i>
 </div>
   </nav>
 <div class="d-flex">
-<div class="col-xxl-2 col-lg-3 col-md-5 col-sm-7 col-9 sidebar-container d-xxl-block d-xl-block d-lg-none d-none position-fixed vertical-bar"  style="min-height:calc(100vh - 102px);height:103vh;overflow:scroll;z-index:10" id="dashVertical">
+<div class="col-xxl-2 col-lg-3 col-md-5 col-sm-7 col-9 sidebar-container d-xxl-block d-xl-block d-lg-none d-none  vertical-bar position-fixed"  style="min-height:calc(100vh - 102px);height:103vh;overflow:scroll;z-index:10" id="dashVertical">
 
             <div class="bg-dark text-light vertical-bar col-12" style="min-height:calc(100vh - 102px);margin-top:100px;overflow:scroll" data-bs-scroll="true" tabindex="-1"  aria-labelledby="dashNavLabel">
                 <div class="offcanvas-body pt-5">
@@ -132,11 +170,11 @@
                         <ul class="verticle-menu list-unstyled fs-5 mt-5">
     <li class="list-item mt-3"><a href="dashboard.php?content=dashboard" class="nav-link" data-menu-item-id="dashboard"><i class="fas fa-tachometer-alt"></i> &nbsp; Dashboard</a></li>
     <li class="list-item mt-3"><a href="dashboard.php?content=account" class="nav-link" data-menu-item-id="account"><i class="fa-regular fa-address-card"></i> &nbsp; Account</a></li>
-    <li class="list-item mt-3"><a href="#" class="nav-link" data-menu-item-id="notification"><i class="fa-solid fa-bell"></i> &nbsp; Notification</a></li>
+    <li class="list-item mt-3"><a href="dashboard.php?content=notification" class="nav-link" data-menu-item-id="notification"><i class="fa-solid fa-bell"></i> &nbsp; Notification</a></li>
     <li class="list-item mt-3"><a href="dashboard.php?content=view" class="nav-link" data-menu-item-id="blog"><i class="fa-solid fa-camera-retro"></i> &nbsp; Blog</a></li>
     <!-- <li class="list-item mt-3"><a href="dashboard.php?content=create" class="nav-link" data-menu-item-id="create"><i class="fa-regular fa-square-plus"></i> &nbsp; Create</a></li> -->
     <li class="list-item mt-3"><a href="dashboard.php?content=search" class="nav-link" data-menu-item-id="search"><i class="fa-solid fa-magnifying-glass"></i> &nbsp; Search</a></li>
-    <li class="list-item mt-3"><a href="#" class="nav-link" data-menu-item-id="setting"><i class="fa-solid fa-gear"></i> &nbsp; Setting</a></li>
+    <li class="list-item mt-3"><a href="dashboard.php?content=setting" class="nav-link" data-menu-item-id="setting"><i class="fa-solid fa-gear"></i> &nbsp; Setting</a></li>
     <li class="list-item mt-3"><a href="#" class="nav-link" data-bs-target="#logoutModal" data-bs-toggle="modal" data-menu-item-id="logout"><i class="fa-solid fa-right-from-bracket"></i> &nbsp; Logout</a></li>
 </ul>
 
@@ -163,6 +201,12 @@
                                         break;
 
                                         case "view" : include "../../../modules/blog/view-blog.php";
+                                        break;
+
+                                        case "notification":fetchAndDisplayNotifications($GLOBALS['connect']);
+                                        break;
+
+                                        case "setting": include "setting/setting.php"; 
                                         break;
                                     }
                                 } else{
