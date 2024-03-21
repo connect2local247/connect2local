@@ -3,6 +3,7 @@
     include "../../../includes/table_query/db_connection.php";
     include "../../../includes/security_function/secure_function.php";
     include "../../../modules/notification/admin-notification.php";
+    include "../../../includes/table_query/delete_user.php";
     $current_user_id = 1;
 
     if(isset($current_user_id)){
@@ -140,10 +141,8 @@
                             <!-- HTML -->
 <div class="dropdown">
     <div class="d-inline-block position-relative">
-        <img src="<?php if(isset($profile_img)) echo $profile_img; else echo '/asset/image/user/profile.png'; ?>" alt="" class="rounded-circle" style="height:40px;width:40px" id="profileButton">
+        <img src="<?php if(isset($profile_img)) echo $profile_img; else $_SESSION['profile-image'] = '/asset/image/user/profile.png'; echo '/asset/image/user/profile.png'; ?>" alt="" class="rounded-circle" style="height:40px;width:40px" id="profileButton">
         <div class="dropdown-menu position-absolute" aria-labelledby="profileDropdown" id="profileDropdownMenu" style="left: 50%; transform: translateX(-50%);">
-        <a class="dropdown-item" href="/modules/user-profile/profile.php?profile_id=<?php echo $current_user_id ?>">Edit</a> 
-
             <button class="dropdown-item" id="logoutButton" type="button" data-bs-target="#logoutModal" data-bs-toggle="modal">Logout</button>
         </div>
     </div>

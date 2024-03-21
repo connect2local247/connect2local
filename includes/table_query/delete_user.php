@@ -58,13 +58,15 @@
       try {
           // Check if the business user exists in business_profile
           $result = mysqli_query($conn, "SELECT bp_user_id FROM business_profile WHERE b_id = '$b_id'");
+        //   die("SELECT bp_user_id FROM business_profile WHERE b_id = '$b_id'");
           if (mysqli_num_rows($result) > 0) {
               $row = mysqli_fetch_assoc($result);
               $bp_user_id = $row['bp_user_id'];
-  
               // Delete user data from business_profile
               mysqli_query($conn, "DELETE FROM business_profile WHERE b_id = '$b_id'");
-  
+              mysqli_query($conn, "DELETE FROM business_register WHERE b_id = '$b_id'");
+              mysqli_query($conn, "DELETE FROM business_verification WHERE b_id = '$b_id'");
+
               // Delete user data from business_info
               mysqli_query($conn, "DELETE FROM business_info WHERE b_id = '$b_id'");
   
@@ -95,9 +97,7 @@
               mysqli_query($conn, "DELETE FROM business_profile_interaction WHERE bp_user_id = '$bp_user_id'");
 
   
-              return true;
-          } else {
-              return false;
+              
           }
       } catch(Exception $e) {
           echo "An error occurred: " . $e->getMessage();

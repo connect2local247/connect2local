@@ -67,7 +67,12 @@
         <?php
         // Fetch random blog IDs
         $randomBlogIDs = generateRandomBlogIDs(5,10);
-
+        if (empty($randomBlogIDs)) {
+            echo '<div class="default-info d-flex flex-column m-auto text-center py-2 text-white">
+            <i class="fa-solid fa-camera" style="font-size:8rem;"></i>
+            <span class="fs-1 fw-bold">No Blog Available</span> 
+        </div>';
+        }
         // Fetch blogs using fetched IDs
         foreach ($randomBlogIDs as $blogID) {
             // Check if the blog owner is blocked by the current user

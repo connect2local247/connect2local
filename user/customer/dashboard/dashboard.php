@@ -162,7 +162,7 @@
                     <div class="sidebar d-flex flex-column align-items-center">
                         <div class="profile-container">
                             <div class="profile-image d-flex flex-column justify-content-center align-items-center">
-                                <img src="<?php if(isset($profile_img)) echo $profile_img; else echo '/asset/image/user/profile.png'; ?>" style="height:100px;width:100px;" class="rounded-circle " alt="">
+                                <img src="<?php if(isset($profile_img)){ $_SESSION['profile-image'] = $profile_img; echo $profile_img; } else{echo '/asset/image/user/profile.png'; $_SESSION['profile-image'] ='/asset/image/user/profile.png'; }?>" style="height:100px;width:100px;" class="rounded-circle " alt="">
                                 <span class="text-white fs-4 fw-semibold"><?php if(isset($name)) echo $name ?></span>
                                 <a href="/user/customer/dashboard/form/edit-profile.php" class="nav-link text-warning d-block text-center mt-1">Edit Profile</a>
                             </div>

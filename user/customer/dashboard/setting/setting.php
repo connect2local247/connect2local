@@ -43,6 +43,8 @@
                     }
                   }
                 }
+              } else{
+                echo "<div class='text-secondary ps-3'>No blocked User </div>";
               }
               ?>
     </div>

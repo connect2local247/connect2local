@@ -20,6 +20,25 @@
 
 if(isset($_SESSION['registered'])) {
     // If the user is logged in, show the Logout button
+    if(isset($_SESSION['profile-image'])):
+
+        if(isset($_SESSION['c_id'])){
+                    
+            $user = 'customer';
+            
+         }
+         else if(isset($_SESSION['bp_user_id'])){
+             $user = "businessman";
+           
+         } else{
+             if(isset($_SESSION['current_user'])){
+                 $user = "admin";
+             }
+         }
+    ?>
+        <img src="<?php echo $_SESSION['profile-image']?>" style="height:45px;width:45px" class="rounded-circle mx-3" alt="user image" onclick="location.href='/user/<?php echo $user; ?>/dashboard/dashboard.php?content=dashboard'">
+    <?php
+    endif;
     echo '<button class="btn px-4 py-2 text-white user-auth-btn d-xxl-block d-xl-block d-lg-block d-md-block d-sm-none d-none" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</button>';
 } else {
     // If the user is not logged in, show the Sign Up and Login buttons

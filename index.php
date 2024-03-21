@@ -28,7 +28,12 @@
                     <div class="content p-3 text-white">
                         <h1 class="h1 fw-bold mb-3">Welcome to Connect2local</h1>
                         <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ullam sint quia, sapiente, id corrupti dolores minima nostrum eligendi nam minus voluptate ea illum nemo eos?</p>
-                        <button class="btn border text-white px-5 py-3 rounded-pill" id="modal-btn">Get Started</button>
+                        <?php if(isset($_SESSION['registered'])): ?>
+                            <button class="btn border text-white px-5 py-3 rounded-pill" id="modal-btn" onclick="location.href='/component/login-choice.php'">Get Started</button>
+                            <?php endif;?>
+                            <?php if(!isset($_SESSION['registered'])): ?>
+                            <button class="btn border text-white px-5 py-3 rounded-pill" id="modal-btn" onclick="location.href='/component/register-choice.php'">Get Started</button>
+                            <?php endif;?>
                     </div>
                 </div>
 
@@ -192,14 +197,14 @@
         </section>
 
         <section class="blog-overview p-3">
-    <h1 class="fs-2 fw-bold text-center text-white">Our Blog</h1>
-  
-        <div class="row">
-            <?php
+            
+            <div class="row">
+                <?php
             $query = "SELECT * FROM blog_data ORDER BY RAND() LIMIT 3";
             $result = mysqli_query($GLOBALS['connect'], $query);
-
+            
             if (mysqli_num_rows($result) > 0) {
+                echo '<h1 class="fs-2 fw-bold text-center text-white">Our Blog</h1>';
                 while ($row = mysqli_fetch_assoc($result)) {
                     echo '<div class="col-lg-4 col-md-6 col-12 g-4">';
                     fetch_blog($row['blg_id'], 0);

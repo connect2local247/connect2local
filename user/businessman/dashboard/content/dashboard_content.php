@@ -176,6 +176,12 @@ $topBlogs = fetchTopBlogs($current_user_id, 3);
 </head>
 <body>
 <div class="container">
+<?php if(empty($newBlogs) && empty($topBlogs)) :?>
+    <div class="default-info d-flex flex-column m-auto text-center py-2 text-white">
+        <i class="fa-solid fa-camera" style="font-size:8rem;"></i>
+        <span class="fs-1 fw-bold">No Blog Available</span> 
+    </div>
+<?php endif; ?>
     <div class="row">
         <div class="col">
         <!-- <span class="fs-4 fw-semibold d-block my-3 ps-3">Your Blogs</span>
@@ -206,7 +212,9 @@ $topBlogs = fetchTopBlogs($current_user_id, 3);
     <div class="swiper-button-next"></div>
 </div> -->
             <!-- Display new blogs from other users -->
-            <span class="fs-4 fw-semibold d-block my-3 ps-3">New Blogs</span>
+            <?php if(!empty($newBlogs)): ?>
+                <span class="fs-4 fw-semibold d-block my-3 ps-3">New Blogs</span>
+                <?php endif; ?>
             <div class="swiper-container overflow-scroll vertical-bar" style="max-width:90vw">
                 <div class="swiper-wrapper border border-dark">
                     <?php foreach ($newBlogs as $blog): ?>
@@ -292,7 +300,9 @@ $topBlogs = fetchTopBlogs($current_user_id, 3);
 
 
             <!-- Display top blogs based on like count -->
+            <?php if(!empty($topBlogs)): ?>
             <span class="fs-4 fw-semibold d-block my-3 ps-3">Top Blogs</span>
+            <?php endif; ?>
             <div class="swiper-container overflow-scroll vertical-bar" style="max-width:90vw">
                 <div class="swiper-wrapper border border-dark">
                     <?php foreach ($topBlogs as $blog): ?>

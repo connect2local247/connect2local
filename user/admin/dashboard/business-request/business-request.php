@@ -133,16 +133,25 @@
 </head>
 <body>
   <div class="table-container w-100 overflow-auto vertical-bar">
-
-  
-  <h2>New Requests</h2>
-<?php
-
+    
+  <?php 
+    $query = "SELECT * FROM business_add_status WHERE 1";
+    $result = mysqli_query($GLOBALS['connect'],$query);
+    
+    if(mysqli_num_rows($result) != 0):
+  ?>
+<?php 
+      else: echo '<div class="request-container d-flex justify-content-center align-items-center flex-column" style="height:calc(90vh - 100px)">
+      <img src="/asset/image/svg/add-business.svg"  style="height:150px;width:150px" alt="" srcset="">
+      <h1>No Request</h1>
+      </div>';
+    endif;
     // Fetch requests for the given approval status
     $getNewRequestQuery = "SELECT * FROM business_add_status WHERE approval_status = 0 AND approval_time IS NULL";
     $result = mysqli_query($GLOBALS['connect'], $getNewRequestQuery);
     // die($getNewRequestQuery);
     if(mysqli_num_rows($result) > 0){
+      echo '<h2>New Requests</h2>';
       echo "<div class='table-container'>
               <table class=' w-100 overflow-auto vertical-bar'>
                 <tr>
@@ -191,12 +200,7 @@
           echo "</tr>";
     
       echo "</table></div>";
-        } else {
-      echo "<div class='table-container'>
-            
-              <p>No records found.</p>
-            </div>";
-    }
+        }
 
 
 
@@ -253,12 +257,7 @@
             echo "</tr>";
       
         echo "</table></div>";
-          } else {
-        echo "<div class='table-container'>
-               
-                <p>No records found.</p>
-              </div>";
-      }
+          } 
 
 
       $getRejectedRequestQuery = "SELECT * FROM business_add_status WHERE approval_status = 0 AND approval_time IS NOT NULL";
@@ -314,12 +313,7 @@
             echo "</tr>";
       
         echo "</table></div>";
-          } else {
-        echo "<div class='table-container'>
-                
-                <p>No records found.</p>
-              </div>";
-      }
+          } 
 ?>
 
 </div>

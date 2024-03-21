@@ -176,17 +176,27 @@ $topBlogs = fetchTopBlogs($current_user_id, 3);
     </style>
     
     <!-- Swiper CSS -->
+    <?php include "../../../asset/link/cdn-link.html"; ?>
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 </head>
 <body>
 <div class="container">
+<?php if(empty($newBlogs) && empty($topBlogs)) :?>
+    <div class="default-info d-flex flex-column m-auto text-center py-2">
+        <i class="fa-solid fa-camera" style="font-size:8rem;"></i>
+        <span class="fs-1 fw-bold">No Blog Available</span> 
+    </div>
+<?php endif; ?>
+
     <div class="row">
         <div class="col">
         
             <!-- Display new blogs from other users -->
-            <span class="fs-4 fw-semibold d-block my-3 ps-3">New Blogs</span>
             <div class="swiper-container overflow-scroll vertical-bar" style="max-width:90vw">
                 <div class="swiper-wrapper">
+                <?php if(!empty($newBlogs)):?>
+                    <span class="fs-4 fw-semibold d-block my-3 ps-3">New Blogs</span>
+                    <?php endif; ?>
                     <?php foreach ($newBlogs as $blog): ?>
                         <div class="swiper-slide  swiper-size">
                             <div class="card  col-12" onclick="location.href='/modules/blog/shared-blog.php?shared_blog_id=<?php echo $blog['blg_id']?>'">
@@ -240,7 +250,9 @@ $topBlogs = fetchTopBlogs($current_user_id, 3);
              -->
             
             <!-- Display top blogs based on like count -->
+            <?php if(!empty($topBlogs)):?>
             <span class="fs-4 fw-semibold d-block my-3 ps-3">Top Blogs</span>
+            <?php endif; ?>
             <div class="swiper-container overflow-scroll vertical-bar" style="max-width:90vw">
                 <div class="swiper-wrapper">
                     <?php foreach ($topBlogs as $blog): ?>

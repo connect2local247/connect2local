@@ -1,5 +1,5 @@
 <?php
-    include "../../../includes/table_query/find_encrypt_data.php";
+    // include "../../../includes/table_query/find_encrypt_data.php";
 
 $connect = $GLOBALS['connect'];
 $customer_id = $_SESSION['c_id'];

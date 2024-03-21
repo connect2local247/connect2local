@@ -11,13 +11,7 @@
       }
       if(isset($_GET['b_id'])){
         $id = $_GET['b_id'];
-
-        $query = "DELETE from business_register where b_id = '$id'";
-        $result = mysqli_query($GLOBALS['connect'],$query);
-        // die($query);
-
-        $query = "DELETE from business_verification where b_id = '$id'";
-        $result = mysqli_query($GLOBALS['connect'],$query);
+        deleteBusinessUser($id);
 
       }
 ?>
@@ -70,8 +64,23 @@
 
 <!-- Trigger Button -->
 
+  <?php 
+        $query = "SELECT * FROM customer_register WHERE 1";
+        $result = mysqli_query($GLOBALS['connect'],$query);
 
+        $b_query = "SELECT * FROM business_register WHERE 1";
+        $b_result = mysqli_query($GLOBALS['connect'],$b_query);
+
+        if(mysqli_num_rows($result) <= 0 && mysqli_num_rows($b_result) <= 0):
+          echo '<div class="request-container d-flex justify-content-center align-items-center flex-column" style="height:calc(90vh - 100px)">
+          <i class="fa-solid fa-user" style="font-size:5rem"></i>
+          <h1 class="mt-2">No User</h1>
+          </div>';
+        
+          else :
+  ?>
   <div class="container w-100 vertical-bar" style="overflow:auto">
+          <?php if(mysqli_num_rows($result) != 0) :?>
     <h2 class="my-3">Customer</h2>
     <table>
       <thead>
@@ -134,15 +143,13 @@
     <div class="modal-content text-bg-dark">
       <div class="modal-header">
         <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <i class="fa-solid fa-xmark fs-5 text-white" data-bs-dismiss="modal"></i>
       </div>
       <div class="modal-body">
         Are you sure you want to delete this user?
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
         <a href="?id=<?php echo $row['c_id'];?>&content=create" class="btn btn-danger">Delete</a>
       </div>
     </div>
@@ -181,12 +188,12 @@
         }
         echo "</div>";
       }
-
+    endif;
       // Close connection
       // mysqli_close($conn);
     ?>
 
-
+<?php if(mysqli_num_rows($b_result) != 0 ) : ?>
 <h2 class="my-3">Business</h2>
     <table>
       <thead>
@@ -249,15 +256,13 @@
     <div class="modal-content text-bg-dark">
       <div class="modal-header">
         <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <i class="fa-solid fa-xmark fs-5 text-white" data-bs-dismiss="modal"></i>
       </div>
       <div class="modal-body">
         Are you sure you want to delete this user?
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
         <a href="?b_id=<?php echo $row['b_id'];?>&content=create" class="btn btn-danger">Delete</a>
       </div>
     </div>
@@ -276,6 +281,7 @@
     <!-- Pagination -->
     <?php
       // Database connection
+        endif;
       $conn = $GLOBALS['connect'];
 
       // Fetch total number of records
@@ -298,8 +304,9 @@
       }
 
       // Close connection
-      mysqli_close($conn);
+      // mysqli_close($conn);
     ?>
   </div>
+  <?php endif;?>
 </body>
 </html>

@@ -1,4 +1,15 @@
+<?php
+        $query = "SELECT * FROM blog_report WHERE 1";
+        $result = mysqli_query($GLOBALS['connect'],$query);
 
+        if(mysqli_num_rows($result) <= 0):
+            echo '<div class="request-container d-flex justify-content-center align-items-center flex-column" style="height:calc(90vh - 100px)">
+            <i class="fa-solid fa-file-alt" style="font-size:5rem"></i>
+            <h1 class="mt-2">No Report</h1>
+            </div>';
+        
+        else:
+?>
 <div class="container mt-5">
     <h2>Reports</h2>
 
@@ -197,7 +208,7 @@
         </table>
     </div>
 </div>
-
+<?php endif;?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     $(document).ready(function() {
