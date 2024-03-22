@@ -109,7 +109,7 @@
 <body class="vertical-bar" style="width:100%;box-sizing:border-box;">
 <?php include "../../../modules/notification/notification.php"; ?>
 <?php include "../../../component/logout.php"; ?>
-<nav class="navbar text-bg-dark py-4 border-bottom">
+<nav class="navbar text-bg-dark py-4 border-bottom" style="z-index:5">
             <div class="container">
                 <div class="home-icon fs-5">
                     <i class="fa-solid fa-bars d-xxl-none d-xl-none d-lg-none d-inline" onclick="toggleUserMenu()"></i>

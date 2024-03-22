@@ -37,7 +37,24 @@
   <div class="container" style="min-height:calc(100vh - 30px)">
     <div class="search-container" style="margin-top:130px">
       <form action="" class="search d-flex  position-relative">
-        <input type="search" class="form-control rounded-pill py-2 px-3 border-dark" placeholder="Search here.." name="search" id="search">
+      <input type="search" class="form-control rounded-pill py-2 px-3 border-dark" placeholder="Search here.." name="search" id="search" onkeyup="searchFunction()">
+  <script>
+    function searchFunction() {
+      var input, filter, dropdowns, dropdown, i, txtValue;
+      input = document.getElementById('search');
+      filter = input.value.toUpperCase();
+      dropdowns = document.getElementsByClassName('dropdown');
+      for (i = 0; i < dropdowns.length; i++) {
+        dropdown = dropdowns[i];
+        txtValue = dropdown.textContent || dropdown.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          dropdown.style.display = "";
+        } else {
+          dropdown.style.display = "none";
+        }
+      }
+    }
+  </script>
         <i class="fa-solid fa-magnifying-glass position-absolute top-0 end-0 me-3 text-dark" style="margin:13px"></i>
       </form>
     </div>
@@ -398,6 +415,8 @@
       var dropdown = document.getElementById(id);
       dropdown.style.display = (dropdown.style.display === "block") ? "none" : "block";
     }
+
+
   </script>
   <?php include "../../component/footer.php"; ?>
 </body>

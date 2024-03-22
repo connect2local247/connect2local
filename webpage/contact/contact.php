@@ -1,27 +1,4 @@
-<?php
-session_start();
-require "../../includes/email_template/email_sending.php";
-ini_set('SMTP', 'smtp.gmail.com');
-ini_set('smtp_port', 587);
 
-if (isset($_POST['submit'])) {
-    $fname = $_POST['fname'];
-    $lname = $_POST['lname'];
-    $email = $_POST['email'];
-    ini_set($email, 'connect2local247@gmail.com');
-    $description = $_POST['description'];
-    $subject = "Message From $fname $lname";
-    // send_contact_mail($fname." ".$lname,$email,$subject,$description); 
-    if (send_contact_mail($fname . " " . $lname, $email, $subject, $description)) {
-        echo "<script>alert('Email sent successfully!')</script>";
-    } else {
-        $lastError = error_get_last();
-        $errorMessage = $lastError ? $lastError['message'] : "Unknown error";
-        error_log("Failed to send email: " . $errorMessage); // Log error
-        echo "Failed to send email. Please check the error logs for more details.";
-    }
-}
-?>
 
 
 
@@ -43,7 +20,7 @@ if (isset($_POST['submit'])) {
         ?>
     </header>
     <div class="container p-3">
-        <form action="#" method="post" class="d-flex justify-content-center align-items-center" style="height:80vh;width:100%">
+        <form action="/webpage/contact/process-contact.php" method="post" class="d-flex justify-content-center align-items-center" style="height:80vh;width:100%">
             <fieldset class="border rounded-2 col-lg-8 p-3 d-flex flex-column" id="register-form">
                 <legend class="text-center fw-bold fs-2 text-white">Contact Us</legend>
 

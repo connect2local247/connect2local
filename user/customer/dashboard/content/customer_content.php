@@ -192,11 +192,11 @@ $topBlogs = fetchTopBlogs($current_user_id, 3);
         <div class="col">
         
             <!-- Display new blogs from other users -->
+            <?php if(!empty($newBlogs)):?>
+                <span class="fs-4 fw-semibold d-block my-3 ps-3">New Blogs</span>
+                <?php endif; ?>
             <div class="swiper-container overflow-scroll vertical-bar" style="max-width:90vw">
                 <div class="swiper-wrapper">
-                <?php if(!empty($newBlogs)):?>
-                    <span class="fs-4 fw-semibold d-block my-3 ps-3">New Blogs</span>
-                    <?php endif; ?>
                     <?php foreach ($newBlogs as $blog): ?>
                         <div class="swiper-slide  swiper-size">
                             <div class="card  col-12" onclick="location.href='/modules/blog/shared-blog.php?shared_blog_id=<?php echo $blog['blg_id']?>'">

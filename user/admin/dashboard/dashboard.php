@@ -181,7 +181,6 @@ $(document).ready(function () {
             <li class="list-item mt-3"><a href="dashboard.php?content=report" class="nav-link active" data-menu-item-id="report"><i class="fa-solid fa-file-alt"></i> &nbsp; Report</a></li>
             <li class="list-item mt-3"><a href="dashboard.php?content=create" class="nav-link active" data-menu-item-id="create"><i class="fa-solid fa-user"></i> &nbsp; User</a></li>
             <li class="list-item mt-3"><a href="dashboard.php?content=request" class="nav-link active" data-menu-item-id="search"><img src="/asset/image/svg/add-business.svg" style="height:30px;">&nbsp; Request</a></li>
-            <li class="list-item mt-3"><a href="#" class="nav-link active" data-menu-item-id="setting"><i class="fa-solid fa-gear"></i> &nbsp; Setting</a></li>
             <li class="list-item mt-3"><a href="#" class="nav-link active" data-menu-item-id="logout" data-bs-target="#logoutModal" data-bs-toggle="modal"><i class="fa-solid fa-right-from-bracket"></i> &nbsp; Logout</a></li>
         </ul>
     </div>
